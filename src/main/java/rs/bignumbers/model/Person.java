@@ -1,11 +1,23 @@
 package rs.bignumbers.model;
 
+import rs.bignumbers.annotations.DbColumn;
+import rs.bignumbers.annotations.DbTable;
+
+@DbTable
 public class Person {
+
+	@DbColumn
 	private String firstName;
+	
+	@DbColumn
 	private String lastName;
+	
+	@DbColumn
 	private int age;
 	private String place;
 
+	public Person() {
+	}
 	public String getFirstName() {
 		return firstName;
 	}

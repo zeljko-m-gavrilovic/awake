@@ -33,11 +33,11 @@ public class AwakeApplication implements CommandLineRunner {
 		person.setAge(20);
 		person.setPlace("Place");
 
-		if (personService.addPerson(person) > 0) {
+		if (personService.insertPerson(person) > 0) {
 			logger.info("Person saved successfully");
 		}
 
-		for (Person p : personService.getAllPerson()) {
+		for (Person p : personService.getAllPerson("")) {
 			logger.info(p.toString());
 		}
 	}
