@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import rs.bignumbers.model.Person;
+import rs.bignumbers.service.DbService;
 import rs.bignumbers.service.PersonService;
 
 @SpringBootApplication
@@ -21,6 +22,9 @@ public class AwakeApplication implements CommandLineRunner {
 
 	@Autowired
 	private PersonService personService;
+
+	@Autowired
+	private DbService dbService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(AwakeApplication.class, args);
@@ -37,7 +41,11 @@ public class AwakeApplication implements CommandLineRunner {
 			logger.info("Person saved successfully");
 		}
 
-		for (Person p : personService.getAllPerson("")) {
+		/*
+		 * for (Person p : personService.getAllPerson("")) {
+		 * logger.info(p.toString()); }
+		 */
+		for (Person p : dbService.getAll("", Person.class)) {
 			logger.info(p.toString());
 		}
 	}
