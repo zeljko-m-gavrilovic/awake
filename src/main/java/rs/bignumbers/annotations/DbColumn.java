@@ -9,4 +9,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface DbColumn {
 	String name() default "";
+	boolean ignore() default false;
 }

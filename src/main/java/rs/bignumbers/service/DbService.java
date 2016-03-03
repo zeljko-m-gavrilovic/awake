@@ -1,19 +1,26 @@
 package rs.bignumbers.service;
 
-import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
 
-import rs.bignumbers.annotations.DbColumn;
-import rs.bignumbers.annotations.DbTable;
+import rs.bignumbers.DirtyValueInterceptor;
 import rs.bignumbers.model.Person;
+import rs.bignumbers.util.EntityMetadata;
+import rs.bignumbers.util.MetadataExtractor;
+import rs.bignumbers.util.PropertyMetadata;
+import rs.bignumbers.util.ProxyFactory;
+import rs.bignumbers.util.SqlUtil;
 
 @Service
 public class DbService {
@@ -21,30 +28,31 @@ public class DbService {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	public int insert(Object o) {
-		if (o.getClass().isAnnotationPresent(DbTable.class)) {
-			DbTable tableAnnotation = o.getClass().getAnnotation(DbTable.class);
-			String table = tableAnnotation.name();
-			if (table.length() == 0) {
-				table = o.getClass().getSimpleName();
+	public Long insert(Object o) {
+		MetadataExtractor me = new MetadataExtractor();
+		EntityMetadata em = me.extractMetadataForClass(o.getClass());
+		SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
+		insert.withTableName(em.getTableName()).usingGeneratedKeyColumns("id");
+		
+		final Map<String, Object> parameters = new HashMap<>();
+		try {
+			for (String propertyName : em.getPropertiesMetadata().keySet()) {
+				PropertyMetadata pm = em.getPropertiesMetadata().get(propertyName);
+				parameters.put(pm.getColumnName(), PropertyUtils.getProperty(o, pm.getPropertyName()));
 			}
-			List<String> columns = new ArrayList<String>();
-			for (Field f : o.getClass().getFields()) {
-				if (f.isAnnotationPresent(DbColumn.class)) {
-					DbColumn columnAnnotation = f.getAnnotation(DbColumn.class);
-					String columnName = columnAnnotation.name();
-					if (columnName.length() == 0) {
-						columnName = f.getName();
-					}
-				}
-			}
-			String sql = "INSERT INTO person(first_name, last_name, age, place) VALUES(?,?,?,?)";
-			return jdbcTemplate.update(sql, person.getFirstName(), person.getLastName(), person.getAge(),
-					person.getPlace());
+			Long pk = insert.executeAndReturnKey(parameters).longValue();
+			PropertyUtils.setProperty(o, "id", pk);
+			return pk;
+		} catch (Exception e) {
+			throw new RuntimeException("can't map properties for object " + o.toString() + ". Reason: " + e.getMessage());
 		}
+		
+		/*SqlUtil sqlUtil = new SqlUtil();
+		String sql = sqlUtil.generateInsert(m);
+		return jdbcTemplate.update(sql, m.getColumns().values());*/
 	}
 
-	public int insertPerson(Person person) {
+/*	public int insertPerson(Person person) {
 		String sql = "INSERT INTO person(first_name, last_name, age, place) VALUES(?,?,?,?)";
 		return jdbcTemplate.update(sql, person.getFirstName(), person.getLastName(), person.getAge(),
 				person.getPlace());
@@ -60,26 +68,51 @@ public class DbService {
 		String sql = "DELETE person WHERE id=?";
 		return jdbcTemplate.update(sql, id);
 	}
+*/
 
-	public Person getOnePerson(Long id) {
+	public Person getOne(Long id) {
 		Person one = null;
-		List<Person> all = getAllPerson("WHERE id =" + String.valueOf(id));
+		List<Person> all = getAll(" WHERE id = " + String.valueOf(id), Person.class);
 		if (all != null && !all.isEmpty()) {
 			one = all.get(0);
 		}
 		return one;
 	}
 
-	public List<Person> getAllPerson(String where) {
-		return jdbcTemplate.query("SELECT * FROM person " + where, new RowMapper<Person>() {
+	public <T> List<T> getAll(String where, Class<T> clazz) {
+		MetadataExtractor me = new MetadataExtractor();
+		EntityMetadata em = me.extractMetadataForClass(clazz);
 
-			public Person mapRow(ResultSet rs, int arg1) throws SQLException {
-				Person p = new Person();
-				p.setAge(rs.getInt("age"));
-				p.setFirstName(rs.getString("first_name"));
-				p.setLastName(rs.getString("last_name"));
-				p.setPlace(rs.getString("place"));
-				return p;
+		return jdbcTemplate.query("SELECT * FROM " + em.getTableName() + where, new RowMapper<T>() {
+
+			public T mapRow(ResultSet rs, int arg1) throws SQLException {
+
+				DirtyValueInterceptor interceptor = new DirtyValueInterceptor(em);
+				T proxy = ProxyFactory.newProxyInstance(clazz, interceptor);
+
+				for (String propertyName : em.getPropertiesMetadata().keySet()) {
+					PropertyMetadata pm = em.getPropertiesMetadata().get(propertyName);
+					Object value = null;
+					if (pm.getJavaType().isAssignableFrom(String.class)) {
+						value = rs.getString(pm.getColumnName());
+					}
+					if (pm.getJavaType().isAssignableFrom(Integer.class)) {
+						value = rs.getInt(pm.getColumnName());
+					}
+					try {
+						PropertyUtils.setProperty(proxy, propertyName, value);
+					} catch (Exception e) {
+						throw new RuntimeException("Property utils exception can't set property " + propertyName
+								+ " of the proxy instance class " + clazz.getSimpleName());
+					}
+				}
+				/*
+				 * p.setAge(rs.getInt("age"));
+				 * p.setFirstName(rs.getString("first_name"));
+				 * p.setLastName(rs.getString("last_name"));
+				 * p.setPlace(rs.getString("place"));
+				 */
+				return proxy;
 			}
 
 		});

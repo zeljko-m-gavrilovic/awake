@@ -7,17 +7,23 @@ import rs.bignumbers.annotations.DbTable;
 public class Person {
 
 	@DbColumn
+	private Long id;
+	
+	@DbColumn(name="first_name")
 	private String firstName;
 	
-	@DbColumn
+	@DbColumn(name="familly_name", ignore=true)
 	private String lastName;
 	
 	@DbColumn
-	private int age;
+	private Integer age;
+	
 	private String place;
+	private Integer notProperty;
 
 	public Person() {
 	}
+	
 	public String getFirstName() {
 		return firstName;
 	}
@@ -34,11 +40,11 @@ public class Person {
 		this.lastName = lastName;
 	}
 
-	public int getAge() {
+	public Integer getAge() {
 		return age;
 	}
 
-	public void setAge(int age) {
+	public void setAge(Integer age) {
 		this.age = age;
 	}
 
@@ -50,6 +56,14 @@ public class Person {
 		this.place = place;
 	}
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append(this.getFirstName()).append(", ").append(this.getLastName()).append(", ").append(this.getPlace())
@@ -57,5 +71,4 @@ public class Person {
 
 		return builder.toString();
 	}
-
 }

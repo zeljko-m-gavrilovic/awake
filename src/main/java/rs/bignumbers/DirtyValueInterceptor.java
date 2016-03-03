@@ -6,25 +6,34 @@ import java.util.Map;
 
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
+import rs.bignumbers.util.EntityMetadata;
 
 public class DirtyValueInterceptor implements MethodInterceptor {
+
+	private EntityMetadata em;
+
+	public DirtyValueInterceptor(EntityMetadata em) {
+		this.em = em;
+	}
+
 	Map<String, Object> map = new HashMap<String, Object>();
 
 	@Override
 	public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-		boolean cond = method.getName().startsWith("set");
-		if (cond) {
-			String name = method.getName().substring(3);
-			name = name.replaceFirst(String.valueOf(name.charAt(0)), String.valueOf(Character.toLowerCase(name.charAt(0))));
-			map.put(name, args[0]);
-			return "Hello cglib!";
-		} else {
-			return proxy.invokeSuper(obj, args);
+		boolean callToSetter = method.getName().startsWith("set");
+		if (callToSetter) {
+			String propertyName = method.getName().substring(3);
+			propertyName = propertyName.replaceFirst(String.valueOf(propertyName.charAt(0)),
+					String.valueOf(Character.toLowerCase(propertyName.charAt(0))));
+			if (em.getPropertiesMetadata().containsKey(propertyName)) {
+				map.put(propertyName, args[0]);
+			}
 		}
+		return proxy.invokeSuper(obj, args);
+
 	}
 
 	public Map<String, Object> getMap() {
 		return map;
 	}
-	
 }
