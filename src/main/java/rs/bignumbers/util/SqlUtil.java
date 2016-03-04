@@ -1,53 +1,90 @@
 package rs.bignumbers.util;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 public class SqlUtil {
 
-	public String generateInsert(EntityMetadata m) {
-		StringBuilder sql = new StringBuilder();
-		sql.append("INSERT INTO ").append(m.getTableName()).append("(");
-		for (String c : m.getPropertiesMetadata().keySet()) {
-			sql.append(c).append(",");
-		}
-		sql.deleteCharAt(sql.lastIndexOf(","));
-
-		sql.append(") VALUES(");
-		for (int i = 0; i < m.getPropertiesMetadata().size(); i++) {
-			sql.append("?,");
-		}
-		sql.deleteCharAt(sql.lastIndexOf(","));
-
-		sql.append(")");
-		return sql.toString();
-	}
-	
-	public String generateQuery(EntityMetadata m) {
-		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT * INTO ").append(m.getTableName()).append("(");
-		for (String c : m.getPropertiesMetadata().keySet()) {
-			sql.append(c).append(",");
-		}
-		sql.deleteCharAt(sql.lastIndexOf(","));
-
-		sql.append(") VALUES(");
-		for (int i = 0; i < m.getPropertiesMetadata().size(); i++) {
-			sql.append("?,");
-		}
-		sql.deleteCharAt(sql.lastIndexOf(","));
-
-		sql.append(")");
-		return sql.toString();
-	}
-	
-	public static void main(String[] args) {
-		List l = new ArrayList();
-		l.add("abc");
-		l.add(new Integer(3));
+	public String insert(EntityMetadata m) {
+		StringBuilder insert = new StringBuilder();
+		insert.append("INSERT INTO ");
+		insert.append(m.getTableName());
+		insert.append("(");
 		
-		for(Object e : l) {
-			System.out.println("e is " + e);
+		StringBuilder update = new StringBuilder();
+		update.append(") VALUES(");
+		
+		boolean first = true;
+		for (String c : m.getColumns()) {
+			if(!first) {
+				insert.append(", ");
+				update.append(", ");
+			}
+			first = false;
+			insert.append(c);
+			//update.append(c);
+            update.append(":");
+            update.append(c);
 		}
+		insert.append(update);
+		insert.append(")");
+		return insert.toString();
+	}
+	
+	public String update(EntityMetadata em, String[] properties,  String... whereKeys) {
+        StringBuilder sqlBuilder = new StringBuilder("UPDATE ");
+        sqlBuilder.append(em.getTableName());
+        sqlBuilder.append(" SET ");
+        boolean first = true;
+        for (String propertyName : properties) {
+            String columnName = em.getPropertiesMetadata().get(propertyName).getColumnName(); 
+        	if (!first) {
+                sqlBuilder.append(", ");
+            }
+            first = false;
+            sqlBuilder.append(columnName);
+            sqlBuilder.append(" = :");
+            sqlBuilder.append(columnName);
+        }
+
+
+        first = true;
+        for (String key : whereKeys) {
+            if (first) {
+                sqlBuilder.append(" WHERE ");
+            } else {
+                sqlBuilder.append(" AND ");
+            }
+            first = false;
+            sqlBuilder.append(key);
+            sqlBuilder.append(" = :");
+            sqlBuilder.append(key);
+        }
+        return sqlBuilder.toString();
+    }
+	
+	public String delete(EntityMetadata em) {
+		String sql = "DELETE FROM " + em.getTableName() + " WHERE id= :id";
+		return sql;
+	}
+	
+	public String query(EntityMetadata m, Set<String> whereKeys) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT * FROM ");
+		sql.append(m.getTableName());
+
+		boolean first = true;
+        for (String key : whereKeys) {
+            if (first) {
+                sql.append(" WHERE ");
+                first = false;
+            } else {
+                sql.append(" AND ");
+            }
+            
+            sql.append(key);
+            sql.append("= :");
+            sql.append(key);
+        }
+        return sql.toString();
 	}
 }

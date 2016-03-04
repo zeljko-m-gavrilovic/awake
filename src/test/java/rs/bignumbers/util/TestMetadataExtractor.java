@@ -14,11 +14,11 @@ public class TestMetadataExtractor {
 		Assert.assertEquals(Man.class, m.getClazz());
 		Assert.assertEquals(Man.class.getSimpleName().toLowerCase(), m.getTableName().toLowerCase());
 		Assert.assertNotNull(m.getPropertiesMetadata());
-		Assert.assertEquals(4, m.getPropertiesMetadata().entrySet().size());
+		Assert.assertEquals(3, m.getPropertiesMetadata().entrySet().size());
 		Assert.assertEquals(m.getPropertiesMetadata().get("firstName").getColumnName(), "first_name");
-		Assert.assertNull(m.getPropertiesMetadata().get("lastName").getColumnName()); // ignore=true
+		Assert.assertFalse(m.getPropertiesMetadata().containsKey("lastName")); // ignore=true
 		Assert.assertEquals(m.getPropertiesMetadata().get("age").getColumnName(), "age");
-		Assert.assertNull(m.getPropertiesMetadata().get("place").getColumnName());
+		Assert.assertFalse(m.getPropertiesMetadata().containsKey("place"));
 		Assert.assertEquals(m.getPropertiesMetadata().get("girlName").getColumnName(), "girlName");
 	}
 }

@@ -31,18 +31,27 @@ public class MetadataExtractor {
 
 	public EntityMetadata extractMetadataForClass(Class clazz) {
 		EntityMetadata m = new EntityMetadata();
+		
+		if(clazz.getName().contains("$$EnhancerByCGLIB$$")) {
+			System.out.println(clazz.getSuperclass());
+			clazz = clazz.getSuperclass();
+		}
+		
 		m.setClazz(clazz);
 		boolean hasTableAnnotation = clazz.isAnnotationPresent(DbTable.class);
 		if (hasTableAnnotation) {
 			DbTable tableAnnotation = (DbTable) clazz.getAnnotation(DbTable.class);
 			String tableName = tableAnnotation.name();
 			if (tableName.length() == 0) {
-				tableName = clazz.getSimpleName();
+				tableName = clazz.getSimpleName().toLowerCase();
 			}
 			m.setTableName(tableName);
 			for (Field f : getAnnotatedDeclaredFields(clazz, DbColumn.class, true)) {
 				DbColumn columnAnnotation = f.getAnnotation(DbColumn.class);
 				if(columnAnnotation.ignore()) {
+					continue;
+				}
+				if(f.getName().equalsIgnoreCase("id")) {
 					continue;
 				}
 				String columnName = columnAnnotation.name();

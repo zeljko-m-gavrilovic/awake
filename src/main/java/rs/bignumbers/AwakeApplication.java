@@ -7,10 +7,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 
 import rs.bignumbers.model.Person;
 import rs.bignumbers.service.DbService;
 import rs.bignumbers.service.PersonService;
+import rs.bignumbers.util.EntityMetadata;
+import rs.bignumbers.util.MetadataExtractor;
+import rs.bignumbers.util.SqlUtil;
 
 @SpringBootApplication
 public class AwakeApplication implements CommandLineRunner {
@@ -31,7 +35,7 @@ public class AwakeApplication implements CommandLineRunner {
 	}
 
 	public void run(String... args) {
-		Person person = new Person();
+		/*Person person = new Person();
 		person.setFirstName("FName");
 		person.setLastName("LName");
 		person.setAge(20);
@@ -41,12 +45,16 @@ public class AwakeApplication implements CommandLineRunner {
 			logger.info("Person saved successfully");
 		}
 
-		/*
+		
 		 * for (Person p : personService.getAllPerson("")) {
 		 * logger.info(p.toString()); }
-		 */
-		for (Person p : dbService.getAll("", Person.class)) {
+		 
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		SqlUtil su = new SqlUtil();
+		MetadataExtractor me = new MetadataExtractor();
+		EntityMetadata em = me.extractMetadataForClass(Person.class);
+		for (Person p : dbService.getAll(su.query(em, parameters.getValues().keySet()), parameters, Person.class)) {
 			logger.info(p.toString());
-		}
+		}*/
 	}
 }

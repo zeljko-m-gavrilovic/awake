@@ -11,6 +11,7 @@ import rs.bignumbers.util.EntityMetadata;
 public class DirtyValueInterceptor implements MethodInterceptor {
 
 	private EntityMetadata em;
+	private Object target; 
 
 	public DirtyValueInterceptor(EntityMetadata em) {
 		this.em = em;
@@ -35,5 +36,13 @@ public class DirtyValueInterceptor implements MethodInterceptor {
 
 	public Map<String, Object> getMap() {
 		return map;
+	}
+
+	public Object getTarget() {
+		return target;
+	}
+
+	public void setTarget(Object target) {
+		this.target = target;
 	}
 }

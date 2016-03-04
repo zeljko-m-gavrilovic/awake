@@ -20,7 +20,7 @@ public class TestDbService {
 	
 	@Test
 	public void testQuery() {
-		Person person = dbService.getOne(Long.valueOf(1));
+		Person person = dbService.getOne(Person.class, Long.valueOf(1));
 		Assert.assertNotNull(person);
 	}
 	
@@ -35,7 +35,31 @@ public class TestDbService {
 		Long pk = dbService.insert(p);
 		Assert.assertNotNull(pk);
 		
-		Person dbPerson = dbService.getOne(pk);
+		Person dbPerson = dbService.getOne(Person.class, pk);
 		Assert.assertNotNull(dbPerson);
+	}
+	
+	@Test
+	public void testUpdate() {
+		Person p = new Person();
+		p.setFirstName("Zeljko");
+		p.setLastName("Gavrilovic");
+		p.setAge(35);
+		p.setPlace("Bg");
+		
+		Long pk = dbService.insert(p);
+		Assert.assertNotNull(pk);
+		
+		Person dbPerson = dbService.getOne(Person.class, pk);
+		Assert.assertNotNull(dbPerson);
+		
+		String firstNameUpdated = "updated name";
+		dbPerson.setFirstName(firstNameUpdated);
+		dbService.update(dbPerson, new String[] {"firstName"});
+		
+		dbPerson = dbService.getOne(Person.class, pk);
+		Assert.assertNotNull(dbPerson);
+		
+		Assert.assertEquals(firstNameUpdated, dbPerson.getFirstName());
 	}
 }
