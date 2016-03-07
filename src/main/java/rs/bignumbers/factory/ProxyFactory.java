@@ -1,4 +1,4 @@
-package rs.bignumbers.util;
+package rs.bignumbers.factory;
 
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;

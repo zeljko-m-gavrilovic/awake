@@ -1,8 +1,7 @@
-package rs.bignumbers.util;
+package rs.bignumbers.model;
 
 import rs.bignumbers.annotations.DbColumn;
 import rs.bignumbers.annotations.DbTable;
-import rs.bignumbers.model.Person;
 
 @DbTable
 public class Man extends Person {

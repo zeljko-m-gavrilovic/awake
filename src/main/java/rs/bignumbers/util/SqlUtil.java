@@ -2,6 +2,8 @@ package rs.bignumbers.util;
 
 import java.util.Set;
 
+import rs.bignumbers.metadata.EntityMetadata;
+
 public class SqlUtil {
 
 	public String insert(EntityMetadata m) {
@@ -14,7 +16,7 @@ public class SqlUtil {
 		update.append(") VALUES(");
 		
 		boolean first = true;
-		for (String c : m.getColumns()) {
+		for (String c : m.getColumns(false)) {
 			if(!first) {
 				insert.append(", ");
 				update.append(", ");
@@ -30,7 +32,7 @@ public class SqlUtil {
 		return insert.toString();
 	}
 	
-	public String update(EntityMetadata em, String[] properties,  String... whereKeys) {
+	public String update(EntityMetadata em, Set<String> properties,  String... whereKeys) {
         StringBuilder sqlBuilder = new StringBuilder("UPDATE ");
         sqlBuilder.append(em.getTableName());
         sqlBuilder.append(" SET ");
@@ -63,14 +65,14 @@ public class SqlUtil {
     }
 	
 	public String delete(EntityMetadata em) {
-		String sql = "DELETE FROM " + em.getTableName() + " WHERE id= :id";
+		String sql = "DELETE FROM " + em.getTableName() + " WHERE id = :id";
 		return sql;
 	}
 	
-	public String query(EntityMetadata m, Set<String> whereKeys) {
+	public String query(EntityMetadata em, Set<String> whereKeys) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT * FROM ");
-		sql.append(m.getTableName());
+		sql.append(em.getTableName());
 
 		boolean first = true;
         for (String key : whereKeys) {
@@ -80,10 +82,10 @@ public class SqlUtil {
             } else {
                 sql.append(" AND ");
             }
-            
-            sql.append(key);
-            sql.append("= :");
-            sql.append(key);
+            String columnName = em.getPropertiesMetadata().get(key).getColumnName();
+            sql.append(columnName);
+            sql.append(" = :");
+            sql.append(columnName);
         }
         return sql.toString();
 	}

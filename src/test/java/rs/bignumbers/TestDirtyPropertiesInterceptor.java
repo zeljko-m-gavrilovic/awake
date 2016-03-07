@@ -1,12 +1,17 @@
 package rs.bignumbers;
 
-import rs.bignumbers.model.Person;
-import rs.bignumbers.util.EntityMetadata;
-import rs.bignumbers.util.MetadataExtractor;
-import rs.bignumbers.util.ProxyFactory;
+import org.junit.Test;
 
-public class Main {
-	public static void main(String[] args) {
+import rs.bignumbers.factory.ProxyFactory;
+import rs.bignumbers.interceptor.DirtyValueInterceptor;
+import rs.bignumbers.metadata.EntityMetadata;
+import rs.bignumbers.metadata.MetadataExtractor;
+import rs.bignumbers.model.Person;
+
+public class TestDirtyPropertiesInterceptor {
+	
+	@Test
+	public void testDirtyProperties() {
 		MetadataExtractor me = new MetadataExtractor();
 		EntityMetadata em = me.extractMetadataForClass(Person.class);
 		DirtyValueInterceptor interceptor = new DirtyValueInterceptor(em);
@@ -15,6 +20,6 @@ public class Main {
 		proxy.setFirstName("Mika");
 		proxy.setLastName("Gavrilovic");
 		proxy.setLastName("G");
-		System.out.println(interceptor.getMap().toString());
+		System.out.println(interceptor.getDirtyProperties().size());
 	}
 }

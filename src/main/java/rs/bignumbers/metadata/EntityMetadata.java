@@ -1,7 +1,5 @@
-package rs.bignumbers.util;
+package rs.bignumbers.metadata;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,9 +7,9 @@ import java.util.stream.Collectors;
 
 public class EntityMetadata {
 	Class clazz;
-	String tableName;	
+	String tableName;
 	Map<String, PropertyMetadata> propertiesMetadata;
-	
+
 	public EntityMetadata() {
 		propertiesMetadata = new HashMap<String, PropertyMetadata>();
 	}
@@ -35,9 +33,12 @@ public class EntityMetadata {
 	public Map<String, PropertyMetadata> getPropertiesMetadata() {
 		return propertiesMetadata;
 	}
-	
-	public List<String> getColumns() {
-		List<String> columns = getPropertiesMetadata().values().stream().map( pd -> pd.getColumnName()).collect(Collectors.toList());
+
+	public List<String> getColumns(boolean idAllowed) {
+		List<String> columns = getPropertiesMetadata().values().stream().filter(pd -> {
+			boolean idColumn = "id".equalsIgnoreCase(pd.getColumnName());
+			return (idColumn && idAllowed) || (!idColumn);
+		}).map(pd -> pd.getColumnName()).collect(Collectors.toList());
 		return columns;
 	}
 

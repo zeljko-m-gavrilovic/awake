@@ -1,4 +1,4 @@
-package rs.bignumbers.util;
+package rs.bignumbers.metadata;
 
 public class PropertyMetadata {
 

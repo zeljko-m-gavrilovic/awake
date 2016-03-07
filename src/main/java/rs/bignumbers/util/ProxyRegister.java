@@ -3,9 +3,9 @@ package rs.bignumbers.util;
 import java.util.HashMap;
 import java.util.Map;
 
-import rs.bignumbers.DirtyValueInterceptor;
+import rs.bignumbers.interceptor.DirtyValueInterceptor;
 
-public class ProxyPool {
+public class ProxyRegister {
 
 	private static Map<String, DirtyValueInterceptor> interceptors = new HashMap<String, DirtyValueInterceptor>();
 	

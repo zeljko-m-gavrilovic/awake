@@ -1,10 +1,12 @@
-package rs.bignumbers.util;
+package rs.bignumbers;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@SpringApplicationConfiguration(classes = AwakeApplication.class)
+import rs.bignumbers.metadata.EntityMetadata;
+import rs.bignumbers.metadata.MetadataExtractor;
+import rs.bignumbers.model.Man;
+
 public class TestMetadataExtractor {
 
 	@Test
@@ -14,7 +16,7 @@ public class TestMetadataExtractor {
 		Assert.assertEquals(Man.class, m.getClazz());
 		Assert.assertEquals(Man.class.getSimpleName().toLowerCase(), m.getTableName().toLowerCase());
 		Assert.assertNotNull(m.getPropertiesMetadata());
-		Assert.assertEquals(3, m.getPropertiesMetadata().entrySet().size());
+		Assert.assertEquals(4, m.getPropertiesMetadata().entrySet().size());
 		Assert.assertEquals(m.getPropertiesMetadata().get("firstName").getColumnName(), "first_name");
 		Assert.assertFalse(m.getPropertiesMetadata().containsKey("lastName")); // ignore=true
 		Assert.assertEquals(m.getPropertiesMetadata().get("age").getColumnName(), "age");

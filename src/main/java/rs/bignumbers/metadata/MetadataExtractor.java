@@ -1,4 +1,4 @@
-package rs.bignumbers.util;
+package rs.bignumbers.metadata;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -12,21 +12,7 @@ import rs.bignumbers.annotations.DbTable;
 
 public class MetadataExtractor {
 
-	List<Class> classes;
-
 	public MetadataExtractor() {
-	}
-
-	/*
-	 * public MetadataExtractor(List<Class> classes) { this.classes = classes; }
-	 */
-
-	public List<EntityMetadata> extractMetadata() {
-		List result = new ArrayList<>();
-		for (Class c : classes) {
-
-		}
-		return result;
 	}
 
 	public EntityMetadata extractMetadataForClass(Class clazz) {
@@ -51,9 +37,9 @@ public class MetadataExtractor {
 				if(columnAnnotation.ignore()) {
 					continue;
 				}
-				if(f.getName().equalsIgnoreCase("id")) {
+				/*if(f.getName().equalsIgnoreCase("id")) {
 					continue;
-				}
+				}*/
 				String columnName = columnAnnotation.name();
 				boolean nameExplicitellyDefined = columnName.length() > 0;
 				if (!nameExplicitellyDefined) {
@@ -119,11 +105,11 @@ public class MetadataExtractor {
 		return annotatedFields.toArray(new Field[annotatedFields.size()]);
 	}
 
-	public List<Class> getClasses() {
+	/*public List<Class> getClasses() {
 		return classes;
 	}
 
 	public void setClasses(List<Class> classes) {
 		this.classes = classes;
-	}
+	}*/
 }
