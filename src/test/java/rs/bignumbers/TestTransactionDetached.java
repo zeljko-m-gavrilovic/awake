@@ -18,13 +18,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 
-import rs.bignumbers.metadata.EntityMetadata;
 import rs.bignumbers.model.Man;
 import rs.bignumbers.model.Person;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/application-context.xml")
-public class TestTransaction {
+public class TestTransactionDetached {
 
 	@Autowired
 	private DataSource dataSource;
@@ -39,102 +38,68 @@ public class TestTransaction {
 		List<Class> entities = new ArrayList<Class>();
 		entities.add(Person.class);
 		entities.add(Man.class);
-		transaction = new Transaction(entities, dataSource, txManager, false);
+		transaction = new Transaction(entities, dataSource, txManager, true);
 	}
 	
 	@Test
-	public void testInsert() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+	public void testInsert() throws Exception {
 		Person p = new Person();
 		p.setFirstName("Zeljko");
 		p.setLastName("Gavrilovic");
 		p.setAge(35);
 		p.setPlace("Bg");
-		transaction.insert(p);
-		Assert.assertNotNull(p);
-		Assert.assertNotNull(p.getId());
 		
-		transaction.delete(p);
-	}
-	
-	@Test
-	public void testFindOne() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-		Person p = new Person();
-		p.setFirstName("Zeljko");
-		p.setLastName("Gavrilovic");
-		p.setAge(35);
-		p.setPlace("Bg");
 		transaction.insert(p);
+		Assert.assertEquals(1, transaction.getStatements().size());
+		Assert.assertEquals(StatementType.Insert, transaction.getStatements().get(0).getStatementType());
+		//System.out.println(transaction.getStatements().get(0));
 		
 		Person dbOne = transaction.findOne(Person.class, p.getId());
-		Assert.assertNotNull(dbOne);
+		Assert.assertNull(dbOne);
 		
-		transaction.delete(dbOne);
-	}
-	
-	
-	@Test
-	public void testFindList() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-		Person p1 = new Person();
-		p1.setFirstName("Zeljko");
-		p1.setLastName("Gavrilovic");
-		p1.setAge(35);
-		p1.setPlace("Bg");
-
-		Long pk1 = transaction.insert(p1);
-		Assert.assertNotNull(pk1);
-
+		transaction.commit();
 		
-		Person p2 = new Person();
-		p2.setFirstName("Zeljko");
-		p2.setLastName("Gavrilovic");
-		p2.setAge(35);
-		p2.setPlace("Bg");
-		Long pk2 = transaction.insert(p2);
-		Assert.assertNotNull(pk2);
-
-		Person p3 = new Person();
-		p3.setFirstName("Zeljko");
-		p3.setLastName("Gavrilovic");
-		p3.setAge(35);
-		p3.setPlace("Bg");
-		Long pk3 = transaction.insert(p3);
-		Assert.assertNotNull(pk3);
-
-		Map<String, Object> where = new HashMap<String, Object>();
-		where.put("firstName", "Zeljko");
-		List<Person> persons = transaction.findList(Person.class, where);
-		Assert.assertNotNull(persons);
-		Assert.assertEquals(3, persons.size());
-
-		transaction.delete(p1);
-		transaction.delete(p2);
-		transaction.delete(p3);
-	}
-	
-	@Test
-	public void testUpdate() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-		Person p = new Person();
-		p.setFirstName("Zeljko");
-		p.setLastName("Gavrilovic");
-		p.setAge(35);
-		p.setPlace("Bg");
-		transaction.insert(p);
-		
-		Person dbOne = transaction.findOne(Person.class, p.getId());
-		Assert.assertNotNull(dbOne);
-		
-		int ageUpdated = 37;
-		dbOne.setAge(ageUpdated);
-		
-		transaction.update(dbOne);
 		dbOne = transaction.findOne(Person.class, p.getId());
 		Assert.assertNotNull(dbOne);
-		Assert.assertEquals(Integer.valueOf(37), dbOne.getAge());
 		
 		transaction.delete(p);
+		transaction.commit();
 	}
 	
 	@Test
+	public void testUpdate() throws Exception {
+		Person p = new Person();
+		p.setFirstName("Zeljko");
+		p.setLastName("Gavrilovic");
+		p.setAge(35);
+		p.setPlace("Bg");
+		
+		transaction.insert(p);
+		Assert.assertEquals(1, transaction.getStatements().size());
+		Assert.assertEquals(StatementType.Insert, transaction.getStatements().get(0).getStatementType());
+		
+		int ageUpdated = 37;
+		p.setAge(ageUpdated);
+		
+		transaction.update(p);
+		Assert.assertEquals(2, transaction.getStatements().size());
+		Assert.assertEquals(StatementType.Insert, transaction.getStatements().get(0).getStatementType());
+		Assert.assertEquals(StatementType.Update, transaction.getStatements().get(1).getStatementType());
+		
+		/*System.out.println(transaction.getStatements().get(0));
+		System.out.println(transaction.getStatements().get(1));*/
+		
+		transaction.commit();
+		
+		Person dbOne = transaction.findOne(Person.class, p.getId());
+		Assert.assertNotNull(dbOne);
+		//Assert.assertEquals(Integer.valueOf(37), dbOne.getAge());
+		
+		transaction.delete(p);
+		transaction.commit();
+	}
+	
+	/*@Test
 	public void testDelete() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		Person p = new Person();
 		p.setFirstName("Zeljko");
@@ -184,5 +149,5 @@ public class TestTransaction {
 		
 		transaction.delete(p);
 	}
-	
+	*/
 }

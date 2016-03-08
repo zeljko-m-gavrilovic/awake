@@ -38,6 +38,9 @@ public class SqlUtil {
         sqlBuilder.append(" SET ");
         boolean first = true;
         for (String propertyName : properties) {
+        	if("id".equalsIgnoreCase(propertyName)) {
+        		continue;
+        	}
             String columnName = em.getPropertiesMetadata().get(propertyName).getColumnName(); 
         	if (!first) {
                 sqlBuilder.append(", ");
