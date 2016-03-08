@@ -60,14 +60,29 @@ public class TestTransaction {
 		
 		int ageUpdated = 37;
 		dbOne.setAge(ageUpdated);
-		String placeUpdated = "Belgrade";
-		dbOne.setPlace(placeUpdated);
+		/*String placeUpdated = "Belgrade";
+		dbOne.setPlace(placeUpdated);*/
 		
 		transaction.update(dbOne);
 		dbOne = transaction.findOne(Person.class, p.getId());
 		Assert.assertNotNull(dbOne);
-		Assert.assertEquals(Long.valueOf(37L), dbOne.getAge());
-		Assert.assertEquals(placeUpdated, dbOne.getPlace());
+		Assert.assertEquals(Integer.valueOf(37), dbOne.getAge());
+		//Assert.assertEquals(placeUpdated, dbOne.getPlace());
+		
+		transaction.delete(p);
+	}
+	
+	@Test
+	public void testDelete() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+		Person p = new Person();
+		p.setFirstName("Zeljko");
+		p.setLastName("Gavrilovic");
+		p.setAge(35);
+		p.setPlace("Bg");
+		transaction.insert(p);
+		
+		Person dbOne = transaction.findOne(Person.class, p.getId());
+		Assert.assertNotNull(dbOne);
 		
 		transaction.delete(p);
 	}

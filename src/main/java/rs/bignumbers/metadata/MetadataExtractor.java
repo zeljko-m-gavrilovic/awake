@@ -18,10 +18,7 @@ public class MetadataExtractor {
 	public EntityMetadata extractMetadataForClass(Class clazz) {
 		EntityMetadata m = new EntityMetadata();
 		
-		if(clazz.getName().contains("$$EnhancerByCGLIB$$")) {
-			System.out.println(clazz.getSuperclass());
-			clazz = clazz.getSuperclass();
-		}
+		//clazz = getClassName(clazz);
 		
 		m.setClazz(clazz);
 		boolean hasTableAnnotation = clazz.isAnnotationPresent(DbTable.class);

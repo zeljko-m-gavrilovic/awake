@@ -24,6 +24,7 @@ public class Transaction {
 	private List<Class> entities;
 	private Map<String, EntityMetadata> entityMetadatas = new HashMap<String, EntityMetadata>();
 	private SqlUtil sqlUtil;
+	private MetadataExtractor metadataExtractor;
 
 	public Transaction(List<Class> entities, DataSource datasource) {
 		sqlUtil = new SqlUtil();
@@ -41,33 +42,44 @@ public class Transaction {
 	}
 
 	public <T> List<T> findList(Class<T> clazz, Map<String, Object> whereParameters) {
+		/*String className = metadataExtractor.getClass().getName(clazz);
+		EntityMetadata entityMetadata = entityMetadatas.get(className);*/
+		return dbService.findList(getEntityMetadata(clazz), whereParameters);
+	}
+	
+	private EntityMetadata getEntityMetadata(Class clazz) {
+		if(clazz.getName().contains("$$EnhancerByCGLIB$$")) {
+			//System.out.println(clazz.getSuperclass());
+			clazz = clazz.getSuperclass();
+		}
 		EntityMetadata entityMetadata = entityMetadatas.get(clazz.getName());
-		return dbService.findList(entityMetadata, whereParameters);
+		return entityMetadata;
 	}
 
 	public <T> T findOne(Class<T> clazz, Long id) {
-		EntityMetadata entityMetadata = entityMetadatas.get(clazz.getName());
-		return dbService.findOne(entityMetadata, id);
+		/*String className = metadataExtractor.getClass().getName();
+		EntityMetadata entityMetadata = entityMetadatas.get(className);*/
+		return dbService.findOne(getEntityMetadata(clazz), id);
 	}
 
 	public Long insert(Object o) {
-		EntityMetadata entityMetadata = entityMetadatas.get(o.getClass().getName());
-		return dbService.insert(o, entityMetadata);
+		/*EntityMetadata entityMetadata = entityMetadatas.get(o.getClass().getName());*/
+		return dbService.insert(o, getEntityMetadata(o.getClass()));
 	}
 
 	public void update(Object o) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-		String className = o.getClass().getName();
-		EntityMetadata entityMetadata = entityMetadatas.get(className);
+		/*String className = o.getClass().getName();
+		EntityMetadata entityMetadata = entityMetadatas.get(className);*/
 		Long id = (Long) PropertyUtils.getProperty(o, "id");
 		DirtyValueInterceptor interceptor = ProxyRegister.getInterceptor(o.getClass().getName() + "/" + id);
 		if (interceptor != null && interceptor.hasDirtyProperties()) {
-			dbService.update(o, interceptor.getDirtyProperties(), entityMetadata);
+			dbService.update(o, interceptor.getDirtyProperties(), getEntityMetadata(o.getClass()));
 		}
 	}
 
 	public void delete(Object o) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		Long id = (Long) PropertyUtils.getProperty(o, "id");
-		EntityMetadata entityMetadata = entityMetadatas.get(o.getClass().getName());
-		dbService.delete(entityMetadata, id); 
+		/*EntityMetadata entityMetadata = entityMetadatas.get(o.getClass().getName());*/
+		dbService.delete(getEntityMetadata(o.getClass()), id); 
 	}
 }
