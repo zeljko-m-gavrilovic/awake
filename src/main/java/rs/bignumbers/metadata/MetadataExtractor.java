@@ -2,12 +2,12 @@ package rs.bignumbers.metadata;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 import rs.bignumbers.annotations.DbColumn;
+import rs.bignumbers.annotations.DbForeignKey;
 import rs.bignumbers.annotations.DbTable;
 
 public class MetadataExtractor {
@@ -34,17 +34,27 @@ public class MetadataExtractor {
 				if(columnAnnotation.ignore()) {
 					continue;
 				}
-				/*if(f.getName().equalsIgnoreCase("id")) {
-					continue;
-				}*/
 				String columnName = columnAnnotation.name();
 				boolean nameExplicitellyDefined = columnName.length() > 0;
 				if (!nameExplicitellyDefined) {
 					columnName = f.getName();
 				}
-				PropertyMetadata pm = new PropertyMetadata(f.getName(), columnName, f.getType());
+				PropertyMetadata pm = new PropertyMetadata(f.getName(), columnName, f.getType(), false);
 				m.addPropertyMetadata(pm.getPropertyName(), pm);
-				// }
+			}
+			
+			for (Field f : getAnnotatedDeclaredFields(clazz, DbForeignKey.class, true)) {
+				DbForeignKey columnAnnotation = f.getAnnotation(DbForeignKey.class);
+				if(columnAnnotation.ignore()) {
+					continue;
+				}
+				String columnName = columnAnnotation.name();
+				boolean nameExplicitellyDefined = columnName.length() > 0;
+				if (!nameExplicitellyDefined) {
+					columnName = f.getName();
+				}
+				PropertyMetadata pm = new PropertyMetadata(f.getName(), columnName, f.getType(), true);
+				m.addPropertyMetadata(pm.getPropertyName(), pm);
 			}
 		}
 		return m;

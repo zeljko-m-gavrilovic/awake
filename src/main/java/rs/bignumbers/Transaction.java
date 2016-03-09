@@ -18,6 +18,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import rs.bignumbers.interceptor.DirtyValueInterceptor;
 import rs.bignumbers.metadata.EntityMetadata;
 import rs.bignumbers.metadata.MetadataExtractor;
+import rs.bignumbers.metadata.PropertyMetadata;
 import rs.bignumbers.util.ProxyRegister;
 import rs.bignumbers.util.SqlUtil;
 
@@ -74,8 +75,15 @@ public class Transaction {
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		for (String propertyName : entityMetadata.getPropertiesMetadata().keySet()) {
-			String columnName = entityMetadata.getPropertiesMetadata().get(propertyName).getColumnName();
-			parameters.put(columnName, PropertyUtils.getProperty(o, propertyName));
+			PropertyMetadata propertyMetadata = entityMetadata.getPropertiesMetadata().get(propertyName);
+			String columnName = propertyMetadata.getColumnName();
+			Object propertyValue = null;
+			if(!propertyMetadata.isForeignKey()) {
+				propertyValue = PropertyUtils.getProperty(o, propertyName);
+			} else {
+				propertyValue = PropertyUtils.getNestedProperty(o, propertyName + ".id");
+			}
+			parameters.put(columnName, propertyValue);
 		}
 
 		if (detached) {
@@ -107,8 +115,15 @@ public class Transaction {
 		dirtyProperties.put("id", id);
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		for (String propertyName : dirtyProperties.keySet()) {
-			String columnName = entityMetadata.getPropertiesMetadata().get(propertyName).getColumnName();
-			parameters.put(columnName, PropertyUtils.getProperty(o, propertyName));
+			PropertyMetadata propertyMetadata = entityMetadata.getPropertiesMetadata().get(propertyName);
+			String columnName = propertyMetadata.getColumnName();
+			/*parameters.put(columnName, PropertyUtils.getProperty(o, propertyName));*/
+			Object propertyValue = null;
+			if(!propertyMetadata.isForeignKey()) {
+				propertyValue = PropertyUtils.getProperty(o, propertyName);
+			} else {
+				propertyValue = PropertyUtils.getNestedProperty(o, propertyName + ".id");
+			}
 		}
 		
 		if (detached) {

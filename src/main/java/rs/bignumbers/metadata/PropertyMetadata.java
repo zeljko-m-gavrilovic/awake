@@ -5,14 +5,16 @@ public class PropertyMetadata {
 	private String propertyName;
 	private String columnName;
 	private Class javaType;
+	private boolean foreignKey;
 
 	public PropertyMetadata() {
 	}
 
-	public PropertyMetadata(String propertyName, String columnName, Class javaType) {
+	public PropertyMetadata(String propertyName, String columnName, Class javaType, boolean foreignKey) {
 		this.propertyName = propertyName;
 		this.columnName = columnName;
 		this.javaType = javaType;
+		this.foreignKey = foreignKey;
 	}
 
 	public String getPropertyName() {
@@ -39,4 +41,11 @@ public class PropertyMetadata {
 		this.javaType = javaType;
 	}
 
+	public boolean isForeignKey() {
+		return foreignKey;
+	}
+
+	public void setForeignKey(boolean foreignKey) {
+		this.foreignKey = foreignKey;
+	}
 }
