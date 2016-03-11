@@ -32,6 +32,15 @@ public class DirtyValueInterceptor implements MethodInterceptor {
 				dirtyProperties.put(propertyName, args[0]);
 			}
 		}
+		boolean callToGetter = method.getName().startsWith("get");
+		/*if(callToGetter) {
+			String propertyName = method.getName().substring(3);
+			propertyName = propertyName.replaceFirst(String.valueOf(propertyName.charAt(0)),
+					String.valueOf(Character.toLowerCase(propertyName.charAt(0))));
+			if (em.getPropertiesMetadata().containsKey(propertyName) && em.getPropertiesMetadata().get(propertyName).) {
+				dirtyProperties.put(propertyName, args[0]);
+			}
+		}*/
 		return proxy.invokeSuper(obj, args);
 
 	}

@@ -1,4 +1,4 @@
-package rs.bignumbers.model;
+package rs.bignumbers.properties.model;
 
 import rs.bignumbers.annotations.DbTable;
 import rs.bignumbers.annotations.OtherSide;

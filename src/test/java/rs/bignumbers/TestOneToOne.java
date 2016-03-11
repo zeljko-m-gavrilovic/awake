@@ -15,10 +15,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import rs.bignumbers.model.Female;
-import rs.bignumbers.model.Male;
-import rs.bignumbers.model.Man;
-import rs.bignumbers.model.Person;
+import rs.bignumbers.properties.model.Female;
+import rs.bignumbers.properties.model.Male;
+import rs.bignumbers.properties.model.Man;
+import rs.bignumbers.properties.model.Person;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/application-context.xml")
@@ -70,7 +70,6 @@ public class TestOneToOne {
 		
 		transaction.delete(male);
 		transaction.delete(female);
-		
 	}
 	
 /*	@Test

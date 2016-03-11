@@ -6,7 +6,7 @@ import rs.bignumbers.factory.ProxyFactory;
 import rs.bignumbers.interceptor.DirtyValueInterceptor;
 import rs.bignumbers.metadata.EntityMetadata;
 import rs.bignumbers.metadata.MetadataExtractor;
-import rs.bignumbers.model.Person;
+import rs.bignumbers.properties.model.Person;
 
 public class TestDirtyPropertiesInterceptor {
 	

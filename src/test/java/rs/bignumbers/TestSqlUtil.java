@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import rs.bignumbers.metadata.EntityMetadata;
 import rs.bignumbers.metadata.MetadataExtractor;
-import rs.bignumbers.model.Man;
+import rs.bignumbers.properties.model.Man;
 import rs.bignumbers.util.SqlUtil;
 
 public class TestSqlUtil {

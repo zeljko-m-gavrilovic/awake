@@ -18,8 +18,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 
-import rs.bignumbers.model.Man;
-import rs.bignumbers.model.Person;
+import rs.bignumbers.properties.model.Man;
+import rs.bignumbers.properties.model.Person;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/application-context.xml")

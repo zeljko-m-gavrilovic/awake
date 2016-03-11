@@ -20,7 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import rs.bignumbers.metadata.EntityMetadata;
 import rs.bignumbers.metadata.MetadataExtractor;
-import rs.bignumbers.model.Person;
+import rs.bignumbers.properties.model.Person;
 import rs.bignumbers.util.SqlUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
