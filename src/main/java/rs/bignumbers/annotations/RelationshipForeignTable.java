@@ -10,12 +10,13 @@ import java.lang.annotation.Target;
 public @interface RelationshipForeignTable {
 	FetchType fetch() default FetchType.Lazy;
 
-	String myColumnName() default "";
+	String columnName() default "";
 	String tableName() default "";
 	String otherSideColumnName() default "";
 
 	/*
 	 * responsible side is the responsible for managing a relationship between the two entities
 	 */
-	boolean responsible() default false; 
+	boolean responsible() default false;
+	boolean ignore() default false;
 }

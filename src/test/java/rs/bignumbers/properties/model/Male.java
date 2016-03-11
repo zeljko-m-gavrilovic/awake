@@ -1,12 +1,12 @@
 package rs.bignumbers.properties.model;
 
-import rs.bignumbers.annotations.DbTable;
-import rs.bignumbers.annotations.DbForeignKey;
+import rs.bignumbers.annotations.Entity;
+import rs.bignumbers.annotations.RelationshipForeignKey;
 
-@DbTable
+@Entity
 public class Male extends Person {
 
-	@DbForeignKey(name="female_id")
+	@RelationshipForeignKey(columnName = "female_id", responsible = true)
 	private Female female;
 
 	public Female getFemale() {

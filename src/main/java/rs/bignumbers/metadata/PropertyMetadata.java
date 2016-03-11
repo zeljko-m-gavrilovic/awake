@@ -2,19 +2,17 @@ package rs.bignumbers.metadata;
 
 public class PropertyMetadata {
 
-	private String propertyName;
-	private String columnName;
-	private Class javaType;
-	private boolean foreignKey;
+	protected String propertyName;
+	protected String columnName;
+	protected Class javaType;
 
 	public PropertyMetadata() {
 	}
 
-	public PropertyMetadata(String propertyName, String columnName, Class javaType, boolean foreignKey) {
+	public PropertyMetadata(String propertyName, String columnName, Class javaType) {
 		this.propertyName = propertyName;
 		this.columnName = columnName;
 		this.javaType = javaType;
-		this.foreignKey = foreignKey;
 	}
 
 	public String getPropertyName() {
@@ -39,13 +37,5 @@ public class PropertyMetadata {
 
 	public void setJavaType(Class javaType) {
 		this.javaType = javaType;
-	}
-
-	public boolean isForeignKey() {
-		return foreignKey;
-	}
-
-	public void setForeignKey(boolean foreignKey) {
-		this.foreignKey = foreignKey;
 	}
 }

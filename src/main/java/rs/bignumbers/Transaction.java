@@ -16,9 +16,10 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import rs.bignumbers.interceptor.DirtyValueInterceptor;
+import rs.bignumbers.metadata.AnnotationBasedMetadataExtractor;
 import rs.bignumbers.metadata.EntityMetadata;
-import rs.bignumbers.metadata.MetadataExtractor;
 import rs.bignumbers.metadata.PropertyMetadata;
+import rs.bignumbers.metadata.RelationshipPropertyMetadata;
 import rs.bignumbers.util.ProxyRegister;
 import rs.bignumbers.util.SqlUtil;
 
@@ -29,7 +30,7 @@ public class Transaction {
 	private List<Class> entities;
 	private Map<String, EntityMetadata> entityMetadatas = new HashMap<String, EntityMetadata>();
 	private SqlUtil sqlUtil;
-	private MetadataExtractor metadataExtractor;
+	private AnnotationBasedMetadataExtractor metadataExtractor;
 	private boolean detached = false;
 	private List<Statement> statements;
 	private PlatformTransactionManager txManager;
@@ -77,13 +78,17 @@ public class Transaction {
 		for (String propertyName : entityMetadata.getPropertiesMetadata().keySet()) {
 			PropertyMetadata propertyMetadata = entityMetadata.getPropertiesMetadata().get(propertyName);
 			String columnName = propertyMetadata.getColumnName();
-			Object propertyValue = null;
-			if(!propertyMetadata.isForeignKey()) {
-				propertyValue = PropertyUtils.getProperty(o, propertyName);
+			
+			Object propertyValue = PropertyUtils.getProperty(o, propertyName);
+			if ((propertyMetadata instanceof RelationshipPropertyMetadata)) {
+				RelationshipPropertyMetadata rpm = (RelationshipPropertyMetadata) propertyMetadata;
+				if (rpm.isResponsible() && propertyValue != null) {
+					propertyValue = PropertyUtils.getNestedProperty(o, propertyName + ".id");
+					parameters.put(columnName, propertyValue);
+				}
 			} else {
-				propertyValue = PropertyUtils.getNestedProperty(o, propertyName + ".id");
+				parameters.put(columnName, propertyValue);	
 			}
-			parameters.put(columnName, propertyValue);
 		}
 
 		if (detached) {
@@ -107,7 +112,15 @@ public class Transaction {
 		} else {
 			dirtyProperties = new HashMap<String, Object>();
 			for(String propertyName : entityMetadata.getPropertiesMetadata().keySet()) {
-				dirtyProperties.put(propertyName, PropertyUtils.getProperty(o, propertyName));
+				PropertyMetadata pm = entityMetadata.getPropertiesMetadata().get(propertyName);
+				if ((pm instanceof RelationshipPropertyMetadata)) {
+					RelationshipPropertyMetadata rpm = (RelationshipPropertyMetadata) pm;
+					if(rpm.isResponsible()) {
+						dirtyProperties.put(propertyName, PropertyUtils.getProperty(o, propertyName + ".id"));
+					}
+				} else {
+					dirtyProperties.put(propertyName, PropertyUtils.getProperty(o, propertyName));
+				}
 			}
 		}
 		String sql = sqlUtil.update(entityMetadata, dirtyProperties.keySet(), "id");
@@ -116,14 +129,11 @@ public class Transaction {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		for (String propertyName : dirtyProperties.keySet()) {
 			PropertyMetadata propertyMetadata = entityMetadata.getPropertiesMetadata().get(propertyName);
-			String columnName = propertyMetadata.getColumnName();
-			/*parameters.put(columnName, PropertyUtils.getProperty(o, propertyName));*/
-			Object propertyValue = null;
-			if(!propertyMetadata.isForeignKey()) {
-				propertyValue = PropertyUtils.getProperty(o, propertyName);
-			} else {
+			Object propertyValue = PropertyUtils.getProperty(o, propertyName);
+			if((propertyMetadata instanceof RelationshipPropertyMetadata) && propertyValue != null) {
 				propertyValue = PropertyUtils.getNestedProperty(o, propertyName + ".id");
 			}
+			parameters.put(propertyMetadata.getColumnName(), propertyValue);
 		}
 		
 		if (detached) {
@@ -179,7 +189,7 @@ public class Transaction {
 	}
 
 	public void extactMetadata() {
-		MetadataExtractor metadataExtractor = new MetadataExtractor();
+		AnnotationBasedMetadataExtractor metadataExtractor = new AnnotationBasedMetadataExtractor();
 		for (Class clazz : entities) {
 			EntityMetadata em = metadataExtractor.extractMetadataForClass(clazz);
 			entityMetadatas.put(clazz.getName(), em);

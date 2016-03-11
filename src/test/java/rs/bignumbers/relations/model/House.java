@@ -43,20 +43,20 @@ public class House {
 	/*
 	 * bidirectional many-to-many relationship, I manage the foreign key
 	 */
-	@RelationshipForeignTable(fetch = FetchType.Lazy, tableName="house_owner", myColumnName = "house_id", otherSideColumnName="owner_id", responsible=true)
+	@RelationshipForeignTable(fetch = FetchType.Lazy, tableName="house_owner", columnName = "house_id", otherSideColumnName="owner_id", responsible=true)
 	private List<Owner> owners;
 	
 	
 	/*
 	 *  unidirectional many-to-many relationship, I manage the foreign key
 	 */
-	@RelationshipForeignTable(fetch = FetchType.Lazy, tableName="house_owner", myColumnName = "house_id", otherSideColumnName="entrance_id", responsible=true)
+	@RelationshipForeignTable(fetch = FetchType.Lazy, tableName="house_owner", columnName = "house_id", otherSideColumnName="entrance_id", responsible=true)
 	private List<Entrance> entrances;
 	
 	/*
 	 *  unidirectional many-to-many relationship, I don't manage the foreign key
 	 *  Note: kind of read-only relationship, because there is no dominant/owner side
 	 */
-	@RelationshipForeignTable(fetch = FetchType.Lazy, tableName="house_owner", myColumnName = "house_id", otherSideColumnName="tenant_id")
+	@RelationshipForeignTable(fetch = FetchType.Lazy, tableName="house_owner", columnName = "house_id", otherSideColumnName="tenant_id")
 	private List<Tenant> tenants;
 }

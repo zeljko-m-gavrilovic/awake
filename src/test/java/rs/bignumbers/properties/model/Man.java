@@ -1,14 +1,14 @@
 package rs.bignumbers.properties.model;
 
-import rs.bignumbers.annotations.DbColumn;
-import rs.bignumbers.annotations.DbTable;
+import rs.bignumbers.annotations.Property;
+import rs.bignumbers.annotations.Entity;
 
-@DbTable
+@Entity
 public class Man extends Person {
 
 	String armyDuty;
 
-	@DbColumn
+	@Property
 	String girlName;
 
 	public String getArmyDuty() {

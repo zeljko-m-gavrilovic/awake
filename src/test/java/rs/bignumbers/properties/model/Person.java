@@ -1,21 +1,21 @@
 package rs.bignumbers.properties.model;
 
-import rs.bignumbers.annotations.DbColumn;
-import rs.bignumbers.annotations.DbTable;
+import rs.bignumbers.annotations.Property;
+import rs.bignumbers.annotations.Entity;
 
-@DbTable
+@Entity
 public class Person {
 
-	@DbColumn
+	@Property
 	private Long id;
 	
-	@DbColumn(name="first_name")
+	@Property(columnName="first_name")
 	private String firstName;
 	
-	@DbColumn(name="familly_name", ignore=true)
+	@Property(columnName="familly_name", ignore=true)
 	private String lastName;
 	
-	@DbColumn
+	@Property
 	private Integer age;
 	
 	private String place;

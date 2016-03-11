@@ -19,7 +19,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import rs.bignumbers.metadata.EntityMetadata;
-import rs.bignumbers.metadata.MetadataExtractor;
+import rs.bignumbers.metadata.AnnotationBasedMetadataExtractor;
 import rs.bignumbers.properties.model.Person;
 import rs.bignumbers.util.SqlUtil;
 
@@ -31,12 +31,12 @@ public class TestDbService {
 
 	@Autowired
 	private DataSource dataSource;
-	private MetadataExtractor metadataExtractor;
+	private AnnotationBasedMetadataExtractor metadataExtractor;
 	private SqlUtil sqlUtil;
 
 	@Before
 	public void setUp() {
-		this.metadataExtractor = new MetadataExtractor();
+		this.metadataExtractor = new AnnotationBasedMetadataExtractor();
 		this.dbService = new DbService(dataSource);
 		sqlUtil = new SqlUtil();
 	}

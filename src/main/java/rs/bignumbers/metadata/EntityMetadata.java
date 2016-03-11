@@ -9,9 +9,11 @@ public class EntityMetadata {
 	Class clazz;
 	String tableName;
 	Map<String, PropertyMetadata> propertiesMetadata;
+	/*Map<String, RelationshipPropertyMetadata> relationshipPropertiesMetadata;*/
 
 	public EntityMetadata() {
 		propertiesMetadata = new HashMap<String, PropertyMetadata>();
+		/*relationshipPropertiesMetadata = new HashMap<String, RelationshipPropertyMetadata>();*/
 	}
 
 	public Class getClazz() {
@@ -34,15 +36,28 @@ public class EntityMetadata {
 		return propertiesMetadata;
 	}
 
+	/*public Map<String, RelationshipPropertyMetadata> getRelationshipPropertiesMetadata() {
+		return relationshipPropertiesMetadata;
+	}*/
+
 	public List<String> getColumns(boolean idAllowed) {
-		List<String> columns = getPropertiesMetadata().values().stream().filter(pd -> {
-			boolean idColumn = "id".equalsIgnoreCase(pd.getColumnName());
-			return (idColumn && idAllowed) || (!idColumn);
-		}).map(pd -> pd.getColumnName()).collect(Collectors.toList());
+		List<String> columns = getPropertiesMetadata().values().stream().filter(
+			pm -> {
+				if ((pm instanceof RelationshipPropertyMetadata)) {
+					RelationshipPropertyMetadata rpm = (RelationshipPropertyMetadata) pm;
+					return rpm.isResponsible();
+				}
+				boolean idColumn = "id".equalsIgnoreCase(pm.getColumnName());
+				return (idColumn && idAllowed) || (!idColumn);
+			}).map(pd -> pd.getColumnName()).collect(Collectors.toList());
 		return columns;
 	}
 
 	public void addPropertyMetadata(String prop, PropertyMetadata pm) {
 		propertiesMetadata.put(prop, pm);
 	}
+
+	/*public void addRelationshipPropertyMetadata(String prop, RelationshipPropertyMetadata rpm) {
+		relationshipPropertiesMetadata.put(prop, rpm);
+	}*/
 }

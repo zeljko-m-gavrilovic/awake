@@ -17,4 +17,5 @@ public @interface RelationshipForeignKey {
 	 * entities
 	 */
 	boolean responsible() default false;
+	boolean ignore() default false;
 }

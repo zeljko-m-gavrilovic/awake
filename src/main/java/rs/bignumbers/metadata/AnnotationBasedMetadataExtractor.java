@@ -6,13 +6,15 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import rs.bignumbers.annotations.DbColumn;
-import rs.bignumbers.annotations.DbForeignKey;
-import rs.bignumbers.annotations.DbTable;
+import rs.bignumbers.annotations.Entity;
+import rs.bignumbers.annotations.FetchType;
+import rs.bignumbers.annotations.Property;
+import rs.bignumbers.annotations.RelationshipForeignKey;
+import rs.bignumbers.annotations.RelationshipForeignTable;
 
-public class MetadataExtractor {
+public class AnnotationBasedMetadataExtractor {
 
-	public MetadataExtractor() {
+	public AnnotationBasedMetadataExtractor() {
 	}
 
 	public EntityMetadata extractMetadataForClass(Class clazz) {
@@ -21,40 +23,53 @@ public class MetadataExtractor {
 		//clazz = getClassName(clazz);
 		
 		m.setClazz(clazz);
-		boolean hasTableAnnotation = clazz.isAnnotationPresent(DbTable.class);
-		if (hasTableAnnotation) {
-			DbTable tableAnnotation = (DbTable) clazz.getAnnotation(DbTable.class);
-			String tableName = tableAnnotation.name();
+		boolean hasEntityAnnotation = clazz.isAnnotationPresent(Entity.class) && !((Entity) clazz.getAnnotation(Entity.class)).ignore();
+		if (hasEntityAnnotation) {
+			Entity entityAnnotation = (Entity) clazz.getAnnotation(Entity.class);
+			
+			String tableName = entityAnnotation.tableName();
 			if (tableName.length() == 0) {
 				tableName = clazz.getSimpleName().toLowerCase();
 			}
 			m.setTableName(tableName);
-			for (Field f : getAnnotatedDeclaredFields(clazz, DbColumn.class, true)) {
-				DbColumn columnAnnotation = f.getAnnotation(DbColumn.class);
-				if(columnAnnotation.ignore()) {
+			for (Field f : getAnnotatedDeclaredFields(clazz, Property.class, true)) {
+				Property propertyAnnotation = f.getAnnotation(Property.class);
+				if(propertyAnnotation.ignore()) {
 					continue;
 				}
-				String columnName = columnAnnotation.name();
+				String columnName = propertyAnnotation.columnName();
 				boolean nameExplicitellyDefined = columnName.length() > 0;
 				if (!nameExplicitellyDefined) {
 					columnName = f.getName();
 				}
-				PropertyMetadata pm = new PropertyMetadata(f.getName(), columnName, f.getType(), false);
+				PropertyMetadata pm = new PropertyMetadata(f.getName(), columnName, f.getType());
 				m.addPropertyMetadata(pm.getPropertyName(), pm);
 			}
 			
-			for (Field f : getAnnotatedDeclaredFields(clazz, DbForeignKey.class, true)) {
-				DbForeignKey columnAnnotation = f.getAnnotation(DbForeignKey.class);
+			for (Field f : getAnnotatedDeclaredFields(clazz, RelationshipForeignKey.class, true)) {
+				RelationshipForeignKey columnAnnotation = f.getAnnotation(RelationshipForeignKey.class);
 				if(columnAnnotation.ignore()) {
 					continue;
 				}
-				String columnName = columnAnnotation.name();
-				boolean nameExplicitellyDefined = columnName.length() > 0;
-				if (!nameExplicitellyDefined) {
-					columnName = f.getName();
+				String columnName = columnAnnotation.columnName();
+				FetchType fetch = columnAnnotation.fetch();
+				boolean responsible = columnAnnotation.responsible();
+				RelationshipPropertyMetadata rpm = new RelationshipPropertyMetadata(f.getName(), columnName, f.getType(), fetch, responsible, null, null);
+				m.addPropertyMetadata(rpm.getPropertyName(), rpm);
+			}
+			
+			for (Field f : getAnnotatedDeclaredFields(clazz, RelationshipForeignTable.class, true)) {
+				RelationshipForeignTable columnAnnotation = f.getAnnotation(RelationshipForeignTable.class);
+				if(columnAnnotation.ignore()) {
+					continue;
 				}
-				PropertyMetadata pm = new PropertyMetadata(f.getName(), columnName, f.getType(), true);
-				m.addPropertyMetadata(pm.getPropertyName(), pm);
+				String columnName = columnAnnotation.columnName();
+				FetchType fetch = columnAnnotation.fetch();
+				boolean responsible = columnAnnotation.responsible();
+				String joinTableName = columnAnnotation.columnName();
+				String otherSideColumnName = columnAnnotation.otherSideColumnName();
+				RelationshipPropertyMetadata rpm = new RelationshipPropertyMetadata(f.getName(), columnName, f.getType(), fetch, responsible, joinTableName, otherSideColumnName);
+				m.addPropertyMetadata(rpm.getPropertyName(), rpm);
 			}
 		}
 		return m;

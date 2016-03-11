@@ -21,6 +21,7 @@ import rs.bignumbers.factory.ProxyFactory;
 import rs.bignumbers.interceptor.DirtyValueInterceptor;
 import rs.bignumbers.metadata.EntityMetadata;
 import rs.bignumbers.metadata.PropertyMetadata;
+import rs.bignumbers.metadata.RelationshipPropertyMetadata;
 import rs.bignumbers.util.ProxyRegister;
 
 public class DbService {
@@ -100,6 +101,7 @@ public class DbService {
 								+ " of the proxy instance class " + em.getClazz().getSimpleName());
 					}
 				}
+				
 				ProxyRegister.addInterceptor(proxy.getClass().getName() + "/" + rs.getLong("id"),
 						interceptor);
 				interceptor.setTrack(true);

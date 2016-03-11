@@ -10,7 +10,7 @@ public class Owner {
 	/*
 	 * bidirectional many-to-many relationship, I don't manage the foreign key
 	 */
-	@RelationshipForeignTable(fetch = FetchType.Lazy, tableName="house_owner", myColumnName = "owner_id", otherSideColumnName="house_id")
+	@RelationshipForeignTable(fetch = FetchType.Lazy, tableName="house_owner", columnName = "owner_id", otherSideColumnName="house_id")
 	List<House> houses;
 
 	public List<House> getHouses() {

@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import rs.bignumbers.metadata.EntityMetadata;
-import rs.bignumbers.metadata.MetadataExtractor;
+import rs.bignumbers.metadata.AnnotationBasedMetadataExtractor;
 import rs.bignumbers.properties.model.Man;
 import rs.bignumbers.util.SqlUtil;
 
@@ -21,7 +21,7 @@ public class TestSqlUtil {
 	
 	@Before
 	public void setUp() {
-		MetadataExtractor me = new MetadataExtractor();
+		AnnotationBasedMetadataExtractor me = new AnnotationBasedMetadataExtractor();
 		em = me.extractMetadataForClass(Man.class);
 		sqlUtil = new SqlUtil();
 	}

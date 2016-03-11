@@ -7,6 +7,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface DbTable {
-	String name() default  "";
+public @interface Entity {
+	String tableName() default  "";
+	boolean ignore() default false;
 }
