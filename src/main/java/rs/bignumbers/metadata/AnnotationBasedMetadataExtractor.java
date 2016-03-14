@@ -12,10 +12,7 @@ import rs.bignumbers.annotations.Property;
 import rs.bignumbers.annotations.RelationshipForeignKey;
 import rs.bignumbers.annotations.RelationshipForeignTable;
 
-public class AnnotationBasedMetadataExtractor {
-
-	public AnnotationBasedMetadataExtractor() {
-	}
+public class AnnotationBasedMetadataExtractor implements MetadataExtractor {
 
 	public EntityMetadata extractMetadataForClass(Class clazz) {
 		EntityMetadata m = new EntityMetadata();

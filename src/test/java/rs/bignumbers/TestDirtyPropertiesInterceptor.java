@@ -12,10 +12,12 @@ public class TestDirtyPropertiesInterceptor {
 	
 	@Test
 	public void testDirtyProperties() {
+		ProxyFactory proxyFactory = new ProxyFactory();
 		AnnotationBasedMetadataExtractor me = new AnnotationBasedMetadataExtractor();
+		
 		EntityMetadata em = me.extractMetadataForClass(Person.class);
 		DirtyValueInterceptor interceptor = new DirtyValueInterceptor(em);
-		Person proxy = ProxyFactory.newProxyInstance(Person.class, interceptor);
+		Person proxy = proxyFactory.newProxyInstance(Person.class, interceptor);
 		proxy.setFirstName("Zeljko");
 		proxy.setFirstName("Mika");
 		proxy.setLastName("Gavrilovic");

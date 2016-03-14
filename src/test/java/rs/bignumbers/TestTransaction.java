@@ -18,7 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 
-import rs.bignumbers.metadata.EntityMetadata;
+import rs.bignumbers.metadata.AnnotationBasedMetadataExtractor;
 import rs.bignumbers.properties.model.Man;
 import rs.bignumbers.properties.model.Person;
 
@@ -34,12 +34,15 @@ public class TestTransaction {
 	@Autowired
 	private PlatformTransactionManager txManager;
 	
+	private Configuration configuration;
+	
 	@Before
 	public void setUp() {
 		List<Class> entities = new ArrayList<Class>();
 		entities.add(Person.class);
 		entities.add(Man.class);
-		transaction = new Transaction(entities, dataSource, txManager, false);
+		this.configuration = new Configuration(entities, new AnnotationBasedMetadataExtractor());
+		transaction = new Transaction(configuration, dataSource, txManager, false);
 	}
 	
 	@Test

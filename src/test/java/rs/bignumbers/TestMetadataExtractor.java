@@ -10,7 +10,7 @@ import rs.bignumbers.properties.model.Man;
 public class TestMetadataExtractor {
 
 	@Test
-	public void testExtractOneClass() {
+	public void testAnnotationBasedMetadataExtractor() {
 		AnnotationBasedMetadataExtractor me = new AnnotationBasedMetadataExtractor();
 		EntityMetadata m = me.extractMetadataForClass(Man.class);
 		Assert.assertEquals(Man.class, m.getClazz());

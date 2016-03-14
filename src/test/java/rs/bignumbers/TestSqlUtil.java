@@ -9,54 +9,51 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import rs.bignumbers.metadata.EntityMetadata;
-import rs.bignumbers.metadata.AnnotationBasedMetadataExtractor;
-import rs.bignumbers.properties.model.Man;
 import rs.bignumbers.util.SqlUtil;
 
 public class TestSqlUtil {
 
-	private EntityMetadata em;
 	private SqlUtil sqlUtil;
-	
+
 	@Before
 	public void setUp() {
-		AnnotationBasedMetadataExtractor me = new AnnotationBasedMetadataExtractor();
-		em = me.extractMetadataForClass(Man.class);
 		sqlUtil = new SqlUtil();
 	}
-	
-	
+
 	@Test
 	public void testInsert() {
-		String sqlInsert = sqlUtil.insert(em);
+		Set<String> columns = new HashSet<String>();
+		columns.add("girlName");
+		columns.add("first_name");
+		columns.add("age");
+		String sqlInsert = sqlUtil.insert("man", columns);
 		Assert.assertEquals("INSERT INTO man(girlName, first_name, age) VALUES(:girlName, :first_name, :age)",
 				sqlInsert);
 	}
 
 	@Test
 	public void testUpdate() {
-		Set<String> properties = new HashSet<String>();
-		properties.add("girlName");
-		properties.add("firstName");
-		properties.add("age");
-		String sqlUpdate = sqlUtil.update(em, properties, "id");
+		Set<String> columns = new HashSet<String>();
+		columns.add("girlName");
+		columns.add("first_name");
+		columns.add("age");
+		String sqlUpdate = sqlUtil.update("man", columns, "id");
 		Assert.assertEquals("UPDATE man SET girlName = :girlName, first_name = :first_name, age = :age WHERE id = :id",
 				sqlUpdate);
 	}
-	
+
 	@Test
 	public void testQuery() {
-		Map<String, Object> whereKeys = new HashMap<String, Object>();
-		whereKeys.put("firstName", "Zeljko");
-		whereKeys.put("age", 35);
-		String sqlQuery = sqlUtil.query(em, whereKeys.keySet());
+		Map<String, Object> whereColumns = new HashMap<String, Object>();
+		whereColumns.put("first_name", "Zeljko");
+		whereColumns.put("age", 35);
+		String sqlQuery = sqlUtil.query("man", whereColumns.keySet());
 		Assert.assertEquals("SELECT * FROM man WHERE first_name = :first_name AND age = :age", sqlQuery);
 	}
 
 	@Test
 	public void testDelete() {
-		String sqlDelete = sqlUtil.delete(em);
+		String sqlDelete = sqlUtil.delete("man");
 		Assert.assertEquals("DELETE FROM man WHERE id = :id", sqlDelete);
 	}
 }

@@ -1,11 +1,13 @@
 package rs.bignumbers;
 
+import java.io.EOFException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
@@ -18,9 +20,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import rs.bignumbers.metadata.EntityMetadata;
+import rs.bignumbers.factory.ProxyFactory;
 import rs.bignumbers.metadata.AnnotationBasedMetadataExtractor;
+import rs.bignumbers.metadata.EntityMetadata;
 import rs.bignumbers.properties.model.Person;
+import rs.bignumbers.util.ProxyRegister;
 import rs.bignumbers.util.SqlUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -33,12 +37,16 @@ public class TestDbService {
 	private DataSource dataSource;
 	private AnnotationBasedMetadataExtractor metadataExtractor;
 	private SqlUtil sqlUtil;
+	private ProxyRegister proxyRegister;
+	private ProxyFactory proxyFactory;
 
 	@Before
 	public void setUp() {
 		this.metadataExtractor = new AnnotationBasedMetadataExtractor();
 		this.dbService = new DbService(dataSource);
-		sqlUtil = new SqlUtil();
+		this.sqlUtil = new SqlUtil();
+		this.proxyRegister = new ProxyRegister();
+		this.proxyFactory = new ProxyFactory();
 	}
 
 	@Test
@@ -57,17 +65,18 @@ public class TestDbService {
 			parameters.put(columnName, PropertyUtils.getProperty(p, propertyName));
 		}
 
-		String sql = sqlUtil.insert(entityMetadata);
+		String sql = sqlUtil.insert(entityMetadata.getTableName(), entityMetadata.getResponsibleColumns());
 		Long pk = dbService.insert(sql, parameters);
 		Assert.assertNotNull(pk);
 
-		Set<String> whereKeys = new HashSet<String>();
-		whereKeys.add("id");
-		String querySql = sqlUtil.query(entityMetadata, whereKeys);
-		Person dbPerson = dbService.findOne(entityMetadata, querySql, pk);
+		Set<String> whereColumns = new HashSet<String>();
+		whereColumns.add("id");
+		String querySql = sqlUtil.query(entityMetadata.getTableName(), whereColumns);
+		EntityMetadataRowMapper<Person> rowMapper = new EntityMetadataRowMapper<>(entityMetadata, proxyFactory, proxyRegister);
+		Person dbPerson = dbService.findOne(querySql, pk, rowMapper);
 		Assert.assertNotNull(dbPerson);
 
-		String deleteQuery = sqlUtil.delete(entityMetadata);
+		String deleteQuery = sqlUtil.delete(entityMetadata.getTableName());
 		dbService.delete(deleteQuery, pk);
 	}
 
@@ -87,7 +96,7 @@ public class TestDbService {
 			parameters.put(columnName, PropertyUtils.getProperty(p, propertyName));
 		}
 
-		String sql = sqlUtil.insert(entityMetadata);
+		String sql = sqlUtil.insert(entityMetadata.getTableName(), entityMetadata.getResponsibleColumns());
 		Long pk1 = dbService.insert(sql, parameters);
 		Assert.assertNotNull(pk1);
 
@@ -97,20 +106,16 @@ public class TestDbService {
 		Long pk3 = dbService.insert(sql, parameters);
 		Assert.assertNotNull(pk3);
 
-		Map<String, Object> where = new HashMap<String, Object>();
-		where.put("firstName", "Zeljko");
-		String querySql = sqlUtil.query(entityMetadata, where.keySet());
-		
 		Map<String, Object> params = new HashMap<String, Object>();
-		for (String propertyName : where.keySet()) {
-			String columnName = entityMetadata.getPropertiesMetadata().get(propertyName).getColumnName();
-			params.put(columnName, where.get(propertyName));
-		}
-		List<Person> persons = dbService.findList(entityMetadata, querySql, params);
+		params.put("first_name", "Zeljko");
+
+		String querySql = sqlUtil.query(entityMetadata.getTableName(), params.keySet());
+		EntityMetadataRowMapper<Person> rowMapper = new EntityMetadataRowMapper<>(entityMetadata, proxyFactory, proxyRegister);
+		List<Person> persons = dbService.findList(querySql, params, rowMapper);
 		Assert.assertNotNull(persons);
 		Assert.assertEquals(3, persons.size());
 
-		String deleteQuery = sqlUtil.delete(entityMetadata);
+		String deleteQuery = sqlUtil.delete(entityMetadata.getTableName());
 		dbService.delete(deleteQuery, pk1);
 		dbService.delete(deleteQuery, pk2);
 		dbService.delete(deleteQuery, pk3);
@@ -132,17 +137,18 @@ public class TestDbService {
 			parameters.put(columnName, PropertyUtils.getProperty(p, propertyName));
 		}
 
-		String sql = sqlUtil.insert(entityMetadata);
+		String sql = sqlUtil.insert(entityMetadata.getTableName(), entityMetadata.getResponsibleColumns());
 		Long pk = dbService.insert(sql, parameters);
 		Assert.assertNotNull(pk);
 
-		Set<String> whereKeys = new HashSet<String>();
-		whereKeys.add("id");
-		String querySql = sqlUtil.query(entityMetadata, whereKeys);
-		Person dbPerson = dbService.findOne(entityMetadata, querySql, pk);
+		Set<String> whereColumns = new HashSet<String>();
+		whereColumns.add("id");
+		String querySql = sqlUtil.query(entityMetadata.getTableName(), whereColumns);
+		EntityMetadataRowMapper<Person> rowMapper = new EntityMetadataRowMapper<>(entityMetadata, proxyFactory, proxyRegister);
+		Person dbPerson = dbService.findOne(querySql, pk, rowMapper);
 		Assert.assertNotNull(dbPerson);
 
-		String deleteQuery = sqlUtil.delete(entityMetadata);
+		String deleteQuery = sqlUtil.delete(entityMetadata.getTableName());
 		dbService.delete(deleteQuery, pk);
 	}
 
@@ -162,23 +168,27 @@ public class TestDbService {
 			parameters.put(columnName, PropertyUtils.getProperty(p, propertyName));
 		}
 
-		String sql = sqlUtil.insert(entityMetadata);
+		String sql = sqlUtil.insert(entityMetadata.getTableName(), entityMetadata.getResponsibleColumns());
 		Long pk = dbService.insert(sql, parameters);
 		Assert.assertNotNull(pk);
 
-		Set<String> whereKeys = new HashSet<String>();
-		whereKeys.add("id");
-		String querySql = sqlUtil.query(entityMetadata, whereKeys);
-		Person dbPerson = dbService.findOne(entityMetadata, querySql, pk);
+		Set<String> whereColumns = new HashSet<String>();
+		whereColumns.add("id");
+		String querySql = sqlUtil.query(entityMetadata.getTableName(), whereColumns);
+		EntityMetadataRowMapper<Person> rowMapper = new EntityMetadataRowMapper<>(entityMetadata, proxyFactory, proxyRegister);
+		Person dbPerson = dbService.findOne(querySql, pk, rowMapper);
 		Assert.assertNotNull(dbPerson);
 
 		String firstNameUpdated = "updated name";
 		dbPerson.setFirstName(firstNameUpdated);
 		Map<String, Object> updatedProperties = new HashMap<String, Object>();
 		updatedProperties.put("firstName", firstNameUpdated);
-		
-		String updateSql = sqlUtil.update(entityMetadata, updatedProperties.keySet(), "id");
-		
+
+		Set<String> dirtyColumns = updatedProperties.keySet().stream()
+				.map(dirtyProperty -> entityMetadata.getPropertiesMetadata().get(dirtyProperty).getColumnName())
+				.collect(Collectors.toSet());
+		String updateSql = sqlUtil.update(entityMetadata.getTableName(), dirtyColumns, "id");
+
 		Map<String, Object> params = new HashMap<String, Object>();
 		for (String propertyName : updatedProperties.keySet()) {
 			String columnName = entityMetadata.getPropertiesMetadata().get(propertyName).getColumnName();
@@ -186,11 +196,11 @@ public class TestDbService {
 		}
 		params.put("id", pk);
 		dbService.update(updateSql, params);
-		dbPerson = dbService.findOne(entityMetadata, querySql, pk);
+		dbPerson = dbService.findOne(querySql, pk, rowMapper);
 		Assert.assertNotNull(dbPerson);
 		Assert.assertEquals(firstNameUpdated, dbPerson.getFirstName());
 
-		String deleteQuery = sqlUtil.delete(entityMetadata);
+		String deleteQuery = sqlUtil.delete(entityMetadata.getTableName());
 		dbService.delete(deleteQuery, pk);
 	}
 
@@ -210,17 +220,18 @@ public class TestDbService {
 			parameters.put(columnName, PropertyUtils.getProperty(p, propertyName));
 		}
 
-		String sql = sqlUtil.insert(entityMetadata);
+		String sql = sqlUtil.insert(entityMetadata.getTableName(), entityMetadata.getResponsibleColumns());
 		Long pk = dbService.insert(sql, parameters);
 		Assert.assertNotNull(pk);
 
-		String deleteQuery = sqlUtil.delete(entityMetadata);
+		String deleteQuery = sqlUtil.delete(entityMetadata.getTableName());
 		dbService.delete(deleteQuery, pk);
 
-		Set<String> whereKeys = new HashSet<String>();
-		whereKeys.add("id");
-		String querySql = sqlUtil.query(entityMetadata, whereKeys);
-		Person dbPerson = dbService.findOne(entityMetadata, querySql, pk);
+		Set<String> whereColumns = new HashSet<String>();
+		whereColumns.add("id");
+		String querySql = sqlUtil.query(entityMetadata.getTableName(), whereColumns);
+		EntityMetadataRowMapper<Person> rowMapper = new EntityMetadataRowMapper<>(entityMetadata, proxyFactory, proxyRegister);
+		Person dbPerson = dbService.findOne(querySql, pk, rowMapper);
 		Assert.assertNull(dbPerson);
 	}
 }

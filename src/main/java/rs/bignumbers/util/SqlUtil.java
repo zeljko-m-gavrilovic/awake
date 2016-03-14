@@ -2,94 +2,91 @@ package rs.bignumbers.util;
 
 import java.util.Set;
 
-import rs.bignumbers.metadata.EntityMetadata;
-
 public class SqlUtil {
 
-	public String insert(EntityMetadata m) {
+	public String insert(String tableName, Set<String> columnNames) {
 		StringBuilder insert = new StringBuilder();
 		insert.append("INSERT INTO ");
-		insert.append(m.getTableName());
+		insert.append(tableName);
 		insert.append("(");
-		
+
 		StringBuilder update = new StringBuilder();
 		update.append(") VALUES(");
-		
+
 		boolean first = true;
-		for (String c : m.getColumns(false)) {
-			if(!first) {
+		for (String columnName : columnNames) {
+			if ("id".equalsIgnoreCase(columnName)) {
+				continue;
+			}
+			if (!first) {
 				insert.append(", ");
 				update.append(", ");
 			}
 			first = false;
-			insert.append(c);
-			//update.append(c);
-            update.append(":");
-            update.append(c);
+			insert.append(columnName);
+			update.append(":");
+			update.append(columnName);
 		}
 		insert.append(update);
 		insert.append(")");
 		return insert.toString();
 	}
-	
-	public String update(EntityMetadata em, Set<String> properties,  String... whereKeys) {
-        StringBuilder sqlBuilder = new StringBuilder("UPDATE ");
-        sqlBuilder.append(em.getTableName());
-        sqlBuilder.append(" SET ");
-        boolean first = true;
-        for (String propertyName : properties) {
-        	if("id".equalsIgnoreCase(propertyName)) {
-        		continue;
-        	}
-            String columnName = em.getPropertiesMetadata().get(propertyName).getColumnName(); 
-        	if (!first) {
-                sqlBuilder.append(", ");
-            }
-            first = false;
-            sqlBuilder.append(columnName);
-            sqlBuilder.append(" = :");
-            sqlBuilder.append(columnName);
-        }
 
+	public String update(String tableName, Set<String> columnNames, String... whereColumns) {
+		StringBuilder sqlBuilder = new StringBuilder("UPDATE ");
+		sqlBuilder.append(tableName);
+		sqlBuilder.append(" SET ");
+		boolean first = true;
+		for (String columnName : columnNames) {
+			if ("id".equalsIgnoreCase(columnName)) {
+				continue;
+			}
+			if (!first) {
+				sqlBuilder.append(", ");
+			}
+			first = false;
+			sqlBuilder.append(columnName);
+			sqlBuilder.append(" = :");
+			sqlBuilder.append(columnName);
+		}
 
-        first = true;
-        for (String key : whereKeys) {
-            if (first) {
-                sqlBuilder.append(" WHERE ");
-            } else {
-                sqlBuilder.append(" AND ");
-            }
-            first = false;
-            sqlBuilder.append(key);
-            sqlBuilder.append(" = :");
-            sqlBuilder.append(key);
-        }
-        return sqlBuilder.toString();
-    }
-	
-	public String delete(EntityMetadata em) {
-		String sql = "DELETE FROM " + em.getTableName() + " WHERE id = :id";
+		first = true;
+		for (String columnName : whereColumns) {
+			if (first) {
+				sqlBuilder.append(" WHERE ");
+			} else {
+				sqlBuilder.append(" AND ");
+			}
+			first = false;
+			sqlBuilder.append(columnName);
+			sqlBuilder.append(" = :");
+			sqlBuilder.append(columnName);
+		}
+		return sqlBuilder.toString();
+	}
+
+	public String delete(String tableName) {
+		String sql = "DELETE FROM " + tableName + " WHERE id = :id";
 		return sql;
 	}
-	
-	public String query(EntityMetadata em, Set<String> whereKeys) {
+
+	public String query(String tableName, Set<String> whereColumns) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT * FROM ");
-		sql.append(em.getTableName());
+		sql.append(tableName);
 
 		boolean first = true;
-        for (String key : whereKeys) {
-            if (first) {
-                sql.append(" WHERE ");
-                first = false;
-            } else {
-                sql.append(" AND ");
-            }
-            String columnName = em.getPropertiesMetadata().get(key).getColumnName();
-            sql.append(columnName);
-            sql.append(" = :");
-            sql.append(columnName);
-        }
-        return sql.toString();
+		for (String columnName : whereColumns) {
+			if (first) {
+				sql.append(" WHERE ");
+				first = false;
+			} else {
+				sql.append(" AND ");
+			}
+			sql.append(columnName);
+			sql.append(" = :");
+			sql.append(columnName);
+		}
+		return sql.toString();
 	}
 }
