@@ -1,6 +1,5 @@
-package rs.bignumbers;
+package rs.bignumbers.rowmapper;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -8,39 +7,46 @@ import java.util.Date;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.jdbc.core.RowMapper;
 
+import rs.bignumbers.Transaction;
+import rs.bignumbers.annotations.FetchType;
 import rs.bignumbers.factory.ProxyFactory;
-import rs.bignumbers.interceptor.DirtyValueInterceptor;
+import rs.bignumbers.interceptor.EntityInterceptor;
 import rs.bignumbers.metadata.EntityMetadata;
 import rs.bignumbers.metadata.PropertyMetadata;
 import rs.bignumbers.metadata.RelationshipPropertyMetadata;
 import rs.bignumbers.util.ProxyRegister;
 
-class EntityMetadataRowMapper<T> implements RowMapper<T> {
+public class EntityMetadataRowMapper<T> implements RowMapper<T> {
 
 	private EntityMetadata entityMetadata;
+	private Transaction transaction;
 	private ProxyFactory proxyFactory;
 	private ProxyRegister proxyRegister;
 	
-	public EntityMetadataRowMapper(EntityMetadata entityMetadata, ProxyFactory proxyFactory, ProxyRegister proxyRegister) {
+	public EntityMetadataRowMapper(EntityMetadata entityMetadata, Transaction transaction, ProxyFactory proxyFactory, ProxyRegister proxyRegister) {
 		this.entityMetadata = entityMetadata;
+		this.transaction = transaction;
 		this.proxyFactory = proxyFactory;
 		this.proxyRegister = proxyRegister;
+		
 	}
 	
 	public T mapRow(ResultSet rs, int arg1) throws SQLException {
-
-		DirtyValueInterceptor interceptor = new DirtyValueInterceptor(entityMetadata);
-		T proxy = (T) proxyFactory.newProxyInstance(entityMetadata.getClazz(), interceptor);
-		interceptor.setTarget(proxy);
-
+		EntityInterceptor entityInterceptor = new EntityInterceptor(entityMetadata, transaction);
+		T proxy = (T) proxyFactory.newProxyInstance(entityMetadata.getClazz(), entityInterceptor);
+		
 		for (PropertyMetadata pm : entityMetadata.getResponsibleProperties()) {
 			Object value = null;
 			if(RelationshipPropertyMetadata.class.isAssignableFrom(pm.getClass())) {
 				Long id = rs.getLong(pm.getColumnName());
 				try {
-					value = pm.getJavaType().newInstance();
-					PropertyUtils.setProperty(value, "id", id);
-					//PropertyUtils.setProperty(proxy, pm.getPropertyName(), value);
+					RelationshipPropertyMetadata rpm = (RelationshipPropertyMetadata) pm; 
+					if(FetchType.Eager.equals(rpm.getFetch())) {
+						value = transaction.findOne(rpm.getJavaType(), id);
+					} else {
+						value = pm.getJavaType().newInstance();
+						PropertyUtils.setProperty(value, "id", id);
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -69,10 +75,8 @@ class EntityMetadataRowMapper<T> implements RowMapper<T> {
 						+ " of the proxy instance class " + entityMetadata.getClazz().getSimpleName());
 			}
 		}
-		
-		proxyRegister.addInterceptor(proxy.getClass().getName() + "/" + rs.getLong("id"),
-				interceptor);
-		interceptor.setTrack(true);
-		return proxy;
+		proxyRegister.addInterceptor(proxy.getClass().getName() + "/" + rs.getLong("id"), entityInterceptor);
+		entityInterceptor.setDirtyPropertiesTrack(true);
+		return (T) proxy;
 	}
 }

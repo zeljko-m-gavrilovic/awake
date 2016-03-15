@@ -1,6 +1,5 @@
 package rs.bignumbers;
 
-import java.io.EOFException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -24,6 +23,7 @@ import rs.bignumbers.factory.ProxyFactory;
 import rs.bignumbers.metadata.AnnotationBasedMetadataExtractor;
 import rs.bignumbers.metadata.EntityMetadata;
 import rs.bignumbers.properties.model.Person;
+import rs.bignumbers.rowmapper.EntityMetadataRowMapper;
 import rs.bignumbers.util.ProxyRegister;
 import rs.bignumbers.util.SqlUtil;
 
@@ -72,7 +72,7 @@ public class TestDbService {
 		Set<String> whereColumns = new HashSet<String>();
 		whereColumns.add("id");
 		String querySql = sqlUtil.query(entityMetadata.getTableName(), whereColumns);
-		EntityMetadataRowMapper<Person> rowMapper = new EntityMetadataRowMapper<>(entityMetadata, proxyFactory, proxyRegister);
+		EntityMetadataRowMapper<Person> rowMapper = new EntityMetadataRowMapper<>(entityMetadata, null, proxyFactory, proxyRegister);
 		Person dbPerson = dbService.findOne(querySql, pk, rowMapper);
 		Assert.assertNotNull(dbPerson);
 
@@ -110,7 +110,7 @@ public class TestDbService {
 		params.put("first_name", "Zeljko");
 
 		String querySql = sqlUtil.query(entityMetadata.getTableName(), params.keySet());
-		EntityMetadataRowMapper<Person> rowMapper = new EntityMetadataRowMapper<>(entityMetadata, proxyFactory, proxyRegister);
+		EntityMetadataRowMapper<Person> rowMapper = new EntityMetadataRowMapper<>(entityMetadata, null, proxyFactory, proxyRegister);
 		List<Person> persons = dbService.findList(querySql, params, rowMapper);
 		Assert.assertNotNull(persons);
 		Assert.assertEquals(3, persons.size());
@@ -144,7 +144,7 @@ public class TestDbService {
 		Set<String> whereColumns = new HashSet<String>();
 		whereColumns.add("id");
 		String querySql = sqlUtil.query(entityMetadata.getTableName(), whereColumns);
-		EntityMetadataRowMapper<Person> rowMapper = new EntityMetadataRowMapper<>(entityMetadata, proxyFactory, proxyRegister);
+		EntityMetadataRowMapper<Person> rowMapper = new EntityMetadataRowMapper<>(entityMetadata, null, proxyFactory, proxyRegister);
 		Person dbPerson = dbService.findOne(querySql, pk, rowMapper);
 		Assert.assertNotNull(dbPerson);
 
@@ -175,7 +175,7 @@ public class TestDbService {
 		Set<String> whereColumns = new HashSet<String>();
 		whereColumns.add("id");
 		String querySql = sqlUtil.query(entityMetadata.getTableName(), whereColumns);
-		EntityMetadataRowMapper<Person> rowMapper = new EntityMetadataRowMapper<>(entityMetadata, proxyFactory, proxyRegister);
+		EntityMetadataRowMapper<Person> rowMapper = new EntityMetadataRowMapper<>(entityMetadata, null, proxyFactory, proxyRegister);
 		Person dbPerson = dbService.findOne(querySql, pk, rowMapper);
 		Assert.assertNotNull(dbPerson);
 
@@ -230,7 +230,7 @@ public class TestDbService {
 		Set<String> whereColumns = new HashSet<String>();
 		whereColumns.add("id");
 		String querySql = sqlUtil.query(entityMetadata.getTableName(), whereColumns);
-		EntityMetadataRowMapper<Person> rowMapper = new EntityMetadataRowMapper<>(entityMetadata, proxyFactory, proxyRegister);
+		EntityMetadataRowMapper<Person> rowMapper = new EntityMetadataRowMapper<>(entityMetadata, null, proxyFactory, proxyRegister);
 		Person dbPerson = dbService.findOne(querySql, pk, rowMapper);
 		Assert.assertNull(dbPerson);
 	}

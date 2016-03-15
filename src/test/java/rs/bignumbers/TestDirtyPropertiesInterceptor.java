@@ -3,7 +3,7 @@ package rs.bignumbers;
 import org.junit.Test;
 
 import rs.bignumbers.factory.ProxyFactory;
-import rs.bignumbers.interceptor.DirtyValueInterceptor;
+import rs.bignumbers.interceptor.EntityInterceptor;
 import rs.bignumbers.metadata.EntityMetadata;
 import rs.bignumbers.metadata.AnnotationBasedMetadataExtractor;
 import rs.bignumbers.properties.model.Person;
@@ -16,7 +16,7 @@ public class TestDirtyPropertiesInterceptor {
 		AnnotationBasedMetadataExtractor me = new AnnotationBasedMetadataExtractor();
 		
 		EntityMetadata em = me.extractMetadataForClass(Person.class);
-		DirtyValueInterceptor interceptor = new DirtyValueInterceptor(em);
+		EntityInterceptor interceptor = new EntityInterceptor(em, null);
 		Person proxy = proxyFactory.newProxyInstance(Person.class, interceptor);
 		proxy.setFirstName("Zeljko");
 		proxy.setFirstName("Mika");

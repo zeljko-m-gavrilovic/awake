@@ -6,7 +6,7 @@ import rs.bignumbers.annotations.RelationshipForeignKey;
 @Entity
 public class Female extends Person {
 	
-	@RelationshipForeignKey(columnName = "female_id")
+	@RelationshipForeignKey(otherSidePropertyName = "female")
 	private Male male;
 
 	public Male getMale() {

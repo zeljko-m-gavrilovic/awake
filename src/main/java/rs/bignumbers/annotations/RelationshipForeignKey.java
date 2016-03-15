@@ -11,6 +11,7 @@ public @interface RelationshipForeignKey {
 	FetchType fetch() default FetchType.Lazy;
 
 	String columnName() default "";
+	String otherSidePropertyName() default "";
 
 	/*
 	 * responsible side is responsible for managing relationship between the two

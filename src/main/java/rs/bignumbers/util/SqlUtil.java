@@ -89,4 +89,13 @@ public class SqlUtil {
 		}
 		return sql.toString();
 	}
+	
+	public String queryIn(String tableName) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT * FROM ");
+		sql.append(tableName);
+		sql.append("WHERE id in (:ids)");
+
+		return sql.toString();
+	}
 }

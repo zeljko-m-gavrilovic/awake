@@ -19,7 +19,7 @@ public class Configuration {
 		this.extactMetadata();
 	}
 	
-	public void extactMetadata() {
+	private void extactMetadata() {
 		for (Class clazz : entities) {
 			EntityMetadata em = metadataExtractor.extractMetadataForClass(clazz);
 			entityMetadatas.put(clazz.getName(), em);

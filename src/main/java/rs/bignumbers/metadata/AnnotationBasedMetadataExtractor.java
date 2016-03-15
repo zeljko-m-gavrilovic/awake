@@ -51,7 +51,8 @@ public class AnnotationBasedMetadataExtractor implements MetadataExtractor {
 				String columnName = columnAnnotation.columnName();
 				FetchType fetch = columnAnnotation.fetch();
 				boolean responsible = columnAnnotation.responsible();
-				RelationshipPropertyMetadata rpm = new RelationshipPropertyMetadata(f.getName(), columnName, f.getType(), fetch, responsible, null, null);
+				String otherSidePropertyName = columnAnnotation.otherSidePropertyName();
+				RelationshipPropertyMetadata rpm = new RelationshipPropertyMetadata(f.getName(), columnName, f.getType(), fetch, responsible, null, null, otherSidePropertyName);
 				m.addPropertyMetadata(rpm.getPropertyName(), rpm);
 			}
 			
@@ -65,7 +66,7 @@ public class AnnotationBasedMetadataExtractor implements MetadataExtractor {
 				boolean responsible = columnAnnotation.responsible();
 				String joinTableName = columnAnnotation.columnName();
 				String otherSideColumnName = columnAnnotation.otherSideColumnName();
-				RelationshipPropertyMetadata rpm = new RelationshipPropertyMetadata(f.getName(), columnName, f.getType(), fetch, responsible, joinTableName, otherSideColumnName);
+				RelationshipPropertyMetadata rpm = new RelationshipPropertyMetadata(f.getName(), columnName, f.getType(), fetch, responsible, joinTableName, otherSideColumnName, null);
 				m.addPropertyMetadata(rpm.getPropertyName(), rpm);
 			}
 		}

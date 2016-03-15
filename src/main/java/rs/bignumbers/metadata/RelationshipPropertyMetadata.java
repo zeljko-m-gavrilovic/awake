@@ -9,8 +9,9 @@ public class RelationshipPropertyMetadata extends PropertyMetadata {
 	String columnName;
 	String tableName;
 	String otherSideColumnName;
+	String otherSidePropertyName;
 	
-	public RelationshipPropertyMetadata(String propertyName, String columnName, Class javaType, FetchType fetch, boolean responsible, String tableName, String otherSideColumnName) {
+	public RelationshipPropertyMetadata(String propertyName, String columnName, Class javaType, FetchType fetch, boolean responsible, String tableName, String otherSideColumnName, String otherSidePropertyName) {
 		this.propertyName = propertyName;
 		this.columnName = columnName;
 		this.javaType = javaType;
@@ -18,6 +19,7 @@ public class RelationshipPropertyMetadata extends PropertyMetadata {
 		this.responsible = responsible;
 		this.tableName = tableName;
 		this.otherSideColumnName = otherSideColumnName;
+		this.otherSidePropertyName = otherSidePropertyName;
 	}
 	
 	
@@ -51,5 +53,10 @@ public class RelationshipPropertyMetadata extends PropertyMetadata {
 	public void setOtherSideColumnName(String otherSideColumnName) {
 		this.otherSideColumnName = otherSideColumnName;
 	}
-	
+	public String getOtherSidePropertyName() {
+		return otherSidePropertyName;
+	}
+	public void setOtherSidePropertyName(String otherSidePropertyName) {
+		this.otherSidePropertyName = otherSidePropertyName;
+	}
 }

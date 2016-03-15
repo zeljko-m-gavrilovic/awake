@@ -83,7 +83,14 @@ public class TestOneToOne {
 		Assert.assertNotNull(maleDb.getId());
 		Assert.assertNotNull(maleDb.getFemale());
 		Assert.assertNotNull(maleDb.getFemale().getId());
+		Assert.assertNotNull(maleDb.getFemale().getFirstName());
 		
+		Female femaleDb = transaction.findOne(Female.class, female.getId());
+		Assert.assertNotNull(femaleDb);
+		Assert.assertNotNull(femaleDb.getId());
+		Assert.assertNotNull(femaleDb.getMale());
+		Assert.assertNotNull(femaleDb.getMale().getId());
+		Assert.assertNotNull(femaleDb.getMale().getFirstName());
 
 		transaction.delete(male);
 		transaction.delete(female);
