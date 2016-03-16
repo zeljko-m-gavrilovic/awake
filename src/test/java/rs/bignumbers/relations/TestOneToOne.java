@@ -17,7 +17,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import rs.bignumbers.Configuration;
 import rs.bignumbers.Transaction;
-import rs.bignumbers.metadata.AnnotationBasedMetadataExtractor;
+import rs.bignumbers.metadata.AnnotationMetadataExtractor;
 import rs.bignumbers.properties.model.Female;
 import rs.bignumbers.properties.model.Male;
 
@@ -40,7 +40,8 @@ public class TestOneToOne {
 		List<Class> entities = new ArrayList<Class>();
 		entities.add(Male.class);
 		entities.add(Female.class);
-		this.configuration = new Configuration(entities, new AnnotationBasedMetadataExtractor());
+		AnnotationMetadataExtractor metadataExtractor = new AnnotationMetadataExtractor(entities);
+		this.configuration = new Configuration(metadataExtractor);
 		transaction = new Transaction(configuration, dataSource, txManager, false);
 	}
 

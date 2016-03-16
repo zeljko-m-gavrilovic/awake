@@ -17,7 +17,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import rs.bignumbers.Configuration;
 import rs.bignumbers.Transaction;
-import rs.bignumbers.metadata.AnnotationBasedMetadataExtractor;
+import rs.bignumbers.metadata.AnnotationMetadataExtractor;
 import rs.bignumbers.relations.model.House;
 import rs.bignumbers.relations.model.Owner;
 import rs.bignumbers.relations.model.Window;
@@ -42,7 +42,8 @@ public class TestOneToMany {
 		entities.add(House.class);
 		entities.add(Window.class);
 		entities.add(Owner.class);
-		this.configuration = new Configuration(entities, new AnnotationBasedMetadataExtractor());
+		AnnotationMetadataExtractor metadataExtractor = new AnnotationMetadataExtractor(entities);
+		this.configuration = new Configuration(metadataExtractor);
 		transaction = new Transaction(configuration, dataSource, txManager, false);
 	}
 

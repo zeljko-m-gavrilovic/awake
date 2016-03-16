@@ -3,8 +3,10 @@ package rs.bignumbers.metadata;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,20 +16,36 @@ import rs.bignumbers.annotations.FetchType;
 import rs.bignumbers.annotations.Property;
 import rs.bignumbers.annotations.Relationship;
 
-public class AnnotationBasedMetadataExtractor implements MetadataExtractor {
+public class AnnotationMetadataExtractor implements MetadataExtractor {
+
+	private final Logger logger = LoggerFactory.getLogger(AnnotationMetadataExtractor.this.getClass());
+
+	private List<Class> entities;
+
+	public AnnotationMetadataExtractor(List<Class> entities) {
+		this.entities = entities;
+	}
 	
-	private final Logger logger = LoggerFactory.getLogger(AnnotationBasedMetadataExtractor.this.getClass());
+	public Map<String, EntityMetadata> getEntityMetadata() {
+		Map<String, EntityMetadata> entityMetadatas = new HashMap<String, EntityMetadata>();
+		for (Class clazz : entities) {
+			EntityMetadata em = extractMetadataForClass(clazz);
+			entityMetadatas.put(clazz.getName(), em);
+		}
+		return entityMetadatas;
+	}
 
 	public EntityMetadata extractMetadataForClass(Class clazz) {
 		EntityMetadata m = new EntityMetadata();
-		
-		//clazz = getClassName(clazz);
-		
+
+		// clazz = getClassName(clazz);
+
 		m.setClazz(clazz);
-		boolean hasEntityAnnotation = clazz.isAnnotationPresent(Entity.class) && !((Entity) clazz.getAnnotation(Entity.class)).ignore();
+		boolean hasEntityAnnotation = clazz.isAnnotationPresent(Entity.class)
+				&& !((Entity) clazz.getAnnotation(Entity.class)).ignore();
 		if (hasEntityAnnotation) {
 			Entity entityAnnotation = (Entity) clazz.getAnnotation(Entity.class);
-			
+
 			String tableName = entityAnnotation.tableName();
 			if (tableName.length() == 0) {
 				tableName = clazz.getSimpleName().toLowerCase();
@@ -35,7 +53,7 @@ public class AnnotationBasedMetadataExtractor implements MetadataExtractor {
 			m.setTableName(tableName);
 			for (Field f : getAnnotatedDeclaredFields(clazz, Property.class, true)) {
 				Property propertyAnnotation = f.getAnnotation(Property.class);
-				if(propertyAnnotation.ignore()) {
+				if (propertyAnnotation.ignore()) {
 					continue;
 				}
 				String columnName = propertyAnnotation.columnName();
@@ -46,10 +64,10 @@ public class AnnotationBasedMetadataExtractor implements MetadataExtractor {
 				PropertyMetadata pm = new PropertyMetadata(f.getName(), columnName, f.getType());
 				m.addPropertyMetadata(pm.getPropertyName(), pm);
 			}
-			
+
 			for (Field f : getAnnotatedDeclaredFields(clazz, Relationship.class, true)) {
 				Relationship columnAnnotation = f.getAnnotation(Relationship.class);
-				if(columnAnnotation.ignore()) {
+				if (columnAnnotation.ignore()) {
 					continue;
 				}
 				FetchType fetch = columnAnnotation.fetch();
@@ -59,25 +77,30 @@ public class AnnotationBasedMetadataExtractor implements MetadataExtractor {
 				String otherSidePropertyName = columnAnnotation.otherSidePropertyName();
 				String otherSideColumnName = columnAnnotation.otherSideColumnName();
 				Class entityClazz = columnAnnotation.entityClazz();
-				RelationshipMetadata rpm = new RelationshipMetadata(f.getName(), columnName, f.getType(), fetch, responsible, otherSidePropertyName, otherSideColumnName, entityClazz, tn);
+				RelationshipMetadata rpm = new RelationshipMetadata(f.getName(), columnName, f.getType(), fetch,
+						responsible, otherSidePropertyName, otherSideColumnName, entityClazz, tn);
 				m.addPropertyMetadata(rpm.getPropertyName(), rpm);
 			}
-			
-			/*for (Field f : getAnnotatedDeclaredFields(clazz, RelationshipForeignTable.class, true)) {
-				RelationshipForeignTable columnAnnotation = f.getAnnotation(RelationshipForeignTable.class);
-				if(columnAnnotation.ignore()) {
-					continue;
-				}
-				String columnName = columnAnnotation.columnName();
-				FetchType fetch = columnAnnotation.fetch();
-				boolean responsible = columnAnnotation.responsible();
-				String otherSidePropertyName = columnAnnotation.otherSidePropertyName();
-				String otherSideColumnName = columnAnnotation.otherSideColumnName();
-				Class entityClazz = columnAnnotation.entityClazz();
-				String joinTableName = columnAnnotation.tableName();
-				RelationshipMetadata rpm = new RelationshipTablePropertyMetadata(f.getName(), columnName, f.getType(), fetch, responsible, otherSidePropertyName, otherSideColumnName, entityClazz, joinTableName);
-				m.addPropertyMetadata(rpm.getPropertyName(), rpm);
-			}*/
+
+			/*
+			 * for (Field f : getAnnotatedDeclaredFields(clazz,
+			 * RelationshipForeignTable.class, true)) { RelationshipForeignTable
+			 * columnAnnotation =
+			 * f.getAnnotation(RelationshipForeignTable.class);
+			 * if(columnAnnotation.ignore()) { continue; } String columnName =
+			 * columnAnnotation.columnName(); FetchType fetch =
+			 * columnAnnotation.fetch(); boolean responsible =
+			 * columnAnnotation.responsible(); String otherSidePropertyName =
+			 * columnAnnotation.otherSidePropertyName(); String
+			 * otherSideColumnName = columnAnnotation.otherSideColumnName();
+			 * Class entityClazz = columnAnnotation.entityClazz(); String
+			 * joinTableName = columnAnnotation.tableName();
+			 * RelationshipMetadata rpm = new
+			 * RelationshipTablePropertyMetadata(f.getName(), columnName,
+			 * f.getType(), fetch, responsible, otherSidePropertyName,
+			 * otherSideColumnName, entityClazz, joinTableName);
+			 * m.addPropertyMetadata(rpm.getPropertyName(), rpm); }
+			 */
 		} else {
 			logger.error("class {} doesn't containt @Entity annotation", clazz);
 		}
@@ -136,11 +159,9 @@ public class AnnotationBasedMetadataExtractor implements MetadataExtractor {
 		return annotatedFields.toArray(new Field[annotatedFields.size()]);
 	}
 
-	/*public List<Class> getClasses() {
-		return classes;
-	}
-
-	public void setClasses(List<Class> classes) {
-		this.classes = classes;
-	}*/
+	/*
+	 * public List<Class> getClasses() { return classes; }
+	 * 
+	 * public void setClasses(List<Class> classes) { this.classes = classes; }
+	 */
 }

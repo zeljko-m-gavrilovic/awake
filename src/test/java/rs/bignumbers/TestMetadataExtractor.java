@@ -4,14 +4,14 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import rs.bignumbers.metadata.EntityMetadata;
-import rs.bignumbers.metadata.AnnotationBasedMetadataExtractor;
+import rs.bignumbers.metadata.AnnotationMetadataExtractor;
 import rs.bignumbers.properties.model.Man;
 
 public class TestMetadataExtractor {
 
 	@Test
 	public void testAnnotationBasedMetadataExtractor() {
-		AnnotationBasedMetadataExtractor me = new AnnotationBasedMetadataExtractor();
+		AnnotationMetadataExtractor me = new AnnotationMetadataExtractor(null);
 		EntityMetadata m = me.extractMetadataForClass(Man.class);
 		Assert.assertEquals(Man.class, m.getClazz());
 		Assert.assertEquals(Man.class.getSimpleName().toLowerCase(), m.getTableName().toLowerCase());

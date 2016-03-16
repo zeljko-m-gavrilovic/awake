@@ -1,5 +1,7 @@
 package rs.bignumbers.metadata;
 
+import java.util.Map;
+
 public interface MetadataExtractor {
-	public EntityMetadata extractMetadataForClass(Class clazz);
+	public Map<String, EntityMetadata> getEntityMetadata();
 }

@@ -20,7 +20,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import rs.bignumbers.factory.ProxyFactory;
-import rs.bignumbers.metadata.AnnotationBasedMetadataExtractor;
+import rs.bignumbers.metadata.AnnotationMetadataExtractor;
 import rs.bignumbers.metadata.EntityMetadata;
 import rs.bignumbers.properties.model.Person;
 import rs.bignumbers.rowmapper.EntityMetadataRowMapper;
@@ -35,14 +35,14 @@ public class TestDbService {
 
 	@Autowired
 	private DataSource dataSource;
-	private AnnotationBasedMetadataExtractor metadataExtractor;
+	private AnnotationMetadataExtractor metadataExtractor;
 	private SqlUtil sqlUtil;
 	private ProxyRegister proxyRegister;
 	private ProxyFactory proxyFactory;
 
 	@Before
 	public void setUp() {
-		this.metadataExtractor = new AnnotationBasedMetadataExtractor();
+		this.metadataExtractor = new AnnotationMetadataExtractor(null);
 		this.dbService = new DbService(dataSource);
 		this.sqlUtil = new SqlUtil();
 		this.proxyRegister = new ProxyRegister();

@@ -1,7 +1,6 @@
 package rs.bignumbers;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -13,22 +12,11 @@ import rs.bignumbers.metadata.MetadataExtractor;
 public class Configuration {
 	private final Logger logger = LoggerFactory.getLogger(Configuration.this.getClass());
 	
-	private List<Class> entities;
 	private Map<String, EntityMetadata> entityMetadatas;
-	private MetadataExtractor metadataExtractor;
 	
-	public Configuration(List<Class> entities, MetadataExtractor metadataExtractor) {
-		this.entities = entities;
+	public Configuration(MetadataExtractor metadataExtractor) {
 		this.entityMetadatas = new HashMap<String, EntityMetadata>();
-		this.metadataExtractor = metadataExtractor;
-		this.extactMetadata();
-	}
-	
-	private void extactMetadata() {
-		for (Class clazz : entities) {
-			EntityMetadata em = metadataExtractor.extractMetadataForClass(clazz);
-			entityMetadatas.put(clazz.getName(), em);
-		}
+		this.entityMetadatas = metadataExtractor.getEntityMetadata();
 	}
 	
 	public EntityMetadata getEntityMetadata(Class clazz) {
@@ -42,9 +30,6 @@ public class Configuration {
 		return entityMetadata;
 	}
 
-	public List<Class> getEntities() {
-		return entities;
-	}
 	public Map<String, EntityMetadata> getEntityMetadatas() {
 		return entityMetadatas;
 	}

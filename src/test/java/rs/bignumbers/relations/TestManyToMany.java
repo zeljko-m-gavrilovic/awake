@@ -17,10 +17,9 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import rs.bignumbers.Configuration;
 import rs.bignumbers.Transaction;
-import rs.bignumbers.metadata.AnnotationBasedMetadataExtractor;
+import rs.bignumbers.metadata.AnnotationMetadataExtractor;
 import rs.bignumbers.relations.model.House;
 import rs.bignumbers.relations.model.Owner;
-import rs.bignumbers.relations.model.Window;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/application-context.xml")
@@ -41,7 +40,8 @@ public class TestManyToMany {
 		List<Class> entities = new ArrayList<Class>();
 		entities.add(House.class);
 		entities.add(Owner.class);
-		this.configuration = new Configuration(entities, new AnnotationBasedMetadataExtractor());
+		AnnotationMetadataExtractor metadataExtractor = new AnnotationMetadataExtractor(entities);
+		this.configuration = new Configuration(metadataExtractor);
 		transaction = new Transaction(configuration, dataSource, txManager, false);
 	}
 
