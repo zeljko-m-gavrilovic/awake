@@ -6,8 +6,7 @@ import java.util.List;
 import rs.bignumbers.annotations.Entity;
 import rs.bignumbers.annotations.FetchType;
 import rs.bignumbers.annotations.Property;
-import rs.bignumbers.annotations.RelationshipForeignKey;
-import rs.bignumbers.annotations.RelationshipForeignTable;
+import rs.bignumbers.annotations.Relationship;
 
 @Entity
 public class House {
@@ -19,13 +18,13 @@ public class House {
 	/*
 	 * bidirectional one-to-one relationship, I manage the foreign key
 	 */
-	@RelationshipForeignKey(fetch = FetchType.Lazy, columnName = "address_id", responsible = true)
+	@Relationship(fetch = FetchType.Lazy, columnName = "address_id", responsible = true)
 	private Address address;
 
 	/*
 	 * unidirectional one-to-one relationship, I manage the foreign key
 	 */
-	@RelationshipForeignKey(fetch = FetchType.Lazy, columnName = "door_id", responsible = true)
+	@Relationship(fetch = FetchType.Lazy, columnName = "door_id", responsible = true)
 	private Door door;
 
 	/*
@@ -33,14 +32,14 @@ public class House {
 	 * Note: kind of read-only relationship, because there is no dominant/owner
 	 * side
 	 */
-	@RelationshipForeignKey(fetch = FetchType.Lazy, columnName = "door_id")
+	@Relationship(fetch = FetchType.Lazy, columnName = "door_id")
 	private Chimney chimney;
 
 	/*
 	 * bidirectional many-to-one/one-to-many relationship, I don't manage the
 	 * foreign key
 	 */
-	@RelationshipForeignKey(fetch = FetchType.Lazy, otherSidePropertyName = "house", entityClazz = Window.class)
+	@Relationship(fetch = FetchType.Lazy, otherSidePropertyName = "house", entityClazz = Window.class)
 	private List<Window> windows;
 
 	/*
@@ -48,19 +47,19 @@ public class House {
 	 * foreign key toNote: kind of read-only relationship, because there is no
 	 * dominant/owner side
 	 */
-	@RelationshipForeignKey(fetch = FetchType.Lazy, columnName = "house_id")
+	@Relationship(fetch = FetchType.Lazy, columnName = "house_id")
 	private List<Room> rooms;
 
 	/*
 	 * bidirectional many-to-many relationship, I manage the foreign key
 	 */
-	@RelationshipForeignTable(fetch = FetchType.Lazy, tableName = "house_owner", columnName = "house_id", otherSideColumnName = "owner_id", responsible = true, entityClazz = Owner.class)
+	@Relationship(fetch = FetchType.Lazy, tableName = "house_owner", columnName = "house_id", otherSideColumnName = "owner_id", responsible = true, entityClazz = Owner.class)
 	private List<Owner> owners;
 
 	/*
 	 * unidirectional many-to-many relationship, I manage the foreign key
 	 */
-	@RelationshipForeignTable(fetch = FetchType.Lazy, tableName = "house_entrance", columnName = "house_id", otherSideColumnName = "entrance_id", responsible = true, entityClazz = Entrance.class)
+	@Relationship(fetch = FetchType.Lazy, tableName = "house_entrance", columnName = "house_id", otherSideColumnName = "entrance_id", responsible = true, entityClazz = Entrance.class)
 	private List<Entrance> entrances;
 
 	/*
@@ -68,7 +67,7 @@ public class House {
 	 * Note: kind of read-only relationship, because there is no dominant/owner
 	 * side
 	 */
-	@RelationshipForeignTable(fetch = FetchType.Lazy, tableName = "house_owner", columnName = "house_id", otherSideColumnName = "tenant_id")
+	@Relationship(fetch = FetchType.Lazy, tableName = "house_owner", columnName = "house_id", otherSideColumnName = "tenant_id")
 	private List<Tenant> tenants;
 
 	public House() {

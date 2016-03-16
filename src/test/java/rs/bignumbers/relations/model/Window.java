@@ -3,7 +3,7 @@ package rs.bignumbers.relations.model;
 import rs.bignumbers.annotations.Entity;
 import rs.bignumbers.annotations.FetchType;
 import rs.bignumbers.annotations.Property;
-import rs.bignumbers.annotations.RelationshipForeignKey;
+import rs.bignumbers.annotations.Relationship;
 
 @Entity
 public class Window {
@@ -15,7 +15,7 @@ public class Window {
 	/*
 	 * bidirectional many-to-one/one-to-many relationship, I manage the foreign key
 	 */
-	@RelationshipForeignKey(fetch=FetchType.Lazy, columnName="house_id", responsible=true)
+	@Relationship(fetch=FetchType.Lazy, columnName="house_id", responsible=true)
 	private House house;
 
 	public House getHouse() {

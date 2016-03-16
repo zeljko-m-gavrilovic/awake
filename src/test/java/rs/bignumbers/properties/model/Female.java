@@ -1,12 +1,12 @@
 package rs.bignumbers.properties.model;
 
 import rs.bignumbers.annotations.Entity;
-import rs.bignumbers.annotations.RelationshipForeignKey;
+import rs.bignumbers.annotations.Relationship;
 
 @Entity
 public class Female extends Person {
 	
-	@RelationshipForeignKey(otherSidePropertyName = "female")
+	@Relationship(otherSidePropertyName = "female")
 	private Male male;
 
 	public Male getMale() {

@@ -52,8 +52,8 @@ public class EntityMetadata {
 
 	public List<PropertyMetadata> getResponsibleProperties() {
 		List<PropertyMetadata> responsibleProperties = getPropertiesMetadata().values().stream().filter(pm -> {
-			if ((pm instanceof RelationshipForeignKeyPropertyMetadata)) {
-				RelationshipForeignKeyPropertyMetadata rpm = (RelationshipForeignKeyPropertyMetadata) pm;
+			if ((pm instanceof RelationshipMetadata)) {
+				RelationshipMetadata rpm = (RelationshipMetadata) pm;
 				return rpm.isResponsible();
 			} else {
 				return true;
@@ -62,11 +62,11 @@ public class EntityMetadata {
 		return responsibleProperties;
 	}
 
-	public List<PropertyMetadata> getResponsibleRelationshipTableProperties() {
+	public List<PropertyMetadata> getResponsibleJoinTableProperties() {
 		List<PropertyMetadata> responsibleProperties = getPropertiesMetadata().values().stream().filter(pm -> {
-			if ((pm instanceof RelationshipTablePropertyMetadata)) {
-				RelationshipForeignKeyPropertyMetadata rpm = (RelationshipForeignKeyPropertyMetadata) pm;
-				return rpm.isResponsible();
+			if ((pm instanceof RelationshipMetadata)) {
+				RelationshipMetadata rpm = (RelationshipMetadata) pm;
+				return rpm.isJoinTableRelationship()  && rpm.isResponsible();
 			} else {
 				return false;
 			}
@@ -80,16 +80,16 @@ public class EntityMetadata {
 
 	public List<PropertyMetadata> getLazyProperties() {
 		List<PropertyMetadata> lazyProperties = getPropertiesMetadata().values().stream()
-				.filter(pm -> pm instanceof RelationshipForeignKeyPropertyMetadata)
-				.filter(pm -> FetchType.Lazy.equals(((RelationshipForeignKeyPropertyMetadata) pm).getFetch()))
+				.filter(pm -> pm instanceof RelationshipMetadata)
+				.filter(pm -> FetchType.Lazy.equals(((RelationshipMetadata) pm).getFetch()))
 				.collect(Collectors.toList());
 		return lazyProperties;
 	}
 
 	public List<PropertyMetadata> getEagerProperties() {
 		List<PropertyMetadata> eagerProperties = getPropertiesMetadata().values().stream()
-				.filter(pm -> pm instanceof RelationshipForeignKeyPropertyMetadata)
-				.filter(pm -> FetchType.Eager.equals(((RelationshipForeignKeyPropertyMetadata) pm).getFetch()))
+				.filter(pm -> pm instanceof RelationshipMetadata)
+				.filter(pm -> FetchType.Eager.equals(((RelationshipMetadata) pm).getFetch()))
 				.collect(Collectors.toList());
 		return eagerProperties;
 	}

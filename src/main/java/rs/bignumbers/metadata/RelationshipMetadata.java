@@ -2,16 +2,17 @@ package rs.bignumbers.metadata;
 
 import rs.bignumbers.annotations.FetchType;
 
-public class RelationshipForeignKeyPropertyMetadata extends PropertyMetadata {
+public class RelationshipMetadata extends PropertyMetadata {
 	private FetchType fetch;
 	private boolean responsible;
 	private String columnName;
 	private String otherSidePropertyName;
 	private String otherSideColumnName;
 	private Class entityClazz;
+	private String tableName;
 
-	public RelationshipForeignKeyPropertyMetadata(String propertyName, String columnName, Class javaType,
-			FetchType fetch, boolean responsible, String otherSidePropertyName, String otherSideColumnName, Class entityClazz) {
+	public RelationshipMetadata(String propertyName, String columnName, Class javaType,
+			FetchType fetch, boolean responsible, String otherSidePropertyName, String otherSideColumnName, Class entityClazz, String tableName) {
 		this.propertyName = propertyName;
 		this.columnName = columnName;
 		this.javaType = javaType;
@@ -20,8 +21,13 @@ public class RelationshipForeignKeyPropertyMetadata extends PropertyMetadata {
 		this.otherSidePropertyName = otherSidePropertyName;
 		this.otherSideColumnName = otherSideColumnName;
 		this.entityClazz = entityClazz;
+		this.tableName = tableName;
 	}
 
+	public boolean isJoinTableRelationship() {
+		return getTableName().length() > 0;
+	}
+	
 	public FetchType getFetch() {
 		return fetch;
 	}
@@ -69,6 +75,13 @@ public class RelationshipForeignKeyPropertyMetadata extends PropertyMetadata {
 	public void setEntityClazz(Class entityClazz) {
 		this.entityClazz = entityClazz;
 	}
-	
+
+	public String getTableName() {
+		return tableName;
+	}
+
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
+	}
 	
 }

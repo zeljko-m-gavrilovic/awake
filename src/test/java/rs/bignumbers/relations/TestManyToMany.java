@@ -69,8 +69,8 @@ public class TestManyToMany {
 		Assert.assertNotNull(house.getOwners());
 		Assert.assertEquals(2, house.getOwners().size());
 		
-		/*transaction.delete(house);
+		transaction.delete(house);
 		transaction.delete(major);
-		transaction.delete(minor);*/
+		transaction.delete(minor);
 	}
 }

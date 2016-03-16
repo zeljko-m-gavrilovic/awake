@@ -7,17 +7,18 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface RelationshipForeignTable {
+public @interface Relationship {
 	FetchType fetch() default FetchType.Lazy;
 
 	String columnName() default "";
 	String tableName() default "";
-	String otherSideColumnName() default "";
 	String otherSidePropertyName() default "";
+	String otherSideColumnName() default "";
 	Class entityClazz() default String.class;
 
 	/*
-	 * responsible side is the responsible for managing a relationship between the two entities
+	 * responsible side is responsible for managing relationship between the two
+	 * entities
 	 */
 	boolean responsible() default false;
 	boolean ignore() default false;

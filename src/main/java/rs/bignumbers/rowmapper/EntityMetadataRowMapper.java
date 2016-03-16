@@ -14,7 +14,7 @@ import rs.bignumbers.factory.ProxyFactory;
 import rs.bignumbers.interceptor.EntityInterceptor;
 import rs.bignumbers.metadata.EntityMetadata;
 import rs.bignumbers.metadata.PropertyMetadata;
-import rs.bignumbers.metadata.RelationshipForeignKeyPropertyMetadata;
+import rs.bignumbers.metadata.RelationshipMetadata;
 import rs.bignumbers.util.ProxyRegister;
 
 public class EntityMetadataRowMapper<T> implements RowMapper<T> {
@@ -39,8 +39,8 @@ public class EntityMetadataRowMapper<T> implements RowMapper<T> {
 
 		for (PropertyMetadata pm : entityMetadata.getResponsibleProperties()) {
 			Object value = null;
-			if (RelationshipForeignKeyPropertyMetadata.class.isAssignableFrom(pm.getClass())) {
-				RelationshipForeignKeyPropertyMetadata rpm = (RelationshipForeignKeyPropertyMetadata) pm;
+			if (RelationshipMetadata.class.isAssignableFrom(pm.getClass())) {
+				RelationshipMetadata rpm = (RelationshipMetadata) pm;
 				try {
 					if (rpm.isResponsible() && !Collection.class.isAssignableFrom(rpm.getJavaType())) {
 						Long id = rs.getLong(pm.getColumnName());

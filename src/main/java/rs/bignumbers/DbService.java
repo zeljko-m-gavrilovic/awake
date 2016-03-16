@@ -44,6 +44,12 @@ public class DbService {
 		NamedParameterJdbcTemplate npJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
 		npJdbcTemplate.update(sql, parameters);
 	}
+	
+	public void delete(String sql, Map<String, Object> whereColumns) {
+		MapSqlParameterSource parameters = new MapSqlParameterSource(whereColumns);
+		NamedParameterJdbcTemplate npJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
+		npJdbcTemplate.update(sql, parameters);
+	}
 
 	public <T> T findOne(String sql, Long id, RowMapper<T> rowMapper) {
 		Map<String, Object> where = new HashMap<String, Object>();

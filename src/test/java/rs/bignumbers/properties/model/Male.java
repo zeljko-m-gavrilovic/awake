@@ -2,12 +2,12 @@ package rs.bignumbers.properties.model;
 
 import rs.bignumbers.annotations.Entity;
 import rs.bignumbers.annotations.FetchType;
-import rs.bignumbers.annotations.RelationshipForeignKey;
+import rs.bignumbers.annotations.Relationship;
 
 @Entity
 public class Male extends Person {
 
-	@RelationshipForeignKey(columnName = "female_id", responsible = true, fetch=FetchType.Eager)
+	@Relationship(columnName = "female_id", responsible = true, fetch=FetchType.Eager)
 	private Female female;
 
 	public Female getFemale() {

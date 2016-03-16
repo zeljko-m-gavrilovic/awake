@@ -6,7 +6,7 @@ import java.util.List;
 import rs.bignumbers.annotations.Entity;
 import rs.bignumbers.annotations.FetchType;
 import rs.bignumbers.annotations.Property;
-import rs.bignumbers.annotations.RelationshipForeignTable;
+import rs.bignumbers.annotations.Relationship;
 
 @Entity
 public class Owner {
@@ -19,7 +19,7 @@ public class Owner {
 	/*
 	 * bidirectional many-to-many relationship, I don't manage the foreign key
 	 */
-	@RelationshipForeignTable(fetch = FetchType.Lazy, tableName="house_owner", columnName = "owner_id", otherSideColumnName="house_id")
+	@Relationship(fetch = FetchType.Lazy, tableName="house_owner", columnName = "owner_id", otherSideColumnName="house_id")
 	List<House> houses;
 	
 	public Owner() {

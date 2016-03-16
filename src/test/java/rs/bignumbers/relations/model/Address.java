@@ -2,7 +2,7 @@ package rs.bignumbers.relations.model;
 
 import rs.bignumbers.annotations.Entity;
 import rs.bignumbers.annotations.FetchType;
-import rs.bignumbers.annotations.RelationshipForeignKey;
+import rs.bignumbers.annotations.Relationship;
 
 @Entity
 public class Address {
@@ -11,7 +11,7 @@ public class Address {
 	/*
 	 * bidirectional one-to-one relationship, I don't manage the foreign key
 	 */
-	@RelationshipForeignKey(fetch=FetchType.Lazy, columnName="address_id")
+	@Relationship(fetch=FetchType.Lazy, columnName="address_id")
 	private House house;
 
 	public House getHouse() {

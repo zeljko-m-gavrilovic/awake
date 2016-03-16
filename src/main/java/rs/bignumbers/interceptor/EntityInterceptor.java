@@ -11,7 +11,7 @@ import net.sf.cglib.proxy.MethodProxy;
 import rs.bignumbers.Transaction;
 import rs.bignumbers.metadata.EntityMetadata;
 import rs.bignumbers.metadata.PropertyMetadata;
-import rs.bignumbers.metadata.RelationshipForeignKeyPropertyMetadata;
+import rs.bignumbers.metadata.RelationshipMetadata;
 
 public class EntityInterceptor implements MethodInterceptor {
 

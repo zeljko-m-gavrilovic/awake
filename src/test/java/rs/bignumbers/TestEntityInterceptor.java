@@ -8,7 +8,7 @@ import rs.bignumbers.metadata.EntityMetadata;
 import rs.bignumbers.metadata.AnnotationBasedMetadataExtractor;
 import rs.bignumbers.properties.model.Person;
 
-public class TestDirtyPropertiesInterceptor {
+public class TestEntityInterceptor {
 	
 	@Test
 	public void testDirtyProperties() {

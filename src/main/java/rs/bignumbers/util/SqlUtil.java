@@ -66,7 +66,11 @@ public class SqlUtil {
 	}
 
 	public String delete(String tableName) {
-		String sql = "DELETE FROM " + tableName + " WHERE id = :id";
+		return delete(tableName, "id");
+	}
+	
+	public String delete(String tableName, String columnName) {
+		String sql = "DELETE FROM " + tableName + " WHERE " + columnName + " = :" + columnName;
 		return sql;
 	}
 
