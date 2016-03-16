@@ -25,7 +25,8 @@ import rs.bignumbers.factory.ProxyFactory;
 import rs.bignumbers.interceptor.EntityInterceptor;
 import rs.bignumbers.metadata.EntityMetadata;
 import rs.bignumbers.metadata.PropertyMetadata;
-import rs.bignumbers.metadata.RelationshipPropertyMetadata;
+import rs.bignumbers.metadata.RelationshipForeignKeyPropertyMetadata;
+import rs.bignumbers.metadata.RelationshipTablePropertyMetadata;
 import rs.bignumbers.rowmapper.EntityMetadataRowMapper;
 import rs.bignumbers.rowmapper.JoinTableRowMapper;
 import rs.bignumbers.util.ProxyRegister;
@@ -110,38 +111,59 @@ public class Transaction {
 		return findList;
 	}
 
+	@SuppressWarnings("unchecked")
 	public Long insert(Object o) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		EntityMetadata entityMetadata = configuration.getEntityMetadata(o.getClass());
-		Set<String> columnNames = entityMetadata.getResponsibleProperties().stream().map(pm -> pm.getColumnName())
-				.collect(Collectors.toSet());
-		String sql = sqlUtil.insert(entityMetadata.getTableName(), columnNames);
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
-		for (String propertyName : entityMetadata.getPropertiesMetadata().keySet()) {
-			PropertyMetadata propertyMetadata = entityMetadata.getPropertiesMetadata().get(propertyName);
+		for (PropertyMetadata propertyMetadata : entityMetadata.getResponsibleProperties()) {
 			String columnName = propertyMetadata.getColumnName();
 
-			Object propertyValue = PropertyUtils.getProperty(o, propertyName);
-			if ((propertyMetadata instanceof RelationshipPropertyMetadata)) {
-				RelationshipPropertyMetadata rpm = (RelationshipPropertyMetadata) propertyMetadata;
-				if (rpm.isResponsible() && propertyValue != null) {
-					propertyValue = PropertyUtils.getNestedProperty(o, propertyName + ".id");
-					parameters.put(columnName, propertyValue);
-				}
+			if ((RelationshipTablePropertyMetadata.class.isAssignableFrom(propertyMetadata.getClass()))) {
+				continue;
 			} else {
+				Object propertyValue = PropertyUtils.getProperty(o, propertyMetadata.getPropertyName());
+				if ((RelationshipForeignKeyPropertyMetadata.class.isAssignableFrom(propertyMetadata.getClass())
+						&& propertyValue != null)) {
+					propertyValue = PropertyUtils.getNestedProperty(o, propertyMetadata.getPropertyName() + ".id");
+				}
 				parameters.put(columnName, propertyValue);
 			}
 		}
 
+		String sql = sqlUtil.insert(entityMetadata.getTableName(), parameters.keySet());
+
+		Long pk = null;
 		if (detached) {
 			statements.add(new Statement(sql, parameters, StatementType.Insert, o));
-			return Long.valueOf(-1L);
+			pk = Long.valueOf(-1L);
 		} else {
-			Long pk = dbService.insert(sql, parameters);
+			pk = dbService.insert(sql, parameters);
 			logger.debug("sql insert: {} with parameters: {}", sql, parameters.toString());
 			PropertyUtils.setProperty(o, "id", pk);
-			return pk;
 		}
+
+		for (PropertyMetadata propertyMetadata : entityMetadata.getResponsibleRelationshipTableProperties()) {
+			RelationshipTablePropertyMetadata relationshipTable = (RelationshipTablePropertyMetadata) propertyMetadata;
+			Object propertyValue = PropertyUtils.getProperty(o, propertyMetadata.getPropertyName());
+			if (propertyValue != null) {
+				Collection collection = (Collection) PropertyUtils.getProperty(o, relationshipTable.getPropertyName());
+				Map<String, Object> joinTable = new HashMap<String, Object>();
+				joinTable.put(relationshipTable.getColumnName(), pk);
+				joinTable.put(relationshipTable.getOtherSideColumnName(), null);
+				String joinTableSql = sqlUtil.insert(relationshipTable.getTableName(), joinTable.keySet());
+				collection.stream().forEach(e -> {
+					try {
+						Long elementId = (Long) PropertyUtils.getProperty(e, "id");
+						joinTable.put(relationshipTable.getOtherSideColumnName(), elementId);
+						dbService.insert(joinTableSql, joinTable);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				});
+			}
+		}
+		return pk;
 	}
 
 	public void update(Object o) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
@@ -154,34 +176,27 @@ public class Transaction {
 			dirtyProperties = interceptor.getDirtyProperties();
 		} else {
 			dirtyProperties = new HashMap<String, Object>();
-			for (String propertyName : entityMetadata.getPropertiesMetadata().keySet()) {
-				PropertyMetadata pm = entityMetadata.getPropertiesMetadata().get(propertyName);
-				if ((pm instanceof RelationshipPropertyMetadata)) {
-					RelationshipPropertyMetadata rpm = (RelationshipPropertyMetadata) pm;
-					if (rpm.isResponsible()) {
-						dirtyProperties.put(propertyName, PropertyUtils.getProperty(o, propertyName + ".id"));
-					}
-				} else {
-					dirtyProperties.put(propertyName, PropertyUtils.getProperty(o, propertyName));
+			for (PropertyMetadata pm : entityMetadata.getResponsibleProperties()) {
+				Object propertyValue = PropertyUtils.getProperty(o, pm.getPropertyName());
+				if (pm instanceof RelationshipForeignKeyPropertyMetadata && propertyValue != null) {
+					propertyValue = PropertyUtils.getProperty(o, pm.getPropertyName() + ".id");
 				}
+				dirtyProperties.put(pm.getPropertyName(), propertyValue);
+
 			}
 		}
-		Set<String> dirtyColumns = dirtyProperties.keySet().stream()
-				.map(dirtyProperty -> entityMetadata.getPropertiesMetadata().get(dirtyProperty).getColumnName())
-				.collect(Collectors.toSet());
-		String sql = sqlUtil.update(entityMetadata.getTableName(), dirtyColumns, "id");
-
 		dirtyProperties.put("id", id);
+
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		for (String propertyName : dirtyProperties.keySet()) {
 			PropertyMetadata propertyMetadata = entityMetadata.getPropertiesMetadata().get(propertyName);
 			Object propertyValue = PropertyUtils.getProperty(o, propertyName);
-			if ((propertyMetadata instanceof RelationshipPropertyMetadata) && propertyValue != null) {
+			if ((propertyMetadata instanceof RelationshipForeignKeyPropertyMetadata) && propertyValue != null) {
 				propertyValue = PropertyUtils.getNestedProperty(o, propertyName + ".id");
 			}
 			parameters.put(propertyMetadata.getColumnName(), propertyValue);
 		}
-
+		String sql = sqlUtil.update(entityMetadata.getTableName(), parameters.keySet(), "id");
 		if (detached) {
 			statements.add(new Statement(sql, parameters, StatementType.Update, null));
 		} else {
@@ -235,43 +250,49 @@ public class Transaction {
 
 	public Object loadRelationship(Object obj, Object nestedObject, PropertyMetadata propertyMetadata)
 			throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, Throwable {
-		RelationshipPropertyMetadata rpm = (RelationshipPropertyMetadata) propertyMetadata;
-		String tableName = rpm.getTableName();
-		boolean foreignKeyRelationship = tableName == null && rpm.getOtherSideColumnName() == null;
+
+		boolean foreignTableRelationship = RelationshipTablePropertyMetadata.class
+				.isAssignableFrom(propertyMetadata.getClass());
+		if (foreignTableRelationship) {
+			RelationshipTablePropertyMetadata relationshipTable = (RelationshipTablePropertyMetadata) propertyMetadata;
+			String columnName = relationshipTable.getColumnName();
+			Set<String> whereColumns = new HashSet<String>();
+			whereColumns.add(columnName);
+			String query = sqlUtil.query(relationshipTable.getTableName(), whereColumns);
+
+			Map<String, Object> whereParameters = new HashMap<String, Object>();
+			whereParameters.put(columnName, PropertyUtils.getProperty(obj, "id"));
+
+			String otherSideColumnName = relationshipTable.getOtherSideColumnName();
+			List<Long> ids = dbService.findList(query, whereParameters, new JoinTableRowMapper(otherSideColumnName));
+			List list = findListIn(relationshipTable.getEntityClazz(), ids);
+			return list;
+		}
+
+		boolean foreignKeyRelationship = RelationshipForeignKeyPropertyMetadata.class
+				.isAssignableFrom(propertyMetadata.getClass());
 		if (foreignKeyRelationship) {
+			RelationshipForeignKeyPropertyMetadata relationshipForeignKey = (RelationshipForeignKeyPropertyMetadata) propertyMetadata;
 			Long id = null;
-			if (rpm.isResponsible()) {
-				id = (Long) PropertyUtils.getProperty(nestedObject, "id");
-			} else {
-				Map<String, Object> whereParameters = new HashMap<String, Object>();
-				whereParameters.put(rpm.getOtherSidePropertyName(), PropertyUtils.getProperty(obj, "id"));
-				Object otherSide = findOne(rpm.getJavaType(), whereParameters);
-				id = (Long) PropertyUtils.getProperty(otherSide, "id");
-			}
-			
-			if(Collection.class.isAssignableFrom(rpm.getJavaType())){
-				List<Long> ids = new ArrayList<Long>();
-				ids.add(id);
-				List list = findListIn(rpm.getJavaType(), ids);
-				return list;
-			} else {
+			if (relationshipForeignKey.isResponsible()) {
 				id = (Long) PropertyUtils.getProperty(nestedObject, "id");
 				Object one = findOne(propertyMetadata.getJavaType(), id);
 				return one;
+			} else {
+				Map<String, Object> whereParameters = new HashMap<String, Object>();
+				whereParameters.put(relationshipForeignKey.getOtherSidePropertyName(),
+						PropertyUtils.getProperty(obj, "id"));
+				if (Collection.class.isAssignableFrom(relationshipForeignKey.getJavaType())) {
+					List list = findList(relationshipForeignKey.getEntityClazz(), whereParameters);
+					return list;
+				} else {
+					Object one = findOne(propertyMetadata.getJavaType(), whereParameters);
+					return one;
+				}
 			}
-		} else {
-			String columnName = rpm.getColumnName();
-			Set<String> whereColumns = new HashSet<String>();
-			whereColumns.add(columnName);
-			String query = sqlUtil.query(tableName, whereColumns);
-
-			String otherSideColumnName = rpm.getOtherSideColumnName();
-			Map<String, Object> whereParameters = new HashMap<String, Object>();
-			whereParameters.put(columnName, PropertyUtils.getProperty(obj, "id"));
-			List<Long> ids = dbService.findList(query, whereParameters, new JoinTableRowMapper(otherSideColumnName));
-			List list = findListIn(rpm.getJavaType(), ids);
-			return list;
 		}
+
+		return null; // should never be returned
 	}
 
 	public List<Statement> getStatements() {

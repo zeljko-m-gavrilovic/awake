@@ -6,6 +6,10 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import rs.bignumbers.Transaction;
 import rs.bignumbers.annotations.Entity;
 import rs.bignumbers.annotations.FetchType;
 import rs.bignumbers.annotations.Property;
@@ -13,6 +17,8 @@ import rs.bignumbers.annotations.RelationshipForeignKey;
 import rs.bignumbers.annotations.RelationshipForeignTable;
 
 public class AnnotationBasedMetadataExtractor implements MetadataExtractor {
+	
+	private final Logger logger = LoggerFactory.getLogger(AnnotationBasedMetadataExtractor.this.getClass());
 
 	public EntityMetadata extractMetadataForClass(Class clazz) {
 		EntityMetadata m = new EntityMetadata();
@@ -52,7 +58,9 @@ public class AnnotationBasedMetadataExtractor implements MetadataExtractor {
 				FetchType fetch = columnAnnotation.fetch();
 				boolean responsible = columnAnnotation.responsible();
 				String otherSidePropertyName = columnAnnotation.otherSidePropertyName();
-				RelationshipPropertyMetadata rpm = new RelationshipPropertyMetadata(f.getName(), columnName, f.getType(), fetch, responsible, null, null, otherSidePropertyName);
+				String otherSideColumnName = columnAnnotation.otherSideColumnName();
+				Class entityClazz = columnAnnotation.entityClazz();
+				RelationshipForeignKeyPropertyMetadata rpm = new RelationshipForeignKeyPropertyMetadata(f.getName(), columnName, f.getType(), fetch, responsible, otherSidePropertyName, otherSideColumnName, entityClazz);
 				m.addPropertyMetadata(rpm.getPropertyName(), rpm);
 			}
 			
@@ -64,11 +72,15 @@ public class AnnotationBasedMetadataExtractor implements MetadataExtractor {
 				String columnName = columnAnnotation.columnName();
 				FetchType fetch = columnAnnotation.fetch();
 				boolean responsible = columnAnnotation.responsible();
-				String joinTableName = columnAnnotation.columnName();
+				String otherSidePropertyName = columnAnnotation.otherSidePropertyName();
 				String otherSideColumnName = columnAnnotation.otherSideColumnName();
-				RelationshipPropertyMetadata rpm = new RelationshipPropertyMetadata(f.getName(), columnName, f.getType(), fetch, responsible, joinTableName, otherSideColumnName, null);
+				Class entityClazz = columnAnnotation.entityClazz();
+				String joinTableName = columnAnnotation.tableName();
+				RelationshipForeignKeyPropertyMetadata rpm = new RelationshipTablePropertyMetadata(f.getName(), columnName, f.getType(), fetch, responsible, otherSidePropertyName, otherSideColumnName, entityClazz, joinTableName);
 				m.addPropertyMetadata(rpm.getPropertyName(), rpm);
 			}
+		} else {
+			logger.error("class {} doesn't containt @Entity annotation", clazz);
 		}
 		return m;
 	}

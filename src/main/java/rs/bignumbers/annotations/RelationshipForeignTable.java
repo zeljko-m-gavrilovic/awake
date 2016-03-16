@@ -13,6 +13,8 @@ public @interface RelationshipForeignTable {
 	String columnName() default "";
 	String tableName() default "";
 	String otherSideColumnName() default "";
+	String otherSidePropertyName() default "";
+	Class entityClazz() default String.class;
 
 	/*
 	 * responsible side is the responsible for managing a relationship between the two entities

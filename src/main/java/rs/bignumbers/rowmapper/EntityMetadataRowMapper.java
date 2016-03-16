@@ -2,6 +2,7 @@ package rs.bignumbers.rowmapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.Date;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -13,7 +14,7 @@ import rs.bignumbers.factory.ProxyFactory;
 import rs.bignumbers.interceptor.EntityInterceptor;
 import rs.bignumbers.metadata.EntityMetadata;
 import rs.bignumbers.metadata.PropertyMetadata;
-import rs.bignumbers.metadata.RelationshipPropertyMetadata;
+import rs.bignumbers.metadata.RelationshipForeignKeyPropertyMetadata;
 import rs.bignumbers.util.ProxyRegister;
 
 public class EntityMetadataRowMapper<T> implements RowMapper<T> {
@@ -22,36 +23,37 @@ public class EntityMetadataRowMapper<T> implements RowMapper<T> {
 	private Transaction transaction;
 	private ProxyFactory proxyFactory;
 	private ProxyRegister proxyRegister;
-	
-	public EntityMetadataRowMapper(EntityMetadata entityMetadata, Transaction transaction, ProxyFactory proxyFactory, ProxyRegister proxyRegister) {
+
+	public EntityMetadataRowMapper(EntityMetadata entityMetadata, Transaction transaction, ProxyFactory proxyFactory,
+			ProxyRegister proxyRegister) {
 		this.entityMetadata = entityMetadata;
 		this.transaction = transaction;
 		this.proxyFactory = proxyFactory;
 		this.proxyRegister = proxyRegister;
-		
+
 	}
-	
+
 	public T mapRow(ResultSet rs, int arg1) throws SQLException {
 		EntityInterceptor entityInterceptor = new EntityInterceptor(entityMetadata, transaction);
 		T proxy = (T) proxyFactory.newProxyInstance(entityMetadata.getClazz(), entityInterceptor);
-		
+
 		for (PropertyMetadata pm : entityMetadata.getResponsibleProperties()) {
 			Object value = null;
-			if(RelationshipPropertyMetadata.class.isAssignableFrom(pm.getClass())) {
-				Long id = rs.getLong(pm.getColumnName());
+			if (RelationshipForeignKeyPropertyMetadata.class.isAssignableFrom(pm.getClass())) {
+				RelationshipForeignKeyPropertyMetadata rpm = (RelationshipForeignKeyPropertyMetadata) pm;
 				try {
-					RelationshipPropertyMetadata rpm = (RelationshipPropertyMetadata) pm; 
-					if(FetchType.Eager.equals(rpm.getFetch())) {
-						value = transaction.findOne(rpm.getJavaType(), id);
-					} else {
+					if (rpm.isResponsible() && !Collection.class.isAssignableFrom(rpm.getJavaType())) {
+						Long id = rs.getLong(pm.getColumnName());
 						value = pm.getJavaType().newInstance();
 						PropertyUtils.setProperty(value, "id", id);
 					}
-				} catch (Exception e) {
+					if (FetchType.Eager.equals(rpm.getFetch())) {
+						value = transaction.loadRelationship(proxy, value, rpm);
+					}
+				} catch (Throwable e) {
 					e.printStackTrace();
 				}
 			}
-			
 			if (String.class.isAssignableFrom(pm.getJavaType())) {
 				value = rs.getString(pm.getColumnName());
 			}
@@ -67,7 +69,7 @@ public class EntityMetadataRowMapper<T> implements RowMapper<T> {
 			if (Boolean.class.isAssignableFrom(pm.getJavaType())) {
 				value = rs.getBoolean(pm.getColumnName());
 			}
-			
+
 			try {
 				PropertyUtils.setProperty(proxy, pm.getPropertyName(), value);
 			} catch (Exception e) {

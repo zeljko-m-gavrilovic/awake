@@ -11,7 +11,7 @@ import net.sf.cglib.proxy.MethodProxy;
 import rs.bignumbers.Transaction;
 import rs.bignumbers.metadata.EntityMetadata;
 import rs.bignumbers.metadata.PropertyMetadata;
-import rs.bignumbers.metadata.RelationshipPropertyMetadata;
+import rs.bignumbers.metadata.RelationshipForeignKeyPropertyMetadata;
 
 public class EntityInterceptor implements MethodInterceptor {
 
@@ -43,51 +43,23 @@ public class EntityInterceptor implements MethodInterceptor {
 			boolean propertyExist = entityMetadata.getPropertiesMetadata().containsKey(propertyName);
 
 			if (callToSetter && propertyExist && dirtyPropertiesTrack) {
-				setDirtyValue(propertyName, args[0]);
+				dirtyProperties.put(propertyName, args[0]);
 			}
 
 			if (callToGetter && propertyExist) {
 				boolean lazyLoadingNecessary = lazyProperties.containsKey(propertyName)
 						&& Boolean.FALSE.equals(lazyProperties.get(propertyName));
 				if (lazyLoadingNecessary) {
-					Long id = null;
 					PropertyMetadata propertyMetadata = entityMetadata.getPropertiesMetadata().get(propertyName);
 					Object nestedObject = proxy.invokeSuper(obj, args);
-					if(RelationshipPropertyMetadata.class.isAssignableFrom(propertyMetadata.getClass())) {
-						RelationshipPropertyMetadata rpm = (RelationshipPropertyMetadata) propertyMetadata;
-						boolean foreignKeyRelationship = rpm.getTableName() == null && rpm.getOtherSideColumnName() == null;
-						if(foreignKeyRelationship && rpm.isResponsible()) {
-							//id = (Long) PropertyUtils.getProperty(proxy.invokeSuper(obj, args), "id");
-							id = (Long) PropertyUtils.getProperty(nestedObject, "id");
-						} else if (foreignKeyRelationship) {
-							Map<String, Object> whereParameters = new HashMap<String, Object>();
-							whereParameters.put(rpm.getOtherSidePropertyName(), PropertyUtils.getProperty(obj, "id"));
-							Object otherSide = transaction.findOne(rpm.getJavaType(), whereParameters);
-							id = (Long) PropertyUtils.getProperty(otherSide, "id");
-						} else if(!foreignKeyRelationship && rpm.isResponsible()) {
-							
-						} else if(!foreignKeyRelationship && !rpm.isResponsible()) {
-							
-						}
-						
-					}
-					loadLazyProperty(obj, propertyName, id);
+					Object loadedRelationship = transaction.loadRelationship(obj, nestedObject, propertyMetadata);
+					PropertyUtils.setProperty(obj, propertyName, loadedRelationship);
 					lazyProperties.put(propertyName, Boolean.TRUE);
 				}
 			}
 		}
 		return proxy.invokeSuper(obj, args);
 
-	}
-
-	private void loadLazyProperty(Object target, String propertyName, Long id) throws Throwable {
-		PropertyMetadata propertyMetadata = entityMetadata.getPropertiesMetadata().get(propertyName);
-		Object lazyProperty = transaction.findOne(propertyMetadata.getJavaType(), id);
-		PropertyUtils.setProperty(target, propertyName, lazyProperty);
-	}
-
-	private void setDirtyValue(String propertyName, Object propertyValue) {
-		dirtyProperties.put(propertyName, propertyValue);
 	}
 
 	public Map<String, Object> getDirtyProperties() {

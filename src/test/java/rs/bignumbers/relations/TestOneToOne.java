@@ -1,4 +1,4 @@
-package rs.bignumbers;
+package rs.bignumbers.relations;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -15,6 +15,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import rs.bignumbers.Configuration;
+import rs.bignumbers.Transaction;
 import rs.bignumbers.metadata.AnnotationBasedMetadataExtractor;
 import rs.bignumbers.properties.model.Female;
 import rs.bignumbers.properties.model.Male;

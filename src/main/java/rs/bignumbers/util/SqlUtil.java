@@ -94,7 +94,7 @@ public class SqlUtil {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT * FROM ");
 		sql.append(tableName);
-		sql.append("WHERE id in (:ids)");
+		sql.append(" WHERE id in (:ids)");
 
 		return sql.toString();
 	}

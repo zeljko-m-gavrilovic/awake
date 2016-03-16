@@ -12,6 +12,8 @@ public @interface RelationshipForeignKey {
 
 	String columnName() default "";
 	String otherSidePropertyName() default "";
+	String otherSideColumnName() default "";
+	Class entityClazz() default String.class;
 
 	/*
 	 * responsible side is responsible for managing relationship between the two
