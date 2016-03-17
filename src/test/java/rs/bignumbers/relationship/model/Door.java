@@ -1,12 +1,11 @@
-package rs.bignumbers.relations.model;
+package rs.bignumbers.relationship.model;
 
 import rs.bignumbers.annotations.Entity;
 
 @Entity
-public class Chimney {
+public class Door {
 
 	private Long id;
-	// has a fereign key column in db table pointing to the house
 
 	public Long getId() {
 		return id;
@@ -15,4 +14,6 @@ public class Chimney {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	
 }

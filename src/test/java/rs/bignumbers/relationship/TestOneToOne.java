@@ -1,4 +1,4 @@
-package rs.bignumbers.relations;
+package rs.bignumbers.relationship;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -18,8 +18,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import rs.bignumbers.Configuration;
 import rs.bignumbers.Transaction;
 import rs.bignumbers.metadata.AnnotationMetadataExtractor;
-import rs.bignumbers.properties.model.Female;
-import rs.bignumbers.properties.model.Male;
+import rs.bignumbers.transaction.model.Female;
+import rs.bignumbers.transaction.model.Male;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/application-context.xml")

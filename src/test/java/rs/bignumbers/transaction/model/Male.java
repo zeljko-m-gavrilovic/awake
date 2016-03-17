@@ -1,4 +1,4 @@
-package rs.bignumbers.properties.model;
+package rs.bignumbers.transaction.model;
 
 import rs.bignumbers.annotations.Entity;
 import rs.bignumbers.annotations.FetchType;
@@ -7,7 +7,7 @@ import rs.bignumbers.annotations.Relationship;
 @Entity
 public class Male extends Person {
 
-	@Relationship(columnName = "female_id", responsible = true, fetch=FetchType.Eager)
+	@Relationship(columnName = "female_id", responsible = true, fetch=FetchType.Lazy)
 	private Female female;
 
 	public Female getFemale() {

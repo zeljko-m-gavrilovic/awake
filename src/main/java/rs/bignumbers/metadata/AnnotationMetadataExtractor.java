@@ -16,7 +16,7 @@ import rs.bignumbers.annotations.FetchType;
 import rs.bignumbers.annotations.Property;
 import rs.bignumbers.annotations.Relationship;
 
-public class AnnotationMetadataExtractor implements MetadataExtractor {
+public class AnnotationMetadataExtractor {
 
 	private final Logger logger = LoggerFactory.getLogger(AnnotationMetadataExtractor.this.getClass());
 
@@ -26,7 +26,7 @@ public class AnnotationMetadataExtractor implements MetadataExtractor {
 		this.entities = entities;
 	}
 	
-	public Map<String, EntityMetadata> getEntityMetadata() {
+	public Map<String, EntityMetadata> extractMetadata() {
 		Map<String, EntityMetadata> entityMetadatas = new HashMap<String, EntityMetadata>();
 		for (Class clazz : entities) {
 			EntityMetadata em = extractMetadataForClass(clazz);
@@ -37,9 +37,6 @@ public class AnnotationMetadataExtractor implements MetadataExtractor {
 
 	public EntityMetadata extractMetadataForClass(Class clazz) {
 		EntityMetadata m = new EntityMetadata();
-
-		// clazz = getClassName(clazz);
-
 		m.setClazz(clazz);
 		boolean hasEntityAnnotation = clazz.isAnnotationPresent(Entity.class)
 				&& !((Entity) clazz.getAnnotation(Entity.class)).ignore();
@@ -51,6 +48,7 @@ public class AnnotationMetadataExtractor implements MetadataExtractor {
 				tableName = clazz.getSimpleName().toLowerCase();
 			}
 			m.setTableName(tableName);
+
 			for (Field f : getAnnotatedDeclaredFields(clazz, Property.class, true)) {
 				Property propertyAnnotation = f.getAnnotation(Property.class);
 				if (propertyAnnotation.ignore()) {
@@ -81,26 +79,6 @@ public class AnnotationMetadataExtractor implements MetadataExtractor {
 						responsible, otherSidePropertyName, otherSideColumnName, entityClazz, tn);
 				m.addPropertyMetadata(rpm.getPropertyName(), rpm);
 			}
-
-			/*
-			 * for (Field f : getAnnotatedDeclaredFields(clazz,
-			 * RelationshipForeignTable.class, true)) { RelationshipForeignTable
-			 * columnAnnotation =
-			 * f.getAnnotation(RelationshipForeignTable.class);
-			 * if(columnAnnotation.ignore()) { continue; } String columnName =
-			 * columnAnnotation.columnName(); FetchType fetch =
-			 * columnAnnotation.fetch(); boolean responsible =
-			 * columnAnnotation.responsible(); String otherSidePropertyName =
-			 * columnAnnotation.otherSidePropertyName(); String
-			 * otherSideColumnName = columnAnnotation.otherSideColumnName();
-			 * Class entityClazz = columnAnnotation.entityClazz(); String
-			 * joinTableName = columnAnnotation.tableName();
-			 * RelationshipMetadata rpm = new
-			 * RelationshipTablePropertyMetadata(f.getName(), columnName,
-			 * f.getType(), fetch, responsible, otherSidePropertyName,
-			 * otherSideColumnName, entityClazz, joinTableName);
-			 * m.addPropertyMetadata(rpm.getPropertyName(), rpm); }
-			 */
 		} else {
 			logger.error("class {} doesn't containt @Entity annotation", clazz);
 		}
@@ -117,20 +95,16 @@ public class AnnotationMetadataExtractor implements MetadataExtractor {
 	 *            param
 	 * @return list of fields
 	 */
-	public static Field[] getDeclaredFields(Class clazz, boolean recursively) {
+	public List<Field> getDeclaredFields(Class clazz, boolean recursively) {
 		List<Field> fields = new LinkedList<Field>();
 		Field[] declaredFields = clazz.getDeclaredFields();
 		Collections.addAll(fields, declaredFields);
 
 		Class superClass = clazz.getSuperclass();
-
 		if (superClass != null && recursively) {
-			Field[] declaredFieldsOfSuper = getDeclaredFields(superClass, recursively);
-			if (declaredFieldsOfSuper.length > 0)
-				Collections.addAll(fields, declaredFieldsOfSuper);
+			fields.addAll(getDeclaredFields(superClass, recursively));
 		}
-
-		return fields.toArray(new Field[fields.size()]);
+		return fields;
 	}
 
 	/**
@@ -146,22 +120,16 @@ public class AnnotationMetadataExtractor implements MetadataExtractor {
 	 *            param
 	 * @return list of annotated fields
 	 */
-	public static Field[] getAnnotatedDeclaredFields(Class clazz, Class<? extends Annotation> annotationClass,
+	public List<Field> getAnnotatedDeclaredFields(Class clazz, Class<? extends Annotation> annotationClass,
 			boolean recursively) {
-		Field[] allFields = getDeclaredFields(clazz, recursively);
+		List<Field> allFields = getDeclaredFields(clazz, recursively);
+		
 		List<Field> annotatedFields = new LinkedList<Field>();
-
 		for (Field field : allFields) {
 			if (field.isAnnotationPresent(annotationClass))
 				annotatedFields.add(field);
 		}
 
-		return annotatedFields.toArray(new Field[annotatedFields.size()]);
+		return annotatedFields;
 	}
-
-	/*
-	 * public List<Class> getClasses() { return classes; }
-	 * 
-	 * public void setClasses(List<Class> classes) { this.classes = classes; }
-	 */
 }

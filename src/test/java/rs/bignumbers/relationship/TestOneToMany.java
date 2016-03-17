@@ -1,4 +1,4 @@
-package rs.bignumbers.relations;
+package rs.bignumbers.relationship;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -18,12 +18,13 @@ import org.springframework.transaction.PlatformTransactionManager;
 import rs.bignumbers.Configuration;
 import rs.bignumbers.Transaction;
 import rs.bignumbers.metadata.AnnotationMetadataExtractor;
-import rs.bignumbers.relations.model.House;
-import rs.bignumbers.relations.model.Owner;
+import rs.bignumbers.relationship.model.House;
+import rs.bignumbers.relationship.model.Owner;
+import rs.bignumbers.relationship.model.Window;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/application-context.xml")
-public class TestManyToMany {
+public class TestOneToMany {
 
 	@Autowired
 	private DataSource dataSource;
@@ -39,6 +40,7 @@ public class TestManyToMany {
 	public void setUp() {
 		List<Class> entities = new ArrayList<Class>();
 		entities.add(House.class);
+		entities.add(Window.class);
 		entities.add(Owner.class);
 		AnnotationMetadataExtractor metadataExtractor = new AnnotationMetadataExtractor(entities);
 		this.configuration = new Configuration(metadataExtractor);
@@ -49,28 +51,26 @@ public class TestManyToMany {
 	public void testInsert() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		House house = new House();
 		house.setHouseNo("220/11");
-		
-		Owner major = new Owner();
-		major.setAmount(80.0);
-		
-		Owner minor = new Owner();
-		minor.setAmount(20.0);
-		
-		house.getOwners().add(major);
-		house.getOwners().add(minor);
-		
-		transaction.insert(major);
-		transaction.insert(minor);
 		transaction.insert(house);
+		
+		Window windowSmall = new Window();
+		windowSmall.setSize("small");
+		windowSmall.setHouse(house);
+		transaction.insert(windowSmall);
+		
+		Window windowLarge = new Window();
+		windowLarge.setSize("large");
+		windowLarge.setHouse(house);
+		transaction.insert(windowLarge);
 		
 		house = transaction.findOne(House.class, house.getId());
 		Assert.assertNotNull(house);
 		Assert.assertNotNull(house.getId());
-		Assert.assertNotNull(house.getOwners());
-		Assert.assertEquals(2, house.getOwners().size());
+		Assert.assertNotNull(house.getWindows());
+		Assert.assertEquals(2, house.getWindows().size());
 		
 		transaction.delete(house);
-		transaction.delete(major);
-		transaction.delete(minor);
+		transaction.delete(windowSmall);
+		transaction.delete(windowLarge);
 	}
 }

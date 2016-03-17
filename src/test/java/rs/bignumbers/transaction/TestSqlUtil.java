@@ -1,4 +1,4 @@
-package rs.bignumbers;
+package rs.bignumbers.transaction;
 
 import java.util.HashMap;
 import java.util.HashSet;

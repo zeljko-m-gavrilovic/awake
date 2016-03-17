@@ -1,15 +1,15 @@
-package rs.bignumbers.util;
+package rs.bignumbers.factory;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import rs.bignumbers.interceptor.EntityInterceptor;
 
-public class ProxyRegister {
+public class EntityInterceptorRegister {
 
 	private Map<String, EntityInterceptor> interceptors;
 
-	public ProxyRegister() {
+	public EntityInterceptorRegister() {
 		interceptors = new HashMap<String, EntityInterceptor>();
 	}
 

@@ -583,3 +583,450 @@
 2016-03-16 17:08:39,990 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO house(door_id, address_id, house_no) VALUES(:door_id, :address_id, :house_no) with parameters: {door_id=null, address_id=null, house_no=220/11, id=null}
 2016-03-16 17:08:39,994 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO window(house_id, size) VALUES(:house_id, :size) with parameters: {house_id=64, size=small, id=null}
 2016-03-16 17:08:39,995 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO window(house_id, size) VALUES(:house_id, :size) with parameters: {house_id=64, size=large, id=null}
+2016-03-17 08:54:53,100 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:55:36,897 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:55:41,192 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:55:52,737 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO house(door_id, address_id, house_no) VALUES(:door_id, :address_id, :house_no) with parameters: {door_id=null, address_id=null, house_no=220/11, id=null}
+2016-03-17 08:55:52,744 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO window(house_id, size) VALUES(:house_id, :size) with parameters: {house_id=65, size=small, id=null}
+2016-03-17 08:55:52,746 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO window(house_id, size) VALUES(:house_id, :size) with parameters: {house_id=65, size=large, id=null}
+2016-03-17 08:55:52,877 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:55:52,900 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:55:52,911 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:55:52,914 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:55:52,919 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:55:52,927 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:55:52,932 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:55:52,936 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko2, age=36}
+2016-03-17 08:55:52,939 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:55:52,955 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:55:52,965 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO female(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=F, age=35}
+2016-03-17 08:55:52,968 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO male(female_id, first_name, age) VALUES(:female_id, :first_name, :age) with parameters: {female_id=79, id=null, first_name=Zeljko, age=35}
+2016-03-17 08:55:53,009 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO owner(amount) VALUES(:amount) with parameters: {amount=80.0, id=null}
+2016-03-17 08:55:53,011 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO owner(amount) VALUES(:amount) with parameters: {amount=20.0, id=null}
+2016-03-17 08:55:53,013 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO house(door_id, address_id, house_no) VALUES(:door_id, :address_id, :house_no) with parameters: {door_id=null, address_id=null, house_no=220/11, id=null}
+2016-03-17 08:56:34,079 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO house(door_id, address_id, house_no) VALUES(:door_id, :address_id, :house_no) with parameters: {door_id=null, address_id=null, house_no=220/11, id=null}
+2016-03-17 08:56:34,086 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO window(house_id, size) VALUES(:house_id, :size) with parameters: {house_id=67, size=small, id=null}
+2016-03-17 08:56:34,088 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO window(house_id, size) VALUES(:house_id, :size) with parameters: {house_id=67, size=large, id=null}
+2016-03-17 08:56:34,227 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:56:34,251 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:56:34,261 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:56:34,263 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:56:34,264 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:56:34,274 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:56:34,279 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:56:34,283 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko2, age=36}
+2016-03-17 08:56:34,287 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:56:34,310 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:56:34,322 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO female(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=F, age=35}
+2016-03-17 08:56:34,325 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO male(female_id, first_name, age) VALUES(:female_id, :first_name, :age) with parameters: {female_id=80, id=null, first_name=Zeljko, age=35}
+2016-03-17 08:56:34,371 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO owner(amount) VALUES(:amount) with parameters: {amount=80.0, id=null}
+2016-03-17 08:56:34,373 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO owner(amount) VALUES(:amount) with parameters: {amount=20.0, id=null}
+2016-03-17 08:56:34,375 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO house(door_id, address_id, house_no) VALUES(:door_id, :address_id, :house_no) with parameters: {door_id=null, address_id=null, house_no=220/11, id=null}
+2016-03-17 08:57:07,216 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO house(door_id, address_id, house_no) VALUES(:door_id, :address_id, :house_no) with parameters: {door_id=null, address_id=null, house_no=220/11, id=null}
+2016-03-17 08:57:07,229 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO window(house_id, size) VALUES(:house_id, :size) with parameters: {house_id=69, size=small, id=null}
+2016-03-17 08:57:07,231 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO window(house_id, size) VALUES(:house_id, :size) with parameters: {house_id=69, size=large, id=null}
+2016-03-17 08:57:30,386 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:57:30,427 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:57:30,436 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:57:30,438 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:57:30,440 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:57:30,451 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:57:30,457 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:57:30,462 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko2, age=36}
+2016-03-17 08:57:30,466 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:57:30,485 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 08:57:30,499 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO female(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=F, age=35}
+2016-03-17 08:57:30,503 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO male(female_id, first_name, age) VALUES(:female_id, :first_name, :age) with parameters: {female_id=81, id=null, first_name=Zeljko, age=35}
+2016-03-17 08:57:30,559 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO owner(amount) VALUES(:amount) with parameters: {amount=80.0, id=null}
+2016-03-17 08:57:30,561 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO owner(amount) VALUES(:amount) with parameters: {amount=20.0, id=null}
+2016-03-17 08:57:30,563 DEBUG [main] r.b.Transaction [Transaction.java:159] sql insert: INSERT INTO house(door_id, address_id, house_no) VALUES(:door_id, :address_id, :house_no) with parameters: {door_id=null, address_id=null, house_no=220/11, id=null}
+2016-03-17 09:01:30,844 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO house(door_id, address_id, house_no) VALUES(:door_id, :address_id, :house_no) with parameters: {door_id=null, address_id=null, house_no=220/11, id=null}
+2016-03-17 09:01:30,852 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO window(house_id, size) VALUES(:house_id, :size) with parameters: {house_id=71, size=small, id=null}
+2016-03-17 09:01:30,854 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO window(house_id, size) VALUES(:house_id, :size) with parameters: {house_id=71, size=large, id=null}
+2016-03-17 09:01:30,992 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:01:31,021 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:01:31,029 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:01:31,031 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:01:31,033 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:01:31,042 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:01:31,048 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:01:31,053 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko2, age=36}
+2016-03-17 09:01:31,057 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:01:31,073 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:01:31,122 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO female(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=F, age=35}
+2016-03-17 09:01:31,125 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO male(female_id, first_name, age) VALUES(:female_id, :first_name, :age) with parameters: {female_id=82, id=null, first_name=Zeljko, age=35}
+2016-03-17 09:01:31,170 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO owner(amount) VALUES(:amount) with parameters: {amount=80.0, id=null}
+2016-03-17 09:01:31,172 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO owner(amount) VALUES(:amount) with parameters: {amount=20.0, id=null}
+2016-03-17 09:01:31,174 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO house(door_id, address_id, house_no) VALUES(:door_id, :address_id, :house_no) with parameters: {door_id=null, address_id=null, house_no=220/11, id=null}
+2016-03-17 09:03:58,001 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO house(door_id, address_id, house_no) VALUES(:door_id, :address_id, :house_no) with parameters: {door_id=null, address_id=null, house_no=220/11, id=null}
+2016-03-17 09:03:58,012 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO window(house_id, size) VALUES(:house_id, :size) with parameters: {house_id=73, size=small, id=null}
+2016-03-17 09:03:58,014 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO window(house_id, size) VALUES(:house_id, :size) with parameters: {house_id=73, size=large, id=null}
+2016-03-17 09:03:58,148 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:03:58,172 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:03:58,179 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:03:58,181 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:03:58,183 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:03:58,192 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:03:58,196 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:03:58,201 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko2, age=36}
+2016-03-17 09:03:58,205 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:03:58,220 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:03:58,268 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO female(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=F, age=35}
+2016-03-17 09:03:58,271 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO male(female_id, first_name, age) VALUES(:female_id, :first_name, :age) with parameters: {female_id=83, id=null, first_name=Zeljko, age=35}
+2016-03-17 09:03:58,318 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO owner(amount) VALUES(:amount) with parameters: {amount=80.0, id=null}
+2016-03-17 09:03:58,320 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO owner(amount) VALUES(:amount) with parameters: {amount=20.0, id=null}
+2016-03-17 09:03:58,321 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO house(door_id, address_id, house_no) VALUES(:door_id, :address_id, :house_no) with parameters: {door_id=null, address_id=null, house_no=220/11, id=null}
+2016-03-17 09:35:59,888 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO female(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=F, age=35}
+2016-03-17 09:35:59,894 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO male(female_id, first_name, age) VALUES(:female_id, :first_name, :age) with parameters: {female_id=84, id=null, first_name=Zeljko, age=35}
+2016-03-17 09:36:00,041 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO house(door_id, address_id, house_no) VALUES(:door_id, :address_id, :house_no) with parameters: {door_id=null, address_id=null, house_no=220/11, id=null}
+2016-03-17 09:36:00,047 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO window(house_id, size) VALUES(:house_id, :size) with parameters: {house_id=75, size=small, id=null}
+2016-03-17 09:36:00,049 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO window(house_id, size) VALUES(:house_id, :size) with parameters: {house_id=75, size=large, id=null}
+2016-03-17 09:36:00,091 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO owner(amount) VALUES(:amount) with parameters: {amount=80.0, id=null}
+2016-03-17 09:36:00,092 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO owner(amount) VALUES(:amount) with parameters: {amount=20.0, id=null}
+2016-03-17 09:36:00,094 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO house(door_id, address_id, house_no) VALUES(:door_id, :address_id, :house_no) with parameters: {door_id=null, address_id=null, house_no=220/11, id=null}
+2016-03-17 09:36:00,164 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:36:00,174 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:36:00,183 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:36:00,185 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:36:00,186 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:36:00,199 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:36:00,204 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:36:00,209 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko2, age=36}
+2016-03-17 09:36:00,214 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:36:00,228 DEBUG [main] r.b.Transaction [Transaction.java:160] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:40:19,943 DEBUG [main] r.b.DbService [DbService.java:31] sql insert: INSERT INTO female(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=F, age=35}
+2016-03-17 09:40:20,127 DEBUG [main] r.b.DbService [DbService.java:31] sql insert: INSERT INTO male(female_id, first_name, age) VALUES(:female_id, :first_name, :age) with parameters: {female_id=85, id=null, first_name=Zeljko, age=35}
+2016-03-17 09:40:20,130 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM male WHERE id = :id with parameters: {id=85}
+2016-03-17 09:40:20,206 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM female WHERE id = :id with parameters: {id=85}
+2016-03-17 09:40:20,236 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM female WHERE id = :id with parameters: {id=85}
+2016-03-17 09:40:20,239 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM male WHERE female_id = :female_id with parameters: {female_id=85}
+2016-03-17 09:40:20,240 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM female WHERE id = :id with parameters: {id=85}
+2016-03-17 09:40:20,242 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM male WHERE id = :id with parameters: {id=85}
+2016-03-17 09:40:20,242 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM female WHERE id = :id with parameters: {id=85}
+2016-03-17 09:40:20,243 DEBUG [main] r.b.DbService [DbService.java:49] sql delete: DELETE FROM male WHERE id = :id with id: 85
+2016-03-17 09:40:20,247 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM female WHERE id = :id with parameters: {id=85}
+2016-03-17 09:40:20,248 DEBUG [main] r.b.DbService [DbService.java:49] sql delete: DELETE FROM female WHERE id = :id with id: 85
+2016-03-17 09:40:20,259 DEBUG [main] r.b.DbService [DbService.java:31] sql insert: INSERT INTO house(door_id, address_id, house_no) VALUES(:door_id, :address_id, :house_no) with parameters: {door_id=null, address_id=null, house_no=220/11, id=null}
+2016-03-17 09:40:20,272 DEBUG [main] r.b.DbService [DbService.java:31] sql insert: INSERT INTO window(house_id, size) VALUES(:house_id, :size) with parameters: {house_id=77, size=small, id=null}
+2016-03-17 09:40:20,274 DEBUG [main] r.b.DbService [DbService.java:31] sql insert: INSERT INTO window(house_id, size) VALUES(:house_id, :size) with parameters: {house_id=77, size=large, id=null}
+2016-03-17 09:40:20,277 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM house WHERE id = :id with parameters: {id=77}
+2016-03-17 09:40:20,297 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM window WHERE house_id = :house_id with parameters: {house_id=77}
+2016-03-17 09:40:20,307 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM house WHERE id = :id with parameters: {id=77}
+2016-03-17 09:40:20,309 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM house_owner WHERE house_id = :house_id with parameters: {house_id=77}
+2016-03-17 09:40:20,310 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM house_entrance WHERE house_id = :house_id with parameters: {house_id=77}
+2016-03-17 09:40:20,311 DEBUG [main] r.b.DbService [DbService.java:49] sql delete: DELETE FROM house WHERE id = :id with id: 77
+2016-03-17 09:40:20,313 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM window WHERE id = :id with parameters: {id=83}
+2016-03-17 09:40:20,314 DEBUG [main] r.b.DbService [DbService.java:49] sql delete: DELETE FROM window WHERE id = :id with id: 83
+2016-03-17 09:40:20,316 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM window WHERE id = :id with parameters: {id=84}
+2016-03-17 09:40:20,317 DEBUG [main] r.b.DbService [DbService.java:49] sql delete: DELETE FROM window WHERE id = :id with id: 84
+2016-03-17 09:40:20,323 DEBUG [main] r.b.DbService [DbService.java:31] sql insert: INSERT INTO owner(amount) VALUES(:amount) with parameters: {amount=80.0, id=null}
+2016-03-17 09:40:20,325 DEBUG [main] r.b.DbService [DbService.java:31] sql insert: INSERT INTO owner(amount) VALUES(:amount) with parameters: {amount=20.0, id=null}
+2016-03-17 09:40:20,327 DEBUG [main] r.b.DbService [DbService.java:31] sql insert: INSERT INTO house(door_id, address_id, house_no) VALUES(:door_id, :address_id, :house_no) with parameters: {door_id=null, address_id=null, house_no=220/11, id=null}
+2016-03-17 09:40:20,329 DEBUG [main] r.b.DbService [DbService.java:31] sql insert: INSERT INTO house_owner(house_id, owner_id) VALUES(:house_id, :owner_id) with parameters: {house_id=78, owner_id=83}
+2016-03-17 09:40:20,331 DEBUG [main] r.b.DbService [DbService.java:31] sql insert: INSERT INTO house_owner(house_id, owner_id) VALUES(:house_id, :owner_id) with parameters: {house_id=78, owner_id=84}
+2016-03-17 09:40:20,333 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM house WHERE id = :id with parameters: {id=78}
+2016-03-17 09:40:20,335 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM house_owner WHERE house_id = :house_id with parameters: {house_id=78}
+2016-03-17 09:40:20,335 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM owner WHERE id in (:ids) with parameters: {ids=[83, 84]}
+2016-03-17 09:40:20,348 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM house WHERE id = :id with parameters: {id=78}
+2016-03-17 09:40:20,349 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM house_owner WHERE house_id = :house_id with parameters: {house_id=78}
+2016-03-17 09:40:20,350 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM owner WHERE id in (:ids) with parameters: {ids=[83, 84]}
+2016-03-17 09:40:20,351 DEBUG [main] r.b.DbService [DbService.java:56] sql delete: DELETE FROM house_owner WHERE house_id = :house_id with parameters: {house_id=78}
+2016-03-17 09:40:20,353 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM house_entrance WHERE house_id = :house_id with parameters: {house_id=78}
+2016-03-17 09:40:20,354 DEBUG [main] r.b.DbService [DbService.java:49] sql delete: DELETE FROM house WHERE id = :id with id: 78
+2016-03-17 09:40:20,356 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM owner WHERE id = :id with parameters: {id=83}
+2016-03-17 09:40:20,357 DEBUG [main] r.b.DbService [DbService.java:49] sql delete: DELETE FROM owner WHERE id = :id with id: 83
+2016-03-17 09:40:20,358 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM owner WHERE id = :id with parameters: {id=84}
+2016-03-17 09:40:20,359 DEBUG [main] r.b.DbService [DbService.java:49] sql delete: DELETE FROM owner WHERE id = :id with id: 84
+2016-03-17 09:40:20,364 DEBUG [main] r.b.DbService [DbService.java:31] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:40:20,366 DEBUG [main] r.b.DbService [DbService.java:31] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:40:20,368 DEBUG [main] r.b.DbService [DbService.java:31] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:40:20,370 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM person WHERE first_name = :first_name with parameters: {first_name=Zeljko}
+2016-03-17 09:40:20,380 DEBUG [main] r.b.DbService [DbService.java:49] sql delete: DELETE FROM person WHERE id = :id with id: 573
+2016-03-17 09:40:20,382 DEBUG [main] r.b.DbService [DbService.java:49] sql delete: DELETE FROM person WHERE id = :id with id: 574
+2016-03-17 09:40:20,383 DEBUG [main] r.b.DbService [DbService.java:49] sql delete: DELETE FROM person WHERE id = :id with id: 575
+2016-03-17 09:40:20,386 DEBUG [main] r.b.DbService [DbService.java:31] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:40:20,387 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=576}
+2016-03-17 09:40:20,388 DEBUG [main] r.b.DbService [DbService.java:69] sql query one: SELECT * FROM person WHERE id = :id with id: 576
+2016-03-17 09:40:20,389 DEBUG [main] r.b.DbService [DbService.java:49] sql delete: DELETE FROM person WHERE id = :id with id: 576
+2016-03-17 09:40:20,391 DEBUG [main] r.b.DbService [DbService.java:31] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:40:20,393 DEBUG [main] r.b.DbService [DbService.java:49] sql delete: DELETE FROM person WHERE id = :id with id: 577
+2016-03-17 09:40:20,394 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=577}
+2016-03-17 09:40:20,395 DEBUG [main] r.b.DbService [DbService.java:69] sql query one: SELECT * FROM person WHERE id = :id with id: 577
+2016-03-17 09:40:20,396 DEBUG [main] r.b.DbService [DbService.java:31] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:40:20,398 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=578}
+2016-03-17 09:40:20,400 DEBUG [main] r.b.DbService [DbService.java:69] sql query one: SELECT * FROM person WHERE id = :id with id: 578
+2016-03-17 09:40:20,400 DEBUG [main] r.b.DbService [DbService.java:49] sql delete: DELETE FROM person WHERE id = :id with id: 578
+2016-03-17 09:40:20,402 DEBUG [main] r.b.DbService [DbService.java:31] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:40:20,403 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=579}
+2016-03-17 09:40:20,404 DEBUG [main] r.b.DbService [DbService.java:69] sql query one: SELECT * FROM person WHERE id = :id with id: 579
+2016-03-17 09:40:20,405 DEBUG [main] r.b.DbService [DbService.java:42] sql update: UPDATE person SET first_name = :first_name WHERE id = :id with parameters: {id=579, first_name=updated name}
+2016-03-17 09:40:20,406 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=579}
+2016-03-17 09:40:20,407 DEBUG [main] r.b.DbService [DbService.java:69] sql query one: SELECT * FROM person WHERE id = :id with id: 579
+2016-03-17 09:40:20,408 DEBUG [main] r.b.DbService [DbService.java:49] sql delete: DELETE FROM person WHERE id = :id with id: 579
+2016-03-17 09:40:20,413 DEBUG [main] r.b.DbService [DbService.java:31] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:40:20,415 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=580}
+2016-03-17 09:40:20,416 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=580}
+2016-03-17 09:40:20,417 DEBUG [main] r.b.DbService [DbService.java:49] sql delete: DELETE FROM person WHERE id = :id with id: 580
+2016-03-17 09:40:20,425 DEBUG [main] r.b.DbService [DbService.java:31] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:40:20,425 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=581}
+2016-03-17 09:40:20,427 DEBUG [main] r.b.DbService [DbService.java:42] sql update: UPDATE person SET age = :age WHERE id = :id with parameters: {id=581, age=37}
+2016-03-17 09:40:20,427 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=581}
+2016-03-17 09:40:20,428 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=581}
+2016-03-17 09:40:20,429 DEBUG [main] r.b.DbService [DbService.java:49] sql delete: DELETE FROM person WHERE id = :id with id: 581
+2016-03-17 09:40:20,432 DEBUG [main] r.b.DbService [DbService.java:31] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:40:20,435 DEBUG [main] r.b.DbService [DbService.java:31] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:40:20,437 DEBUG [main] r.b.DbService [DbService.java:31] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:40:20,438 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM person WHERE first_name = :first_name with parameters: {first_name=Zeljko}
+2016-03-17 09:40:20,439 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=582}
+2016-03-17 09:40:20,441 DEBUG [main] r.b.DbService [DbService.java:49] sql delete: DELETE FROM person WHERE id = :id with id: 582
+2016-03-17 09:40:20,442 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=583}
+2016-03-17 09:40:20,443 DEBUG [main] r.b.DbService [DbService.java:49] sql delete: DELETE FROM person WHERE id = :id with id: 583
+2016-03-17 09:40:20,444 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=584}
+2016-03-17 09:40:20,445 DEBUG [main] r.b.DbService [DbService.java:49] sql delete: DELETE FROM person WHERE id = :id with id: 584
+2016-03-17 09:40:20,447 DEBUG [main] r.b.DbService [DbService.java:31] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:40:20,449 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=585}
+2016-03-17 09:40:20,449 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=585}
+2016-03-17 09:40:20,450 DEBUG [main] r.b.DbService [DbService.java:49] sql delete: DELETE FROM person WHERE id = :id with id: 585
+2016-03-17 09:40:20,453 DEBUG [main] r.b.DbService [DbService.java:31] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:40:20,455 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=586}
+2016-03-17 09:40:20,456 DEBUG [main] r.b.DbService [DbService.java:49] sql delete: DELETE FROM person WHERE id = :id with id: 586
+2016-03-17 09:40:20,460 DEBUG [main] r.b.DbService [DbService.java:31] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko2, age=36}
+2016-03-17 09:40:20,463 DEBUG [main] r.b.DbService [DbService.java:31] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:40:20,464 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=588}
+2016-03-17 09:40:20,465 DEBUG [main] r.b.DbService [DbService.java:42] sql update: UPDATE person SET age = :age WHERE id = :id with parameters: {id=588, age=37}
+2016-03-17 09:40:20,467 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=588}
+2016-03-17 09:40:20,468 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=588}
+2016-03-17 09:40:20,468 DEBUG [main] r.b.DbService [DbService.java:49] sql delete: DELETE FROM person WHERE id = :id with id: 588
+2016-03-17 09:40:20,475 DEBUG [main] r.b.DbService [DbService.java:31] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:40:20,477 DEBUG [main] r.b.DbService [DbService.java:49] sql delete: DELETE FROM person WHERE id = :id with id: 589
+2016-03-17 09:40:20,479 DEBUG [main] r.b.DbService [DbService.java:31] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 09:40:20,482 DEBUG [main] r.b.DbService [DbService.java:42] sql update: UPDATE person SET age = :age WHERE id = :id with parameters: {id=590, age=37}
+2016-03-17 09:40:20,484 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=590}
+2016-03-17 09:40:20,484 DEBUG [main] r.b.DbService [DbService.java:75] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=590}
+2016-03-17 09:40:20,485 DEBUG [main] r.b.DbService [DbService.java:49] sql delete: DELETE FROM person WHERE id = :id with id: 590
+2016-03-17 10:23:24,931 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO female(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=F, age=35}
+2016-03-17 10:23:25,115 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO male(female_id, first_name, age) VALUES(:female_id, :first_name, :age) with parameters: {female_id=86, id=null, first_name=Zeljko, age=35}
+2016-03-17 10:23:25,118 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM male WHERE id = :id with parameters: {id=86}
+2016-03-17 10:23:25,202 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM female WHERE id = :id with parameters: {id=86}
+2016-03-17 10:23:25,234 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM female WHERE id = :id with parameters: {id=86}
+2016-03-17 10:23:25,238 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM male WHERE female_id = :female_id with parameters: {female_id=86}
+2016-03-17 10:23:25,239 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM female WHERE id = :id with parameters: {id=86}
+2016-03-17 10:23:25,241 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM male WHERE id = :id with parameters: {id=86}
+2016-03-17 10:23:25,242 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM female WHERE id = :id with parameters: {id=86}
+2016-03-17 10:23:25,243 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM male WHERE id = :id with id: 86
+2016-03-17 10:23:25,246 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM female WHERE id = :id with parameters: {id=86}
+2016-03-17 10:23:25,247 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM female WHERE id = :id with id: 86
+2016-03-17 10:23:25,262 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO house(door_id, address_id, house_no) VALUES(:door_id, :address_id, :house_no) with parameters: {door_id=null, address_id=null, house_no=220/11, id=null}
+2016-03-17 10:23:25,279 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO window(house_id, size) VALUES(:house_id, :size) with parameters: {house_id=79, size=small, id=null}
+2016-03-17 10:23:25,281 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO window(house_id, size) VALUES(:house_id, :size) with parameters: {house_id=79, size=large, id=null}
+2016-03-17 10:23:25,283 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM house WHERE id = :id with parameters: {id=79}
+2016-03-17 10:23:25,300 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM window WHERE house_id = :house_id with parameters: {house_id=79}
+2016-03-17 10:23:25,310 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM house WHERE id = :id with parameters: {id=79}
+2016-03-17 10:23:25,312 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM house_owner WHERE house_id = :house_id with parameters: {house_id=79}
+2016-03-17 10:23:25,313 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM house_entrance WHERE house_id = :house_id with parameters: {house_id=79}
+2016-03-17 10:23:25,314 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM house WHERE id = :id with id: 79
+2016-03-17 10:23:25,316 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM window WHERE id = :id with parameters: {id=85}
+2016-03-17 10:23:25,316 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM window WHERE id = :id with id: 85
+2016-03-17 10:23:25,318 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM window WHERE id = :id with parameters: {id=86}
+2016-03-17 10:23:25,319 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM window WHERE id = :id with id: 86
+2016-03-17 10:23:25,324 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO owner(amount) VALUES(:amount) with parameters: {amount=80.0, id=null}
+2016-03-17 10:23:25,326 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO owner(amount) VALUES(:amount) with parameters: {amount=20.0, id=null}
+2016-03-17 10:23:25,328 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO house(door_id, address_id, house_no) VALUES(:door_id, :address_id, :house_no) with parameters: {door_id=null, address_id=null, house_no=220/11, id=null}
+2016-03-17 10:23:25,329 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO house_owner(house_id, owner_id) VALUES(:house_id, :owner_id) with parameters: {house_id=80, owner_id=85}
+2016-03-17 10:23:25,332 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO house_owner(house_id, owner_id) VALUES(:house_id, :owner_id) with parameters: {house_id=80, owner_id=86}
+2016-03-17 10:23:25,333 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM house WHERE id = :id with parameters: {id=80}
+2016-03-17 10:23:25,335 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM house_owner WHERE house_id = :house_id with parameters: {house_id=80}
+2016-03-17 10:23:25,335 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM owner WHERE id in (:ids) with parameters: {ids=[85, 86]}
+2016-03-17 10:23:25,344 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM house WHERE id = :id with parameters: {id=80}
+2016-03-17 10:23:25,346 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM house_owner WHERE house_id = :house_id with parameters: {house_id=80}
+2016-03-17 10:23:25,347 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM owner WHERE id in (:ids) with parameters: {ids=[85, 86]}
+2016-03-17 10:23:25,348 DEBUG [main] r.b.DbService [DbService.java:57] sql delete: DELETE FROM house_owner WHERE house_id = :house_id with parameters: {house_id=80}
+2016-03-17 10:23:25,350 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM house_entrance WHERE house_id = :house_id with parameters: {house_id=80}
+2016-03-17 10:23:25,350 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM house WHERE id = :id with id: 80
+2016-03-17 10:23:25,352 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM owner WHERE id = :id with parameters: {id=85}
+2016-03-17 10:23:25,353 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM owner WHERE id = :id with id: 85
+2016-03-17 10:23:25,355 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM owner WHERE id = :id with parameters: {id=86}
+2016-03-17 10:23:25,356 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM owner WHERE id = :id with id: 86
+2016-03-17 10:23:25,362 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 10:23:25,364 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 10:23:25,365 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 10:23:25,367 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM person WHERE first_name = :first_name with parameters: {first_name=Zeljko}
+2016-03-17 10:23:25,375 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM person WHERE id = :id with id: 591
+2016-03-17 10:23:25,377 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM person WHERE id = :id with id: 592
+2016-03-17 10:23:25,379 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM person WHERE id = :id with id: 593
+2016-03-17 10:23:25,381 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 10:23:25,383 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=594}
+2016-03-17 10:23:25,384 DEBUG [main] r.b.DbService [DbService.java:70] sql query one: SELECT * FROM person WHERE id = :id with id: 594
+2016-03-17 10:23:25,384 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM person WHERE id = :id with id: 594
+2016-03-17 10:23:25,386 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 10:23:25,387 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM person WHERE id = :id with id: 595
+2016-03-17 10:23:25,389 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=595}
+2016-03-17 10:23:25,389 DEBUG [main] r.b.DbService [DbService.java:70] sql query one: SELECT * FROM person WHERE id = :id with id: 595
+2016-03-17 10:23:25,390 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 10:23:25,392 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=596}
+2016-03-17 10:23:25,393 DEBUG [main] r.b.DbService [DbService.java:70] sql query one: SELECT * FROM person WHERE id = :id with id: 596
+2016-03-17 10:23:25,393 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM person WHERE id = :id with id: 596
+2016-03-17 10:23:25,395 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 10:23:25,397 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=597}
+2016-03-17 10:23:25,398 DEBUG [main] r.b.DbService [DbService.java:70] sql query one: SELECT * FROM person WHERE id = :id with id: 597
+2016-03-17 10:23:25,399 DEBUG [main] r.b.DbService [DbService.java:43] sql update: UPDATE person SET first_name = :first_name WHERE id = :id with parameters: {id=597, first_name=updated name}
+2016-03-17 10:23:25,400 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=597}
+2016-03-17 10:23:25,401 DEBUG [main] r.b.DbService [DbService.java:70] sql query one: SELECT * FROM person WHERE id = :id with id: 597
+2016-03-17 10:23:25,402 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM person WHERE id = :id with id: 597
+2016-03-17 10:23:25,408 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 10:23:25,410 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=598}
+2016-03-17 10:23:25,411 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=598}
+2016-03-17 10:23:25,411 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM person WHERE id = :id with id: 598
+2016-03-17 10:23:25,420 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 10:23:25,420 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=599}
+2016-03-17 10:23:25,422 DEBUG [main] r.b.DbService [DbService.java:43] sql update: UPDATE person SET age = :age WHERE id = :id with parameters: {id=599, age=37}
+2016-03-17 10:23:25,422 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=599}
+2016-03-17 10:23:25,424 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=599}
+2016-03-17 10:23:25,424 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM person WHERE id = :id with id: 599
+2016-03-17 10:23:25,429 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 10:23:25,431 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 10:23:25,433 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 10:23:25,435 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM person WHERE first_name = :first_name with parameters: {first_name=Zeljko}
+2016-03-17 10:23:25,436 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=600}
+2016-03-17 10:23:25,438 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM person WHERE id = :id with id: 600
+2016-03-17 10:23:25,440 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=601}
+2016-03-17 10:23:25,441 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM person WHERE id = :id with id: 601
+2016-03-17 10:23:25,442 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=602}
+2016-03-17 10:23:25,443 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM person WHERE id = :id with id: 602
+2016-03-17 10:23:25,445 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 10:23:25,447 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=603}
+2016-03-17 10:23:25,448 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=603}
+2016-03-17 10:23:25,449 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM person WHERE id = :id with id: 603
+2016-03-17 10:23:25,451 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 10:23:25,453 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=604}
+2016-03-17 10:23:25,454 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM person WHERE id = :id with id: 604
+2016-03-17 10:23:25,457 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko2, age=36}
+2016-03-17 10:23:25,461 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 10:23:25,463 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=606}
+2016-03-17 10:23:25,464 DEBUG [main] r.b.DbService [DbService.java:43] sql update: UPDATE person SET age = :age WHERE id = :id with parameters: {id=606, age=37}
+2016-03-17 10:23:25,466 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=606}
+2016-03-17 10:23:25,467 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=606}
+2016-03-17 10:23:25,468 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM person WHERE id = :id with id: 606
+2016-03-17 10:23:25,473 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 10:23:25,475 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM person WHERE id = :id with id: 607
+2016-03-17 10:23:25,478 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO person(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=Zeljko, age=35}
+2016-03-17 10:23:25,480 DEBUG [main] r.b.DbService [DbService.java:43] sql update: UPDATE person SET age = :age WHERE id = :id with parameters: {id=608, age=37}
+2016-03-17 10:23:25,482 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=608}
+2016-03-17 10:23:25,483 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM person WHERE id = :id with parameters: {id=608}
+2016-03-17 10:23:25,483 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM person WHERE id = :id with id: 608
+2016-03-17 10:25:12,761 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO female(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=F, age=35}
+2016-03-17 10:25:12,941 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO male(female_id, first_name, age) VALUES(:female_id, :first_name, :age) with parameters: {female_id=87, id=null, first_name=Zeljko, age=35}
+2016-03-17 10:25:12,944 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM male WHERE id = :id with parameters: {id=87}
+2016-03-17 10:25:13,023 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM female WHERE id = :id with parameters: {id=87}
+2016-03-17 10:25:13,043 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM female WHERE id = :id with parameters: {id=87}
+2016-03-17 10:25:13,046 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM male WHERE female_id = :female_id with parameters: {female_id=87}
+2016-03-17 10:25:13,047 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM female WHERE id = :id with parameters: {id=87}
+2016-03-17 10:25:13,049 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM male WHERE id = :id with parameters: {id=87}
+2016-03-17 10:25:13,050 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM female WHERE id = :id with parameters: {id=87}
+2016-03-17 10:25:13,051 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM male WHERE id = :id with id: 87
+2016-03-17 10:25:13,054 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM female WHERE id = :id with parameters: {id=87}
+2016-03-17 10:25:13,055 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM female WHERE id = :id with id: 87
+2016-03-17 10:25:13,075 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO house(door_id, address_id, house_no) VALUES(:door_id, :address_id, :house_no) with parameters: {door_id=null, address_id=null, house_no=220/11, id=null}
+2016-03-17 10:25:13,087 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO window(house_id, size) VALUES(:house_id, :size) with parameters: {house_id=81, size=small, id=null}
+2016-03-17 10:25:13,089 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO window(house_id, size) VALUES(:house_id, :size) with parameters: {house_id=81, size=large, id=null}
+2016-03-17 10:25:13,092 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM house WHERE id = :id with parameters: {id=81}
+2016-03-17 10:25:13,109 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM window WHERE house_id = :house_id with parameters: {house_id=81}
+2016-03-17 10:25:13,122 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM house WHERE id = :id with parameters: {id=81}
+2016-03-17 10:25:13,123 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM house_owner WHERE house_id = :house_id with parameters: {house_id=81}
+2016-03-17 10:25:13,124 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM house_entrance WHERE house_id = :house_id with parameters: {house_id=81}
+2016-03-17 10:25:13,125 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM house WHERE id = :id with id: 81
+2016-03-17 10:25:13,127 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM window WHERE id = :id with parameters: {id=87}
+2016-03-17 10:25:13,128 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM window WHERE id = :id with id: 87
+2016-03-17 10:25:13,130 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM window WHERE id = :id with parameters: {id=88}
+2016-03-17 10:25:13,131 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM window WHERE id = :id with id: 88
+2016-03-17 10:25:13,137 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO owner(amount) VALUES(:amount) with parameters: {amount=80.0, id=null}
+2016-03-17 10:25:13,139 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO owner(amount) VALUES(:amount) with parameters: {amount=20.0, id=null}
+2016-03-17 10:25:13,140 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO house(door_id, address_id, house_no) VALUES(:door_id, :address_id, :house_no) with parameters: {door_id=null, address_id=null, house_no=220/11, id=null}
+2016-03-17 10:25:13,142 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO house_owner(house_id, owner_id) VALUES(:house_id, :owner_id) with parameters: {house_id=82, owner_id=87}
+2016-03-17 10:25:13,144 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO house_owner(house_id, owner_id) VALUES(:house_id, :owner_id) with parameters: {house_id=82, owner_id=88}
+2016-03-17 10:25:13,146 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM house WHERE id = :id with parameters: {id=82}
+2016-03-17 10:25:13,147 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM house_owner WHERE house_id = :house_id with parameters: {house_id=82}
+2016-03-17 10:25:13,148 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM owner WHERE id in (:ids) with parameters: {ids=[87, 88]}
+2016-03-17 10:25:13,159 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM house WHERE id = :id with parameters: {id=82}
+2016-03-17 10:25:13,160 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM house_owner WHERE house_id = :house_id with parameters: {house_id=82}
+2016-03-17 10:25:13,161 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM owner WHERE id in (:ids) with parameters: {ids=[87, 88]}
+2016-03-17 10:25:13,162 DEBUG [main] r.b.DbService [DbService.java:57] sql delete: DELETE FROM house_owner WHERE house_id = :house_id with parameters: {house_id=82}
+2016-03-17 10:25:13,164 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM house_entrance WHERE house_id = :house_id with parameters: {house_id=82}
+2016-03-17 10:25:13,164 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM house WHERE id = :id with id: 82
+2016-03-17 10:25:13,166 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM owner WHERE id = :id with parameters: {id=87}
+2016-03-17 10:25:13,168 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM owner WHERE id = :id with id: 87
+2016-03-17 10:25:13,170 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM owner WHERE id = :id with parameters: {id=88}
+2016-03-17 10:25:13,171 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM owner WHERE id = :id with id: 88
+2016-03-17 10:25:53,158 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO female(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=F, age=35}
+2016-03-17 10:25:53,350 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO male(female_id, first_name, age) VALUES(:female_id, :first_name, :age) with parameters: {female_id=88, id=null, first_name=Zeljko, age=35}
+2016-03-17 10:25:53,352 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM male WHERE id = :id with parameters: {id=88}
+2016-03-17 10:25:53,446 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM female WHERE id = :id with parameters: {id=88}
+2016-03-17 10:25:53,461 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM female WHERE id = :id with parameters: {id=88}
+2016-03-17 10:25:53,465 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM male WHERE female_id = :female_id with parameters: {female_id=88}
+2016-03-17 10:25:53,466 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM male WHERE id = :id with parameters: {id=88}
+2016-03-17 10:25:53,468 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM male WHERE id = :id with id: 88
+2016-03-17 10:25:53,470 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM female WHERE id = :id with parameters: {id=88}
+2016-03-17 10:25:53,472 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM female WHERE id = :id with id: 88
+2016-03-17 10:25:53,485 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO house(door_id, address_id, house_no) VALUES(:door_id, :address_id, :house_no) with parameters: {door_id=null, address_id=null, house_no=220/11, id=null}
+2016-03-17 10:25:53,511 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO window(house_id, size) VALUES(:house_id, :size) with parameters: {house_id=83, size=small, id=null}
+2016-03-17 10:25:53,513 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO window(house_id, size) VALUES(:house_id, :size) with parameters: {house_id=83, size=large, id=null}
+2016-03-17 10:25:53,515 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM house WHERE id = :id with parameters: {id=83}
+2016-03-17 10:25:53,533 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM window WHERE house_id = :house_id with parameters: {house_id=83}
+2016-03-17 10:25:53,542 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM house WHERE id = :id with parameters: {id=83}
+2016-03-17 10:25:53,544 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM house_owner WHERE house_id = :house_id with parameters: {house_id=83}
+2016-03-17 10:25:53,545 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM house_entrance WHERE house_id = :house_id with parameters: {house_id=83}
+2016-03-17 10:25:53,546 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM house WHERE id = :id with id: 83
+2016-03-17 10:25:53,547 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM window WHERE id = :id with parameters: {id=89}
+2016-03-17 10:25:53,548 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM window WHERE id = :id with id: 89
+2016-03-17 10:25:53,550 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM window WHERE id = :id with parameters: {id=90}
+2016-03-17 10:25:53,551 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM window WHERE id = :id with id: 90
+2016-03-17 10:25:53,556 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO owner(amount) VALUES(:amount) with parameters: {amount=80.0, id=null}
+2016-03-17 10:25:53,558 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO owner(amount) VALUES(:amount) with parameters: {amount=20.0, id=null}
+2016-03-17 10:25:53,560 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO house(door_id, address_id, house_no) VALUES(:door_id, :address_id, :house_no) with parameters: {door_id=null, address_id=null, house_no=220/11, id=null}
+2016-03-17 10:25:53,561 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO house_owner(house_id, owner_id) VALUES(:house_id, :owner_id) with parameters: {house_id=84, owner_id=89}
+2016-03-17 10:25:53,563 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO house_owner(house_id, owner_id) VALUES(:house_id, :owner_id) with parameters: {house_id=84, owner_id=90}
+2016-03-17 10:25:53,564 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM house WHERE id = :id with parameters: {id=84}
+2016-03-17 10:25:53,566 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM house_owner WHERE house_id = :house_id with parameters: {house_id=84}
+2016-03-17 10:25:53,566 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM owner WHERE id in (:ids) with parameters: {ids=[89, 90]}
+2016-03-17 10:25:53,575 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM house WHERE id = :id with parameters: {id=84}
+2016-03-17 10:25:53,577 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM house_owner WHERE house_id = :house_id with parameters: {house_id=84}
+2016-03-17 10:25:53,578 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM owner WHERE id in (:ids) with parameters: {ids=[89, 90]}
+2016-03-17 10:25:53,579 DEBUG [main] r.b.DbService [DbService.java:57] sql delete: DELETE FROM house_owner WHERE house_id = :house_id with parameters: {house_id=84}
+2016-03-17 10:25:53,581 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM house_entrance WHERE house_id = :house_id with parameters: {house_id=84}
+2016-03-17 10:25:53,581 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM house WHERE id = :id with id: 84
+2016-03-17 10:25:53,583 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM owner WHERE id = :id with parameters: {id=89}
+2016-03-17 10:25:53,584 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM owner WHERE id = :id with id: 89
+2016-03-17 10:25:53,586 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM owner WHERE id = :id with parameters: {id=90}
+2016-03-17 10:25:53,587 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM owner WHERE id = :id with id: 90
+2016-03-17 10:26:32,273 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO female(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=F, age=35}
+2016-03-17 10:26:32,462 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO male(female_id, first_name, age) VALUES(:female_id, :first_name, :age) with parameters: {female_id=89, id=null, first_name=Zeljko, age=35}
+2016-03-17 10:26:32,464 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM male WHERE id = :id with parameters: {id=89}
+2016-03-17 10:26:32,546 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM female WHERE id = :id with parameters: {id=89}
+2016-03-17 10:26:32,558 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM female WHERE id = :id with parameters: {id=89}
+2016-03-17 10:26:32,562 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM male WHERE female_id = :female_id with parameters: {female_id=89}
+2016-03-17 10:26:32,564 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM male WHERE id = :id with parameters: {id=89}
+2016-03-17 10:26:32,565 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM male WHERE id = :id with id: 89
+2016-03-17 10:26:32,568 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM female WHERE id = :id with parameters: {id=89}
+2016-03-17 10:26:32,569 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM female WHERE id = :id with id: 89
+2016-03-17 10:27:18,652 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO female(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=F, age=35}
+2016-03-17 10:27:18,850 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO male(female_id, first_name, age) VALUES(:female_id, :first_name, :age) with parameters: {female_id=90, id=null, first_name=Zeljko, age=35}
+2016-03-17 10:27:18,855 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM male WHERE id = :id with parameters: {id=90}
+2016-03-17 10:27:49,936 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM female WHERE id = :id with parameters: {id=90}
+2016-03-17 10:28:01,606 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM female WHERE id = :id with parameters: {id=90}
+2016-03-17 10:28:02,677 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM male WHERE female_id = :female_id with parameters: {female_id=90}
+2016-03-17 10:28:04,813 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM male WHERE id = :id with parameters: {id=90}
+2016-03-17 10:28:04,973 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM male WHERE id = :id with id: 90
+2016-03-17 10:28:04,985 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM female WHERE id = :id with parameters: {id=90}
+2016-03-17 10:28:04,987 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM female WHERE id = :id with id: 90
+2016-03-17 10:28:55,222 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO female(first_name, age) VALUES(:first_name, :age) with parameters: {id=null, first_name=F, age=35}
+2016-03-17 10:28:55,399 DEBUG [main] r.b.DbService [DbService.java:32] sql insert: INSERT INTO male(female_id, first_name, age) VALUES(:female_id, :first_name, :age) with parameters: {female_id=91, id=null, first_name=Zeljko, age=35}
+2016-03-17 10:28:55,402 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM male WHERE id = :id with parameters: {id=91}
+2016-03-17 10:28:55,483 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM female WHERE id = :id with parameters: {id=91}
+2016-03-17 10:28:55,495 DEBUG [main] r.b.i.EntityInterceptor [EntityInterceptor.java:62] lazy property female for entity rs.bignumbers.transaction.model.Male loaded
+2016-03-17 10:28:55,496 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM female WHERE id = :id with parameters: {id=91}
+2016-03-17 10:28:55,499 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM male WHERE female_id = :female_id with parameters: {female_id=91}
+2016-03-17 10:28:55,500 DEBUG [main] r.b.i.EntityInterceptor [EntityInterceptor.java:62] lazy property male for entity rs.bignumbers.transaction.model.Female loaded
+2016-03-17 10:28:55,501 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM male WHERE id = :id with parameters: {id=91}
+2016-03-17 10:28:55,502 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM male WHERE id = :id with id: 91
+2016-03-17 10:28:55,505 DEBUG [main] r.b.DbService [DbService.java:76] sql query list: SELECT * FROM female WHERE id = :id with parameters: {id=91}
+2016-03-17 10:28:55,506 DEBUG [main] r.b.DbService [DbService.java:50] sql delete: DELETE FROM female WHERE id = :id with id: 91

@@ -1,4 +1,4 @@
-package rs.bignumbers;
+package rs.bignumbers.transaction;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -19,12 +19,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import rs.bignumbers.DbService;
 import rs.bignumbers.factory.ProxyFactory;
+import rs.bignumbers.factory.EntityInterceptorRegister;
 import rs.bignumbers.metadata.AnnotationMetadataExtractor;
 import rs.bignumbers.metadata.EntityMetadata;
-import rs.bignumbers.properties.model.Person;
 import rs.bignumbers.rowmapper.EntityMetadataRowMapper;
-import rs.bignumbers.util.ProxyRegister;
+import rs.bignumbers.transaction.model.Person;
 import rs.bignumbers.util.SqlUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -37,7 +38,7 @@ public class TestDbService {
 	private DataSource dataSource;
 	private AnnotationMetadataExtractor metadataExtractor;
 	private SqlUtil sqlUtil;
-	private ProxyRegister proxyRegister;
+	private EntityInterceptorRegister proxyRegister;
 	private ProxyFactory proxyFactory;
 
 	@Before
@@ -45,7 +46,7 @@ public class TestDbService {
 		this.metadataExtractor = new AnnotationMetadataExtractor(null);
 		this.dbService = new DbService(dataSource);
 		this.sqlUtil = new SqlUtil();
-		this.proxyRegister = new ProxyRegister();
+		this.proxyRegister = new EntityInterceptorRegister();
 		this.proxyFactory = new ProxyFactory();
 	}
 

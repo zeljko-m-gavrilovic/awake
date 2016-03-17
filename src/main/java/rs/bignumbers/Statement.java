@@ -3,11 +3,12 @@ package rs.bignumbers;
 import java.util.HashMap;
 import java.util.Map;
 
-enum StatementType {
-	Insert, Update, Delete
-}
 
 public class Statement {
+	public enum StatementType {
+		Insert, Update, Delete
+	}
+	
 	private String sql;
 	private Map<String, Object> parameters;
 	private StatementType statementType;

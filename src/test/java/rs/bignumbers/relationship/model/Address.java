@@ -1,4 +1,4 @@
-package rs.bignumbers.relations.model;
+package rs.bignumbers.relationship.model;
 
 import rs.bignumbers.annotations.Entity;
 import rs.bignumbers.annotations.FetchType;

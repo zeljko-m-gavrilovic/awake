@@ -1,4 +1,4 @@
-package rs.bignumbers;
+package rs.bignumbers.transaction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +14,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import rs.bignumbers.Configuration;
+import rs.bignumbers.Statement;
+import rs.bignumbers.Statement.StatementType;
+import rs.bignumbers.Transaction;
 import rs.bignumbers.metadata.AnnotationMetadataExtractor;
-import rs.bignumbers.properties.model.Man;
-import rs.bignumbers.properties.model.Person;
+import rs.bignumbers.transaction.model.Man;
+import rs.bignumbers.transaction.model.Person;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/application-context.xml")
@@ -76,22 +80,21 @@ public class TestTransactionDetached {
 		p.setAge(35);
 		p.setPlace("Bg");
 		
+		transaction.setDetached(false);
 		transaction.insert(p);
-		Assert.assertEquals(1, transaction.getStatements().size());
-		Assert.assertEquals(StatementType.Insert, transaction.getStatements().get(0).getStatementType());
+		transaction.setDetached(true);
 		
-		
-		Person proxy = transaction.findOne(Person.class, 361L);
+		Person proxy = transaction.findOne(Person.class, p.getId());
 		int ageUpdated = 37;
 		proxy.setAge(ageUpdated);
 		
 		transaction.update(proxy);
-		Assert.assertEquals(2, transaction.getStatements().size());
-		Assert.assertEquals(StatementType.Insert, transaction.getStatements().get(0).getStatementType());
-		Assert.assertEquals(StatementType.Update, transaction.getStatements().get(1).getStatementType());
+		Assert.assertEquals(1, transaction.getStatements().size());
+		//Assert.assertEquals(StatementType.Insert, transaction.getStatements().get(0).getStatementType());
+		Assert.assertEquals(Statement.StatementType.Update, transaction.getStatements().get(0).getStatementType());
 		
-		System.out.println(transaction.getStatements().get(0));
-		System.out.println(transaction.getStatements().get(1));
+		//System.out.println(transaction.getStatements().get(0));
+		//System.out.println(transaction.getStatements().get(1));
 		
 		transaction.commit();
 		transaction.setDetached(false);

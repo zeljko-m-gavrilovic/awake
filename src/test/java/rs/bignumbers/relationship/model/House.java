@@ -1,4 +1,4 @@
-package rs.bignumbers.relations.model;
+package rs.bignumbers.relationship.model;
 
 import java.util.ArrayList;
 import java.util.List;

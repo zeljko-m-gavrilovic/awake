@@ -6,26 +6,30 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.RowMapper;
 
 import rs.bignumbers.Transaction;
 import rs.bignumbers.annotations.FetchType;
 import rs.bignumbers.factory.ProxyFactory;
+import rs.bignumbers.factory.EntityInterceptorRegister;
 import rs.bignumbers.interceptor.EntityInterceptor;
 import rs.bignumbers.metadata.EntityMetadata;
 import rs.bignumbers.metadata.PropertyMetadata;
 import rs.bignumbers.metadata.RelationshipMetadata;
-import rs.bignumbers.util.ProxyRegister;
 
 public class EntityMetadataRowMapper<T> implements RowMapper<T> {
 
+	private final Logger logger = LoggerFactory.getLogger(EntityMetadataRowMapper.this.getClass());
+	
 	private EntityMetadata entityMetadata;
 	private Transaction transaction;
 	private ProxyFactory proxyFactory;
-	private ProxyRegister proxyRegister;
+	private EntityInterceptorRegister proxyRegister;
 
 	public EntityMetadataRowMapper(EntityMetadata entityMetadata, Transaction transaction, ProxyFactory proxyFactory,
-			ProxyRegister proxyRegister) {
+			EntityInterceptorRegister proxyRegister) {
 		this.entityMetadata = entityMetadata;
 		this.transaction = transaction;
 		this.proxyFactory = proxyFactory;
@@ -49,6 +53,7 @@ public class EntityMetadataRowMapper<T> implements RowMapper<T> {
 					}
 					if (FetchType.Eager.equals(rpm.getFetch())) {
 						value = transaction.loadRelationship(proxy, value, rpm);
+						logger.debug("eager property {} for entity {} loaded", rpm.getPropertyName(), entityMetadata.getClazz().getName());
 					}
 				} catch (Throwable e) {
 					e.printStackTrace();

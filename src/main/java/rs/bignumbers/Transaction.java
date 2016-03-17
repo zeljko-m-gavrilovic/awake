@@ -20,14 +20,15 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import rs.bignumbers.Statement.StatementType;
 import rs.bignumbers.factory.ProxyFactory;
+import rs.bignumbers.factory.EntityInterceptorRegister;
 import rs.bignumbers.interceptor.EntityInterceptor;
 import rs.bignumbers.metadata.EntityMetadata;
 import rs.bignumbers.metadata.PropertyMetadata;
 import rs.bignumbers.metadata.RelationshipMetadata;
 import rs.bignumbers.rowmapper.EntityMetadataRowMapper;
 import rs.bignumbers.rowmapper.JoinTableRowMapper;
-import rs.bignumbers.util.ProxyRegister;
 import rs.bignumbers.util.SqlUtil;
 
 public class Transaction {
@@ -35,7 +36,7 @@ public class Transaction {
 	private final Logger logger = LoggerFactory.getLogger(Transaction.this.getClass());
 
 	private DbService dbService;
-	private ProxyRegister proxyRegister;
+	private EntityInterceptorRegister proxyRegister;
 	private SqlUtil sqlUtil;
 	private ProxyFactory proxyFactory;
 
@@ -53,7 +54,7 @@ public class Transaction {
 
 		this.sqlUtil = new SqlUtil();
 		this.statements = new ArrayList<Statement>();
-		this.proxyRegister = new ProxyRegister();
+		this.proxyRegister = new EntityInterceptorRegister();
 		this.proxyFactory = new ProxyFactory();
 	}
 
@@ -156,7 +157,7 @@ public class Transaction {
 			pk = Long.valueOf(-1L);
 		} else {
 			pk = dbService.insert(sql, parameters);
-			logger.debug("sql insert: {} with parameters: {}", sql, parameters.toString());
+			//logger.debug("sql insert: {} with parameters: {}", sql, parameters.toString());
 			PropertyUtils.setProperty(o, "id", pk);
 		}
 

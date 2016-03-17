@@ -1,9 +1,9 @@
-package rs.bignumbers.relations.model;
+package rs.bignumbers.relationship.model;
 
 import rs.bignumbers.annotations.Entity;
 
 @Entity
-public class Door {
+public class Entrance {
 
 	private Long id;
 
@@ -14,6 +14,4 @@ public class Door {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	
 }

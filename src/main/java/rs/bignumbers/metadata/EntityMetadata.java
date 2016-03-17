@@ -12,16 +12,9 @@ public class EntityMetadata {
 	Class clazz;
 	String tableName;
 	Map<String, PropertyMetadata> propertiesMetadata;
-	/*
-	 * Map<String, RelationshipPropertyMetadata> relationshipPropertiesMetadata;
-	 */
 
 	public EntityMetadata() {
 		propertiesMetadata = new HashMap<String, PropertyMetadata>();
-		/*
-		 * relationshipPropertiesMetadata = new HashMap<String,
-		 * RelationshipPropertyMetadata>();
-		 */
 	}
 
 	public Class getClazz() {
@@ -43,12 +36,6 @@ public class EntityMetadata {
 	public Map<String, PropertyMetadata> getPropertiesMetadata() {
 		return propertiesMetadata;
 	}
-
-	/*
-	 * public Map<String, RelationshipPropertyMetadata>
-	 * getRelationshipPropertiesMetadata() { return
-	 * relationshipPropertiesMetadata; }
-	 */
 
 	public List<PropertyMetadata> getResponsibleProperties() {
 		List<PropertyMetadata> responsibleProperties = getPropertiesMetadata().values().stream().filter(pm -> {
@@ -98,9 +85,4 @@ public class EntityMetadata {
 		propertiesMetadata.put(prop, pm);
 	}
 
-	/*
-	 * public void addRelationshipPropertyMetadata(String prop,
-	 * RelationshipPropertyMetadata rpm) {
-	 * relationshipPropertiesMetadata.put(prop, rpm); }
-	 */
 }
