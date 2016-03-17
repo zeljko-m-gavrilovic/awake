@@ -17,6 +17,50 @@ public class EntityMetadata {
 		propertiesMetadata = new HashMap<String, PropertyMetadata>();
 	}
 
+	public List<PropertyMetadata> getResponsibleProperties() {
+		List<PropertyMetadata> responsibleProperties = getPropertiesMetadata().values().stream().filter(pm -> {
+			if ((pm instanceof RelationshipMetadata)) {
+				RelationshipMetadata rpm = (RelationshipMetadata) pm;
+				return rpm.isResponsible();
+			} else {
+				return true;
+			}
+		}).collect(Collectors.toList());
+		return responsibleProperties;
+	}
+
+	public List<PropertyMetadata> getResponsibleJoinTableProperties() {
+		List<PropertyMetadata> responsibleProperties = getPropertiesMetadata().values().stream()
+				.filter(pm -> pm instanceof RelationshipMetadata)
+				.filter(rm -> ((RelationshipMetadata) rm).isJoinTableRelationship())
+				.filter(rm -> ((RelationshipMetadata) rm).isResponsible()).collect(Collectors.toList());
+		return responsibleProperties;
+	}
+
+	public Set<String> getResponsibleColumns() {
+		return getResponsibleProperties().stream().map(pm -> pm.getColumnName()).collect(Collectors.toSet());
+	}
+
+	public List<PropertyMetadata> getLazyRelationships() {
+		List<PropertyMetadata> lazyRelationships = getPropertiesMetadata().values().stream()
+				.filter(pm -> pm instanceof RelationshipMetadata)
+				.filter(rm -> FetchType.Lazy.equals(((RelationshipMetadata) rm).getFetch()))
+				.collect(Collectors.toList());
+		return lazyRelationships;
+	}
+
+	public List<PropertyMetadata> getEagerRelationships() {
+		List<PropertyMetadata> eagerRelationships = getPropertiesMetadata().values().stream()
+				.filter(pm -> pm instanceof RelationshipMetadata)
+				.filter(rm -> FetchType.Eager.equals(((RelationshipMetadata) rm).getFetch()))
+				.collect(Collectors.toList());
+		return eagerRelationships;
+	}
+
+	public void addPropertyMetadata(String prop, PropertyMetadata pm) {
+		propertiesMetadata.put(prop, pm);
+	}
+
 	public Class getClazz() {
 		return clazz;
 	}
@@ -35,54 +79,6 @@ public class EntityMetadata {
 
 	public Map<String, PropertyMetadata> getPropertiesMetadata() {
 		return propertiesMetadata;
-	}
-
-	public List<PropertyMetadata> getResponsibleProperties() {
-		List<PropertyMetadata> responsibleProperties = getPropertiesMetadata().values().stream().filter(pm -> {
-			if ((pm instanceof RelationshipMetadata)) {
-				RelationshipMetadata rpm = (RelationshipMetadata) pm;
-				return rpm.isResponsible();
-			} else {
-				return true;
-			}
-		}).collect(Collectors.toList());
-		return responsibleProperties;
-	}
-
-	public List<PropertyMetadata> getResponsibleJoinTableProperties() {
-		List<PropertyMetadata> responsibleProperties = getPropertiesMetadata().values().stream().filter(pm -> {
-			if ((pm instanceof RelationshipMetadata)) {
-				RelationshipMetadata rpm = (RelationshipMetadata) pm;
-				return rpm.isJoinTableRelationship()  && rpm.isResponsible();
-			} else {
-				return false;
-			}
-		}).collect(Collectors.toList());
-		return responsibleProperties;
-	}
-
-	public Set<String> getResponsibleColumns() {
-		return getResponsibleProperties().stream().map(pm -> pm.getColumnName()).collect(Collectors.toSet());
-	}
-
-	public List<PropertyMetadata> getLazyProperties() {
-		List<PropertyMetadata> lazyProperties = getPropertiesMetadata().values().stream()
-				.filter(pm -> pm instanceof RelationshipMetadata)
-				.filter(pm -> FetchType.Lazy.equals(((RelationshipMetadata) pm).getFetch()))
-				.collect(Collectors.toList());
-		return lazyProperties;
-	}
-
-	public List<PropertyMetadata> getEagerProperties() {
-		List<PropertyMetadata> eagerProperties = getPropertiesMetadata().values().stream()
-				.filter(pm -> pm instanceof RelationshipMetadata)
-				.filter(pm -> FetchType.Eager.equals(((RelationshipMetadata) pm).getFetch()))
-				.collect(Collectors.toList());
-		return eagerProperties;
-	}
-
-	public void addPropertyMetadata(String prop, PropertyMetadata pm) {
-		propertiesMetadata.put(prop, pm);
 	}
 
 }

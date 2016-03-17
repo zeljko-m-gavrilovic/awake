@@ -21,8 +21,8 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import rs.bignumbers.Statement.StatementType;
-import rs.bignumbers.factory.ProxyFactory;
 import rs.bignumbers.factory.EntityInterceptorRegister;
+import rs.bignumbers.factory.ProxyFactory;
 import rs.bignumbers.interceptor.EntityInterceptor;
 import rs.bignumbers.metadata.EntityMetadata;
 import rs.bignumbers.metadata.PropertyMetadata;
@@ -36,8 +36,8 @@ public class Transaction {
 	private final Logger logger = LoggerFactory.getLogger(Transaction.this.getClass());
 
 	private DbService dbService;
-	private EntityInterceptorRegister proxyRegister;
 	private SqlUtil sqlUtil;
+	private EntityInterceptorRegister entityInterceptorRegister;
 	private ProxyFactory proxyFactory;
 
 	private List<Statement> statements;
@@ -54,7 +54,7 @@ public class Transaction {
 
 		this.sqlUtil = new SqlUtil();
 		this.statements = new ArrayList<Statement>();
-		this.proxyRegister = new EntityInterceptorRegister();
+		this.entityInterceptorRegister = new EntityInterceptorRegister();
 		this.proxyFactory = new ProxyFactory();
 	}
 
@@ -62,9 +62,9 @@ public class Transaction {
 		Map<String, Object> whereParameters = new HashMap<String, Object>();
 		whereParameters.put("id", id);
 		T one = null;
-		if(!detached) {
+		if (!detached) {
 			List<T> all = findList(clazz, whereParameters);
-			
+
 			if (all != null && !all.isEmpty()) {
 				one = all.get(0);
 				return one;
@@ -73,23 +73,18 @@ public class Transaction {
 			EntityMetadata entityMetadata = configuration.getEntityMetadata(clazz);
 			EntityInterceptor entityInterceptor = new EntityInterceptor(entityMetadata, this);
 			T proxy = (T) proxyFactory.newProxyInstance(entityMetadata.getClazz(), entityInterceptor);
-			try {
-				PropertyUtils.setProperty(proxy, "id", id);
-			} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			setProperty(proxy, "id", id);
 
-			proxyRegister.addInterceptor(proxy.getClass().getName() + "/" + whereParameters.get("id"), entityInterceptor);
+			entityInterceptorRegister.addInterceptor(proxy.getClass().getName() + "/" + whereParameters.get("id"),
+					entityInterceptor);
 			entityInterceptor.setDirtyPropertiesTrack(true);
 			return (T) proxy;
 		}
 		return null;
+
 	}
 
 	public <T> T findOne(Class<T> clazz, Map<String, Object> whereParameters) {
-		// Map<String, Object> whereParameters = new HashMap<String, Object>();
-		// whereParameters.put("id", id);
 		List<T> all = findList(clazz, whereParameters);
 		T one = null;
 		if (all != null && !all.isEmpty()) {
@@ -110,7 +105,7 @@ public class Transaction {
 		String sql = sqlUtil.query(entityMetadata.getTableName(), parameters.getValues().keySet());
 
 		EntityMetadataRowMapper<T> rowMapper = new EntityMetadataRowMapper<T>(entityMetadata, this, proxyFactory,
-				proxyRegister);
+				entityInterceptorRegister);
 		List<T> findList = dbService.findList(sql, parameters.getValues(), rowMapper);
 		return findList;
 	}
@@ -123,13 +118,13 @@ public class Transaction {
 		String sql = sqlUtil.queryIn(entityMetadata.getTableName());
 
 		EntityMetadataRowMapper<T> rowMapper = new EntityMetadataRowMapper<T>(entityMetadata, this, proxyFactory,
-				proxyRegister);
+				entityInterceptorRegister);
 		List<T> findList = dbService.findList(sql, parameters.getValues(), rowMapper);
 		return findList;
 	}
 
 	@SuppressWarnings("unchecked")
-	public Long insert(Object o) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+	public Long insert(Object o) {
 		EntityMetadata entityMetadata = configuration.getEntityMetadata(o.getClass());
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
@@ -140,11 +135,13 @@ public class Transaction {
 					&& ((RelationshipMetadata) propertyMetadata).isJoinTableRelationship()) {
 				continue;
 			} else {
-				Object propertyValue = PropertyUtils.getProperty(o, propertyMetadata.getPropertyName());
+				Object propertyValue = null;
+				propertyValue = extractProperty(o, propertyMetadata.getPropertyName());
 				if ((RelationshipMetadata.class.isAssignableFrom(propertyMetadata.getClass())
 						&& propertyValue != null)) {
-					propertyValue = PropertyUtils.getNestedProperty(o, propertyMetadata.getPropertyName() + ".id");
+					propertyValue = extractProperty(o, propertyMetadata.getPropertyName() + ".id");
 				}
+
 				parameters.put(columnName, propertyValue);
 			}
 		}
@@ -157,15 +154,14 @@ public class Transaction {
 			pk = Long.valueOf(-1L);
 		} else {
 			pk = dbService.insert(sql, parameters);
-			//logger.debug("sql insert: {} with parameters: {}", sql, parameters.toString());
-			PropertyUtils.setProperty(o, "id", pk);
+			setProperty(o, "id", pk);
 		}
 
 		for (PropertyMetadata propertyMetadata : entityMetadata.getResponsibleJoinTableProperties()) {
 			RelationshipMetadata relationshipTable = (RelationshipMetadata) propertyMetadata;
-			Object propertyValue = PropertyUtils.getProperty(o, propertyMetadata.getPropertyName());
+			Object propertyValue = extractProperty(o, propertyMetadata.getPropertyName());
 			if (propertyValue != null) {
-				Collection collection = (Collection) PropertyUtils.getProperty(o, relationshipTable.getPropertyName());
+				Collection collection = (Collection) extractProperty(o, relationshipTable.getPropertyName());
 				Map<String, Object> joinTable = new HashMap<String, Object>();
 				joinTable.put(relationshipTable.getColumnName(), pk);
 				joinTable.put(relationshipTable.getOtherSideColumnName(), null);
@@ -180,14 +176,15 @@ public class Transaction {
 					}
 				});
 			}
+
 		}
 		return pk;
 	}
 
-	public void update(Object o) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+	public void update(Object o) {
 		EntityMetadata entityMetadata = configuration.getEntityMetadata(o.getClass());
-		Long id = (Long) PropertyUtils.getProperty(o, "id");
-		EntityInterceptor interceptor = proxyRegister.getInterceptor(o.getClass().getName() + "/" + id);
+		Long id = (Long) extractProperty(o, "id");
+		EntityInterceptor interceptor = entityInterceptorRegister.getInterceptor(o.getClass().getName() + "/" + id);
 
 		Map<String, Object> dirtyProperties = null;
 		if (interceptor != null) {
@@ -195,12 +192,11 @@ public class Transaction {
 		} else {
 			dirtyProperties = new HashMap<String, Object>();
 			for (PropertyMetadata pm : entityMetadata.getResponsibleProperties()) {
-				Object propertyValue = PropertyUtils.getProperty(o, pm.getPropertyName());
+				Object propertyValue = extractProperty(o, pm.getPropertyName());
 				if (pm instanceof RelationshipMetadata && propertyValue != null) {
-					propertyValue = PropertyUtils.getProperty(o, pm.getPropertyName() + ".id");
+					propertyValue = extractProperty(o, pm.getPropertyName() + ".id");
 				}
 				dirtyProperties.put(pm.getPropertyName(), propertyValue);
-
 			}
 		}
 		dirtyProperties.put("id", id);
@@ -208,11 +204,12 @@ public class Transaction {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		for (String propertyName : dirtyProperties.keySet()) {
 			PropertyMetadata propertyMetadata = entityMetadata.getPropertiesMetadata().get(propertyName);
-			Object propertyValue = PropertyUtils.getProperty(o, propertyName);
+			Object propertyValue = extractProperty(o, propertyName);
 			if ((propertyMetadata instanceof RelationshipMetadata) && propertyValue != null) {
-				propertyValue = PropertyUtils.getNestedProperty(o, propertyName + ".id");
+				propertyValue = extractProperty(o, propertyName + ".id");
 			}
 			parameters.put(propertyMetadata.getColumnName(), propertyValue);
+
 		}
 		String sql = sqlUtil.update(entityMetadata.getTableName(), parameters.keySet(), "id");
 		if (detached) {
@@ -222,30 +219,55 @@ public class Transaction {
 		}
 	}
 
-	public void delete(Object o) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-		Long id = (Long) PropertyUtils.getProperty(o, "id");
+	private Object extractProperty(Object o, String propertyName) {
+		Object propertyValue = null;
+		try {
+			if (propertyName.contains(".")) {
+				propertyValue = PropertyUtils.getNestedProperty(o, propertyName);
+			} else {
+				propertyValue = PropertyUtils.getProperty(o, propertyName);
+			}
+		} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+			logger.error(e.getMessage(), e.getCause());
+			new RuntimeException(e.getCause());
+		}
+		return propertyValue;
+	}
+
+	private void setProperty(Object o, String propertyName, Object value) {
+		try {
+			PropertyUtils.setProperty(o, propertyName, value);
+		} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+			logger.error(e.getMessage(), e.getCause());
+			new RuntimeException(e.getCause());
+		}
+	}
+
+	public void delete(Object o) {
+		Long id = (Long) extractProperty(o, "id");
 		delete(o.getClass(), id);
 	}
 
-	public void delete(Class clazz, Long id) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+	public void delete(Class clazz, Long id) {
 		EntityMetadata entityMetadata = configuration.getEntityMetadata(clazz);
-		
+
 		Object o = findOne(clazz, id);
 		List<PropertyMetadata> joinTableRelationship = entityMetadata.getResponsibleJoinTableProperties();
-		if(joinTableRelationship != null) {
-			for(PropertyMetadata propertyMetadata : joinTableRelationship) {
+		if (joinTableRelationship != null) {
+			for (PropertyMetadata propertyMetadata : joinTableRelationship) {
 				RelationshipMetadata relationshipTable = (RelationshipMetadata) propertyMetadata;
-				Object propertyValue = PropertyUtils.getProperty(o, propertyMetadata.getPropertyName());
+				Object propertyValue = extractProperty(o, propertyMetadata.getPropertyName());
+
 				if (propertyValue != null) {
-					//Collection collection = (Collection) PropertyUtils.getProperty(o, relationshipTable.getPropertyName());
-					String joinTableSql = sqlUtil.delete(relationshipTable.getTableName(), relationshipTable.getColumnName());
+					String joinTableSql = sqlUtil.delete(relationshipTable.getTableName(),
+							relationshipTable.getColumnName());
 					Map<String, Object> joinTable = new HashMap<String, Object>();
 					joinTable.put(relationshipTable.getColumnName(), id);
 					dbService.delete(joinTableSql, joinTable);
 				}
 			}
 		}
-		
+
 		String sql = sqlUtil.delete(entityMetadata.getTableName());
 		if (detached) {
 			Map<String, Object> parameters = new HashMap<String, Object>();
@@ -254,7 +276,7 @@ public class Transaction {
 		} else {
 			dbService.delete(sql, id);
 		}
-		
+
 	}
 
 	public void commit() throws Exception {
@@ -265,27 +287,21 @@ public class Transaction {
 		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
 		TransactionStatus status = txManager.getTransaction(def);
-		try {
-			for (Statement statement : statements) {
-				if (StatementType.Insert.equals(statement.getStatementType())) {
-					Long pk = dbService.insert(statement.getSql(), statement.getParameters());
-					PropertyUtils.setProperty(statement.getObject(), "id", pk);
-				} else if (StatementType.Update.equals(statement.getStatementType())) {
-					dbService.update(statement.getSql(), statement.getParameters());
-				} else if (StatementType.Delete.equals(statement.getStatementType())) {
-					dbService.delete(statement.getSql(), (Long) statement.getParameters().get("id"));
-				}
+		for (Statement statement : statements) {
+			if (StatementType.Insert.equals(statement.getStatementType())) {
+				Long pk = dbService.insert(statement.getSql(), statement.getParameters());
+				PropertyUtils.setProperty(statement.getObject(), "id", pk);
+			} else if (StatementType.Update.equals(statement.getStatementType())) {
+				dbService.update(statement.getSql(), statement.getParameters());
+			} else if (StatementType.Delete.equals(statement.getStatementType())) {
+				dbService.delete(statement.getSql(), (Long) statement.getParameters().get("id"));
 			}
-			txManager.commit(status);
-			statements.clear();
-		} catch (Exception ex) {
-			txManager.rollback(status);
-			throw ex;
 		}
+		txManager.commit(status);
+		statements.clear();
 	}
 
-	public Object loadRelationship(Object obj, Object nestedObject, PropertyMetadata propertyMetadata)
-			throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, Throwable {
+	public Object loadRelationship(Object obj, Object nestedObject, PropertyMetadata propertyMetadata) {
 
 		boolean foreignTableRelationship = (RelationshipMetadata.class.isAssignableFrom(propertyMetadata.getClass()))
 				&& ((RelationshipMetadata) propertyMetadata).isJoinTableRelationship();
@@ -297,12 +313,12 @@ public class Transaction {
 			String query = sqlUtil.query(relationshipTable.getTableName(), whereColumns);
 
 			Map<String, Object> whereParameters = new HashMap<String, Object>();
-			whereParameters.put(columnName, PropertyUtils.getProperty(obj, "id"));
+			whereParameters.put(columnName, extractProperty(obj, "id"));
 
 			String otherSideColumnName = relationshipTable.getOtherSideColumnName();
 			List<Long> ids = dbService.findList(query, whereParameters, new JoinTableRowMapper(otherSideColumnName));
 			List list = null;
-			if(ids != null && !ids.isEmpty()) {
+			if (ids != null && !ids.isEmpty()) {
 				list = findListIn(relationshipTable.getEntityClazz(), ids);
 			}
 			return list;
@@ -314,13 +330,14 @@ public class Transaction {
 			RelationshipMetadata relationshipForeignKey = (RelationshipMetadata) propertyMetadata;
 			Long id = null;
 			if (relationshipForeignKey.isResponsible()) {
-				id = (Long) PropertyUtils.getProperty(nestedObject, "id");
+				id = (Long) extractProperty(nestedObject, "id");
+
 				Object one = findOne(propertyMetadata.getJavaType(), id);
 				return one;
 			} else {
 				Map<String, Object> whereParameters = new HashMap<String, Object>();
-				whereParameters.put(relationshipForeignKey.getOtherSidePropertyName(),
-						PropertyUtils.getProperty(obj, "id"));
+				whereParameters.put(relationshipForeignKey.getOtherSidePropertyName(), extractProperty(obj, "id"));
+
 				if (Collection.class.isAssignableFrom(relationshipForeignKey.getJavaType())) {
 					List list = findList(relationshipForeignKey.getEntityClazz(), whereParameters);
 					return list;
@@ -345,7 +362,4 @@ public class Transaction {
 	public void setDetached(boolean detached) {
 		this.detached = detached;
 	}
-	
-	
-
 }

@@ -57,7 +57,6 @@ public class TestTransactionDetached {
 		transaction.insert(p);
 		Assert.assertEquals(1, transaction.getStatements().size());
 		Assert.assertEquals(StatementType.Insert, transaction.getStatements().get(0).getStatementType());
-		//System.out.println(transaction.getStatements().get(0));
 		
 		Person dbOne = transaction.findOne(Person.class, 1L);
 		Assert.assertNotNull(dbOne);
@@ -90,11 +89,7 @@ public class TestTransactionDetached {
 		
 		transaction.update(proxy);
 		Assert.assertEquals(1, transaction.getStatements().size());
-		//Assert.assertEquals(StatementType.Insert, transaction.getStatements().get(0).getStatementType());
 		Assert.assertEquals(Statement.StatementType.Update, transaction.getStatements().get(0).getStatementType());
-		
-		//System.out.println(transaction.getStatements().get(0));
-		//System.out.println(transaction.getStatements().get(1));
 		
 		transaction.commit();
 		transaction.setDetached(false);
@@ -106,56 +101,4 @@ public class TestTransactionDetached {
 		transaction.delete(p);
 		transaction.commit();
 	}
-	
-	/*@Test
-	public void testDelete() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-		Person p = new Person();
-		p.setFirstName("Zeljko");
-		p.setLastName("Gavrilovic");
-		p.setAge(35);
-		p.setPlace("Bg");
-		transaction.insert(p);
-		
-		Person dbOne = transaction.findOne(Person.class, p.getId());
-		Assert.assertNotNull(dbOne);
-		
-		transaction.delete(p);
-	}
-	
-	@Test(expected=RuntimeException.class)
-	@Transactional
-	public void testTransaction() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-		Person p = new Person();
-		p.setFirstName("Zeljko2");
-		p.setLastName("Gavrilovic2");
-		p.setAge(36);
-		p.setPlace("Bg2");
-		transaction.insert(p);
-		throw new RuntimeException("Intentional exception, transaction must be rollbacked");
-	}
-	
-	@Test
-	@Transactional
-	public void testTransactionSession() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-		Person p = new Person();
-		p.setFirstName("Zeljko");
-		p.setLastName("Gavrilovic");
-		p.setAge(35);
-		p.setPlace("Bg");
-		transaction.insert(p);
-		
-		Person dbOne = transaction.findOne(Person.class, p.getId());
-		Assert.assertNotNull(dbOne);
-		
-		int ageUpdated = 37;
-		dbOne.setAge(ageUpdated);
-		
-		transaction.update(dbOne);
-		dbOne = transaction.findOne(Person.class, p.getId());
-		Assert.assertNotNull(dbOne);
-		Assert.assertEquals(Integer.valueOf(37), dbOne.getAge());
-		
-		transaction.delete(p);
-	}
-	*/
 }

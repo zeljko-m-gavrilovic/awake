@@ -30,7 +30,7 @@ public class EntityInterceptor implements MethodInterceptor {
 		this.dirtyPropertiesTrack = false;
 		this.lazyProperties = new HashMap<String, Boolean>();
 		this.transaction = transaction;
-		entityMetadata.getLazyProperties().stream().map(pm -> pm.getPropertyName())
+		entityMetadata.getLazyRelationships().stream().map(pm -> pm.getPropertyName())
 				.forEach(propertyName -> lazyProperties.put(propertyName, Boolean.FALSE));
 	}
 

@@ -1,6 +1,5 @@
 package rs.bignumbers;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +17,7 @@ import org.springframework.jdbc.support.KeyHolder;
 
 public class DbService {
 	private final Logger logger = LoggerFactory.getLogger(DbService.this.getClass());
-	
+
 	private JdbcTemplate jdbcTemplate;
 
 	public DbService(DataSource dataSource) {
@@ -36,8 +35,7 @@ public class DbService {
 
 	}
 
-	public void update(String sql, Map<String, Object> columns)
-			throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+	public void update(String sql, Map<String, Object> columns) {
 		MapSqlParameterSource parameters = new MapSqlParameterSource(columns);
 		NamedParameterJdbcTemplate npJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
 		logger.debug("sql update: {} with parameters: {}", sql, columns.toString());
@@ -50,7 +48,7 @@ public class DbService {
 		logger.debug("sql delete: {} with id: {}", sql, id);
 		npJdbcTemplate.update(sql, parameters);
 	}
-	
+
 	public void delete(String sql, Map<String, Object> whereColumns) {
 		MapSqlParameterSource parameters = new MapSqlParameterSource(whereColumns);
 		NamedParameterJdbcTemplate npJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
@@ -61,7 +59,7 @@ public class DbService {
 	public <T> T findOne(String sql, Long id, RowMapper<T> rowMapper) {
 		Map<String, Object> where = new HashMap<String, Object>();
 		where.put("id", id);
-		
+
 		List<T> all = findList(sql, where, rowMapper);
 		T one = null;
 		if (all != null && !all.isEmpty()) {

@@ -52,19 +52,9 @@ public class TestOneToOne {
 		female.setLastName("M");
 		female.setAge(35);
 		transaction.insert(female);
-		/*
-		 * Assert.assertEquals(1, transaction.getStatements().size());
-		 * Assert.assertEquals(StatementType.Insert,
-		 * transaction.getStatements().get(0).getStatementType());
-		 */
 
 		Assert.assertNotNull(female);
 		Assert.assertNotNull(female.getId());
-		/*
-		 * Assert.assertEquals(2, transaction.getStatements().size());
-		 * Assert.assertEquals(StatementType.Insert,
-		 * transaction.getStatements().get(1).getStatementType());
-		 */
 
 		Male male = new Male();
 		male.setFirstName("Zeljko");
@@ -75,11 +65,6 @@ public class TestOneToOne {
 
 		Assert.assertNotNull(male);
 		Assert.assertNotNull(male.getId());
-
-		/*
-		 * System.out.println(transaction.getStatements().get(0));
-		 * System.out.println(transaction.getStatements().get(1));
-		 */
 		
 		Male maleDb = transaction.findOne(Male.class, male.getId());
 		Assert.assertNotNull(maleDb);
